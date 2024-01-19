@@ -8,13 +8,10 @@ We started with the related thesis of Jeroen Flipts \cite{Flipts2020}. He create
 Since RAPTOR has some advantages over CSA, such as no preprocessing, good query times and Pareto optimal journeys out of the box, we hope to get an improved serverless route planner. These advantages made RAPTOR widespread, and the algorithm was quickly adopted in OpentripPlanner \cite{raptorinopentripplanner}.
 
 \section{Public Transport Algorithms}
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/timeline.png}
-    \caption{Timeline describing the developments in route planning. The crossed parts represents }
-    \label{fig:timeline}
-\end{figure}
-In \autoref{fig:timeline} the history of the 
+% include timeline image
+\input{tikz/tikz_timeline}
+
+In this section we discuss the state of the art and history of public transport planning. Therefore a small timeline was constructed (\autoref{fig:timeline}) the history of the 
 \subsection{Transfer patterns}
 It described a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph. This means when a real-time query comes in we can just look up the schedule that matches that journey.
 % IDEA, HYDRIDE? Calculate for IC's , for the rest raptor? It is quick to calculate if a station has an IC Passing through it.

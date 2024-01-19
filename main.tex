@@ -10,6 +10,11 @@
 \usepackage[a4paper,includeheadfoot,margin=2.50cm]{geometry}
 \usepackage{lscape}
 
+\usepackage{tikz}
+\usetikzlibrary{external}
+\tikzexternalize
+\usetikzlibrary{snakes}
+
 % By default, LaTeX tries to stretch whitespace between paragraphs on a page in order to reduce whitespace at the end of the page. This sometimes gives ugly results. The following command disables that stretching.
 \raggedbottom % Don't reduce whitespace at the end of a page.
 
@@ -134,10 +139,6 @@
 \input{personal_data}
 
 
-%
-%  END OF HEADER
-%  The actual latex document content starts here.
-%
 \begin{document}
 \frontmatter
 \pagestyle{empty}
@@ -162,7 +163,7 @@
 \mainmatter
 \pagestyle{fancy} % Use header
 \include{chapters/6_introduction}
-\include{chapters/7_chapter_2}
+\input{chapters/7_chapter_2}
 \include{chapters/7_chapter_3}
 \include{chapters/7_chapter_4}
 \include{chapters/8_conclusion}
