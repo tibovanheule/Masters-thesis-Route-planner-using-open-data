@@ -1,14 +1,27 @@
 
+
+
+
 \begin{figure}[H]
-\centering
-\resizebox{\textwidth}{!}{
-\begin{tikzpicture}
-
-\draw [stealth-stealth](0,0) -- (10,0);
-
-\draw (10,0) node[above=32pt,right=-2.5 cm] {2013: Connection Scan Algorithm};
-
-\end{tikzpicture}}
-    \caption{This figure represents what we want to accomplish a solution that not only runs on the client and not only on the server.}
-    \label{fig:shared}
+    \centering
+    \resizebox{0.7\textwidth}{!}{
+        \begin{tikzpicture}
+        
+        \draw [Bar-Bar](1,0) -- (10,0);
+        \draw [-stealth](5.5,0.4cm) -- (5.5,0.1cm);
+        \draw (11,0) node[above=0.75cm,align=right,left=0] {Client\\responsible};
+        \draw (0,0) node[above=0.75cm,align=left,right=0] {server\\responsible};
+        \draw (5.5,0) node[above=0.5cm,align=center] {Goal:\\Shared responsibility};
+    
+    
+        \draw (0,0) node[below=0.75cm,align=left,right=0,font=\scriptsize] {- high server cost\\- low availability\\- low bandwidth};
+        \draw (11,0) node[below=0.75cm,align=right,left=0,font=\scriptsize] {- low server cost\\- high availability\\- high bandwidth};
+        \draw (0,0) node[below=1.75cm,align=right,right=0] {\includegraphics[width=0.04\linewidth]{images/google maps.jpg}};
+        \draw (11,0) node[below=1.75cm,align=left,left=0] {\includegraphics[width=0.04\linewidth]{images/TomTom-Emblem.png}};
+        
+        \end{tikzpicture}
+    }
+    \caption{This figure represents what we want to accomplish. a solution that not only runs on the client and not only on the server.}
+    \label{fig:sharedresponsibility}
 \end{figure}
+

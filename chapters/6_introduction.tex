@@ -8,26 +8,24 @@ The most obvious would be \acrfull{pt}. It is a economic way to move yourself th
 
 Now you know, how you could reach those destinations. You question which route is best to take. Further, you want to be sure if you will arrive on time and at which time you should leave. 
 
-For this last problem, there is a high chance that you will use a route planner. Many route planners exist, like \url{nmbs.be}, \url{delijn.be} or \url{maps.google.com}. Even open-source solutions exist like Open Trip Planner\cite{raptorinopentripplanner}.
+For this last problem, there is a high chance that you will use a route planner. Many route planners exist, like \url{nmbs.be}, \url{delijn.be} or \url{maps.google.com}. Even open-source solutions exist like Open Trip Planner\cite{noauthor_otp_2023}.
 
 Underlying these route planners, an algorithm calculates the "best" route serving your search criteria. They produce pareto-optimal journeys. A journey is defined as a sequence of trips between two points. A trip can be made using a variety of vechicles (train, bus,...) or even by foot. One thing to remark is that if a journey contains $K$ trips, then they are $K-1$ transfers. % TODO FINSIH THIS EXPLANATION + TO MUCH DETAIL IN INTRODUCTION ???j
 
-Commonly, these algorithms are graph-based. Although known speedup techniques can achieve speedups of up to several million on route planners, these speedups are generally more focused on road networks \cite{raptor}. When looking at a more specific domain, like \acrshort{pt}. A few difficulties arise.
+Commonly, these algorithms are graph-based. Although known speedup techniques can achieve speedups of up to several million on route planners, these speedups are generally more focused on road networks \cite{delling_round-based_2015}. When looking at a more specific domain, like \acrshort{pt}. A few difficulties arise.
 
 % difficulties road planners and PT
 To start, \acrshort{pt} has a different structure than for road networks. For example, the travel times are enough as criteria to compute a road journey, but for \acrshort{pt}, additional criteria could be the number of transfers or the cost of the diffrent transportation modes (train, bus, metro,...). These extra criteria adds more complexity to the calculations.
 
 Footpaths are a significant influence on the resulting Pareto journeys. It could be more efficient to walk to a different bus stop. But, unrestricted footpaths would cause too many edges in graph-based algorithms.
 
-Most route planners use a centralized data strategy. \cite{julianIntro}
+Another problem is the centralized data strategy used by most route planners \cite{rojas_melendez_julian_andres_decentralized_2020}:
 \begin{enumerate}
-    \item Collect, for each transit mode, a dataset. A widely used format for exchanging a PT dataset is GTFS \cite{GTFS}.
+    \item For each transit mode collect a dataset. A widely used format for exchanging a PT dataset is GTFS \cite{noauthor_gtfs_2022}.
     \item Integrate the collected datasets using a predefined data model in a centralized data store.
     \item Calculates available routes using a route planning algorithm tailored to run over the predefined data model.
 \end{enumerate}
 % Our focus
-
-This thesis's main focus is on removing the centralized data strategy;
 
 The centralized strategy causes applications to be unscalable and results in high costs of computational infrastructure (total cost of ownership). 
 
@@ -35,18 +33,23 @@ The centralized strategy causes applications to be unscalable and results in hig
 Another problem is that if a third-party dataset is not supported by the central system, the user can not use the dataset in his queries. The data needs to be homogenous to be able to integrate it into the route planner. If the dataset is heterogeneous, then integration is done manually and the route planner algorithm has to be adapted.
 \section{Goal}
 \input{tikz/tikz_shared}
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/shared responsibility.PNG}
-    \caption{}
-    \label{fig:sharedresponsibility}
-\end{figure}
+This thesis's main focus is on removing the centralized data strategy;
+\subsection{Server side}
+If the 
 \section{Introduction to important concepts}
+\subsection{Data model}
+https://cedar.princeton.edu/understanding-data/what-data-model
+A data model organizes data elements and standardizes how the data elements relate to one another. Since data elements document real life people, places and things and the events between them, the data model represents reality. For example a house has many windows or a cat has two eyes.
+
+Data models are often used as an aid to communication between the business people defining the requirements for a computer system and the technical people defining the design in response to those requirements. They are used to show the data needed and created by business processes.
+ 
+A data model explicitly determines the structure of data. Data models are specified in a data modeling notation, which is often graphical in form.]
+A data model can be sometimes referred to as a data structure, especially in the context of programming languages. Data models are often complemented by function models.
+
 \subsection{Semantic Web}
 The semantic web is a vision of Tim Berners-Lee, where web documents not only describe how to render data visually. The data is also annotated with terms to express how it should be interpreted. So web documents also capture the meaning of the information.
 
-\subsection{Ontologies: what \& why}
-The best definition of an ontology states: "An ontology is an explicit specification of a conceptualization"\cite{GRUBER1993199}. Many ontologies exist, from basic to formal ontologies specified in highly expressive logic. In this thesis, we mainly use formal ontologies.
+\subsection{Ontologies}
+The best definition of an ontology states: "An ontology is an explicit specification of a conceptualization"\cite{gruber_translation_1993}. Many ontologies exist, from basic to formal ontologies specified in highly expressive logic. In this thesis, we mainly use formal ontologies.
 
 These ontologies play an essential role in the semantic web. 

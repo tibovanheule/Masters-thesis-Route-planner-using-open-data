@@ -1,29 +1,19 @@
-% Master thesis template for Ghent University (2021)
-%
-%
-%  !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-%  !!        MAKE SURE TO SET XeLaTex AS LATEX ENGINE        !!
-% 
-
-% Note: remove `openany` for printed version
-\documentclass[12pt,a4paper,openany,dutch,english]{extbook}
+\documentclass[12pt,a4paper,openany,english]{extbook}
 \usepackage[a4paper,includeheadfoot,margin=2.50cm]{geometry}
 \usepackage{lscape}
 
 \usepackage{tikz}
 \usetikzlibrary{external}
-\tikzexternalize
 \usetikzlibrary{snakes}
 
-% By default, LaTeX tries to stretch whitespace between paragraphs on a page in order to reduce whitespace at the end of the page. This sometimes gives ugly results. The following command disables that stretching.
-\raggedbottom % Don't reduce whitespace at the end of a page.
+\raggedbottom
 
 \renewcommand{\baselinestretch}{1.2}  % stretch horizontal space between everything by 20%
 
 
 \usepackage[hyphens]{url} % Break line on hyphens in long urls
 \usepackage{graphicx}
-\graphicspath{{images/}}
+%\graphicspath{{images/}}
 \usepackage{pdfpages}
 \usepackage{enumitem}
 \usepackage{float}
@@ -53,13 +43,8 @@
 	BoldItalicFont=UGentPannoText-SemiBold.ttf,
     BoldItalicFeatures={FakeSlant=0.3},
 ]{UGentPannoText-Normal.ttf}
-\urlstyle{same} % Also use the default font for URLs
+\urlstyle{same}
 
-
-% If you want left justified text, uncomment the line below.
-%\usepackage[document]{ragged2e} % Left justify all text
-
-% Style Chapter titles so they have the chapter number in grey.
 \usepackage{color}
 \definecolor{chaptergrey}{rgb}{0.5,0.5,0.5}
 \usepackage[explicit, pagestyles]{titlesec}
@@ -92,22 +77,16 @@
 
 % We use the package `minted` for modern code highlighting.
 \usepackage[newfloat,chapter]{minted}
-\SetupFloatingEnvironment{listing}{name=Codefragment, listname=Lijst van codefragmenten}
-%\SetupFloatingEnvironment{listing}{name=Code Fragment, listname=List of Code Fragments} % lang:english
-
+\SetupFloatingEnvironment{listing}{name=Code Fragment, listname=List of Code Fragments} 
 
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
 \usepackage{url}
 
-\usepackage[numbers]{natbib}       % For bibliography; use numeric citations
+\usepackage[numbers]{natbib}
 \bibliographystyle{IEEEtran}
-\usepackage[nottoc]{tocbibind}     % Put Bibliography in ToC
+\usepackage[nottoc]{tocbibind}
 
-
-%
-% For tables
-%
 \usepackage{booktabs}
 \usepackage{array}
 \usepackage{ragged2e}  % for '\RaggedRight' macro (allows hyphenation)
@@ -115,35 +94,18 @@
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 
-
-% Manually specify additional hypnations for words
-%
-% Translated strings. If these aren't set, the English words are used.
-%
-%\addto\captionsenglish{\renewcommand{\contentsname}{Inhoudsopgave}}   % lang:dutch
-
-% Fix error "Package hyperref Warning: The anchor of a bookmark and its parent's must not be the same. Added a new anchor on ..."
 \newcommand{\sectionbreak}{\phantomsection}
-
-%\renewcommand\appendixtocname{Bijlagen}                     % lang:dutch
-%\renewcommand%\appendixpagename{Bijlagen}                    % lang:dutch
-
 
 \usepackage[toc,acronym]{glossaries}  % for list of acronyms
 \makeglossaries                       % start internal list of acronyms
 
-
-%
-% Set the title and your name
-%
 \input{personal_data}
-
 
 \begin{document}
 \frontmatter
 \pagestyle{empty}
 
-% Download the cover sheet from Plato
+%cover sheet
 \includepdf{titel-96657535.pdf}
 
 \include{chapters/1_acknowledgment}
@@ -156,16 +118,10 @@
 \include{chapters/5_list_of_acronyms}
 \listoflistings\newpage
 
-%
-% Include the main chapters of the thesis below
-% Note: it's best to avoid spaces in filenames as Latex might complain about them.
-%
 \mainmatter
-\pagestyle{fancy} % Use header
+\pagestyle{fancy}
 \include{chapters/6_introduction}
-\input{chapters/7_chapter_2}
-\include{chapters/7_chapter_3}
-\include{chapters/7_chapter_4}
+\include{chapters/7_chapter_2}
 \include{chapters/8_conclusion}
 \include{chapters/9_bibliography}
 

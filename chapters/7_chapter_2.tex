@@ -3,17 +3,65 @@
 
 We conducted a literature study to learn more about the state of the art in the semantic web and existing research on public transport route planners and their role in the semantic web.
 
-We started with the related thesis of Jeroen Flipts \cite{Flipts2020}. He created a serverless route planner based on the \acrfull{csa} \cite{csa}. The thesis gives us the idea of implementing the \acrfull{raptor} algorithm \cite{Delling2014Oct}.
+We started with the related thesis of Jeroen Flipts \cite{flipts_fragmenting_2020}. He created a serverless route planner based on the \acrfull{csa} \cite{dibbelt_intriguingly_2013}. The thesis gives us the idea of implementing the \acrfull{raptor} algorithm \cite{delling_round-based_2015}.
 
-Since RAPTOR has some advantages over CSA, such as no preprocessing, good query times and Pareto optimal journeys out of the box, we hope to get an improved serverless route planner. These advantages made RAPTOR widespread, and the algorithm was quickly adopted in OpentripPlanner \cite{raptorinopentripplanner}.
+Since RAPTOR has some advantages over CSA, such as no preprocessing, good query times and Pareto optimal journeys out of the box, we hope to get an improved serverless route planner. These advantages made RAPTOR widespread, and the algorithm was quickly adopted in OpentripPlanner \cite{noauthor_otp_2023}.
 
 \section{Public Transport Algorithms}
 % include timeline image
+
 \input{tikz/tikz_timeline}
 
-In this section we discuss the state of the art and history of public transport planning. Therefore a small timeline was constructed (\autoref{fig:timeline}) the history of the 
+In this section we discuss the state of the art and history of public transport planning. Therefore a small timeline (\autoref{fig:timeline}) was constructed to visualize some important milestones explained below. As seen in the timeline most advances where made after 2009.
+
+\subsection{Dijkstra}
+% add some dijkstra algo workings, easy
+The milestones between 1956 and 2008 where not applicable to PT routing, but focus on normal road networks. Among these milestone was the Dijkstra algorithm published in 1958. This was the first big improvement but had a time complexity of $O(n^2)$. An improved version was proposed almost 30 years later in 1987. It has a complexity of $O(n*\log(n))$ and is the version the Dijkstra algorithm learnt at schools.% It works by initializing every node to $\infty$ except the source node, which is initialized to $0$. Then every edge of the source node is visited. 
+\subsection{Dimacs challenge}
+No big improvements for route planners where made until 2005. The road network of the US was published as part of the 9th Dimacs challenge \cite{noauthor_9th_2017}. A big deal for researchers, now they had a big dataset to test on. A lot of speed-up techniques where devised for the Dijkstra algorithms, mainly pruning techniques. But this was still inapplicable to \acrshort{pt}.
+
+\subsection{Car or Public Transport: Two Worlds}
+In 2009 a paper, Car or Public Transport: Two Worlds \cite{bast_car_2009}, stated "There are two kinds of people: those who travel by car, and those who use public transport." . They argued that the worlds where different although both problems could be represented as a directed graph. For PT we requires dealing with timetable schedules beside this spatial information.
+
+The article covers 5 big "tricks of the trade" for fast routing on transportation: Bidirectional search, exploiting hierarchy, graph contraction, goal direction and distance tables. It explains why the trick work on road networks but falls short on \acrshort{pt}.
+
+\subsubsection{Bidirectional search}
+A simple approach to improve Dijkstra is to search from the source node but simultaneously do a backward search from the target node. This reduces the search space by halve and can be easily done for road networks since both nodes associated with the station are known. The idea by itself is not very effective but is key to implement other speedup techniques.
+
+For \acrshort{pt} this idea adds a lot of complexity since in a time-expanded graph we know the target station but not the target node. A solution is to do a backward set of all nodes associated with the end station.
+\subsubsection{Exploiting hierarchy}
+Roads have a different levels of importance, think of motorways, national roads and small roads. The simple routing heuristic exploits this hierarchy. When we are within a certain distance of the target and source node, we take all roads into account. In the other case we use only high level roads, reducing the the total explored nodes. This comes with some loss of exactness.
+
+However on large municipal areas this techniques can be even slower, since the hierarchy in \acrshort{pt} is absent. The tram and the bus are equally important. Only when travelling long distance between cities, a hierarchy begins to appear. 
+\subsubsection{Graph contraction}
+\subsubsection{Goal direction}
+\subsubsection{Distance tables}
+
+
+This overview article marked the beginning of new PT route planners that where in the same ballpark of road networks in terms of query speed. 
 \subsection{Transfer patterns}
-It described a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph. This means when a real-time query comes in we can just look up the schedule that matches that journey.
+Transfer patterns are considered the first algoritm for PT that solves queries in a order few milliseconds and on a transport network with a poor structure. 
+
+Transfer patterns describes a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph \cite{bast_fast_2010} %wrong explanantion of transfer graphs TODO FIX
+. This means when a real-time query comes in we can just look up the schedule that matches that journey. In this case the server can give fast query responses, but the pre-calculations can cause a computational burden. For example the authors used a cluster of Opteron and Xeon-based 64bit servers for their cpp implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. 
+
+
+% TODO uitleggen transfer paterns
+A simple algorithm for transfer patterns illustrates the key ideas and consists of 3 parts, but has quadratic precomputation complexity.
+\subsubsection{Graph}
+The algorithm works on a time-expanded graph with three kinds of nodes: departure node, arrival node and a transfer node. Each node carries the time and a station it belongs to. An elementary connection can be formed like in \autoref{fig:transferel}.
+\input{tikz/tikz_pattern_el}
+\subsubsection{Fast direct-connections queries}
+This part is only for direct connections, meaning a maximal path in the graph without transfer nodes.
+
+\begin{enumerate}
+    \item Precompute all maximal paths in the graph without transfer nodes. Group them in lines that share the same sequence of stations. This creates an ordered timetable of a particular line.
+    \item Precompute for each station,  the sorted list of lines in which the station occurs in and it position(s) on the line. This creates an lookup table, which can be used to find timetables of lines stations share.
+    \item To answer a direct connection query use the precomputed sorted list of the departure and arrival stations. See if they share a line with the departure station has a lower position than the arrival station. Using the timetables of the found lines, determine the earliest arrival time.
+\end{enumerate}
+\subsubsection{Transfer patterns precomputation}
+\subsubsection{Query graph construction and evaluation}
+
 % IDEA, HYDRIDE? Calculate for IC's , for the rest raptor? It is quick to calculate if a station has an IC Passing through it.
 \subsection{\acrfull{csa}}
 \subsection{\acrfull{raptor}}
@@ -27,27 +75,24 @@ RAPTOR is a graph-based algorithm which solves queries in rounds. Round K comput
         \item Finally, footpaths are considered. We check if $\tau_k$ can be improved by using a footpath between two stops. 
     \end{enumerate}
 \end{enumerate}
+\input{tikz/tikz_raptor_algo}
+\section{Data Models For public transport}
+\subsection{GTFS}
+\subsection{NETEX} % more of a protocol, 
+\subsection{Transmodel}
+\section{Ontology}
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=\textwidth]{images/rqptor.drawio.png}
-    \caption{A small example using raptor, two rounds are shown }
-    \label{fig:enter-label}
-\end{figure}
-
-\subsection{Ontology}
-
-A small study was conducted to find an ontology that best suited our needs. Many of the studied ontologies for transport are focused on specific use cases, for example, urban freight \cite{BOUHANA20153724}. They do not have a broad domain. 
+A small study was conducted to find an ontology that best suited our needs. Many of the studied ontologies for transport are focused on specific use cases, for example, urban freight \cite{bouhana_ontology-based_2015}. They do not have a broad domain. 
 
 A relatively old ontology designed to use with a user planning tool based on journey patterns \cite{5507372} was found and could support RAPTOR. Interestingly, they implemented a mobile application to plan tourist bus routes, but it relied on server-side queries. Other downsides are that there is no multi-modal support (only transport by bus) and no multi-operator support. The ontology was not directly available from the authors.
 
-Using the survey of transportation ontologies \cite{Katsumi2018Apr}, we only identify three ontologies that support journey patterns. Two are focused on city logistics and urban systems, a different domain. The last ontology (Transportation ontology for content personalization) applies to PT, but the ontology is not directly available.
+Using the survey of transportation ontologies \cite{katsumi_ontologies_2018}, we only identify three ontologies that support journey patterns. Two are focused on city logistics and urban systems, a different domain. The last ontology (Transportation ontology for content personalization) applies to PT, but the ontology is not directly available.
 
-%transmodel ontology
+\subsection{Transmodel ontology}
 Every PT agent is required by European directives to be compatible with Transmodel, so an ontology aligned with Transmodel is interesting. Further, the Transmodel ontology supports journey patterns. However, the ontology could be too broad, which leads to several potential problems. For example, it can make it hard to find relevant information, as the ontology may contain too many concepts and relationships that are not relevant. Furthermore, as the ontology may not be compatible with other ontologies used in those sources, integration from different sources can also be challenging.
 
-%OSLO Mobiliteit: Dienstregeling en Planning
-The last ontology we looked at is the "OSLO Mobiliteit - Dienstregeling en Planning" \cite{osloflanders} ontology. The ontology is developed by Open Standaarden voor Linkende Organisaties (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX. NETEX is based directly on Transmodel, so the ontology has some similarities with the Transmodel ontology but is less broad than the Transmodel ontology.
+\subsection{OSLO Mobiliteit: Dienstregeling en Planning}
+The last ontology we looked at is the "OSLO Mobiliteit - Dienstregeling en Planning" \cite{noauthor_oslo_2023} ontology. The ontology is developed by Open Standaarden voor Linkende Organisaties (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX. NETEX is based directly on Transmodel, so the ontology has some similarities with the Transmodel ontology but is less broad than the Transmodel ontology.
 
 \begin{landscape}
 \begin{table}[]
