@@ -4,7 +4,7 @@
 
 \usepackage{tikz}
 \usetikzlibrary{external}
-\usetikzlibrary{snakes}
+\usetikzlibrary{decorations.pathmorphing}
 
 \raggedbottom
 
@@ -97,6 +97,7 @@
 \newcommand{\sectionbreak}{\phantomsection}
 
 \usepackage[toc,acronym]{glossaries}  % for list of acronyms
+\usepackage{glossaries-extra}
 \makeglossaries                       % start internal list of acronyms
 
 \input{personal_data}
@@ -120,8 +121,9 @@
 
 \mainmatter
 \pagestyle{fancy}
-\include{chapters/6_introduction}
-\include{chapters/7_chapter_2}
+\include{chapters/introduction}
+\include{chapters/related_work}
+\include{chapters/implementation}
 \include{chapters/8_conclusion}
 \include{chapters/9_bibliography}
 
