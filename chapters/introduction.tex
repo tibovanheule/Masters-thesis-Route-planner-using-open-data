@@ -1,18 +1,18 @@
 \chapter{Introduction}
 \label{chap:intro}
 
-Assume you are in your first year at the Belgium University of Ghent. Like most university students, you live in a dorm and unless you lived in Ghent before moving, you do not know your way in Ghent. You ask yourself what is the best restaurant, and what can you do for fun? But at some point, you must go to your course, take an exam or take a break from student life at your parent's home. Being late is not an option in these situations. But as a first-year and carless, you wonder how you will reach these destinations.  
+Assume you are in your first year at the Belgium University of Ghent. Like most university students, you live in a dorm, and unless you lived in Ghent before moving, you do not know your way in Ghent. What is the best restaurant, and what can you do for fun? But at some point, you must go to your course, take an exam, or take a break from student life at your parents' home. Being late is not an option in these situations. But as a first-year and carless, you wonder how you will reach these destinations.  
 
 
-The most obvious would be \glsxtrfull{pt}. It is an economical way to move yourself through the city without breaking the bank as a car would easily cost ten times more yearly. Further, it is one of the few transportation modes that is environmentally friendly.
+The most obvious would be \glsxtrfull{pt}. It is economical to move yourself through the city without breaking the bank as a car would easily cost ten times more yearly. Further, it is one of the few transportation modes that is environmentally friendly.
 
-Now you know, how you could reach those destinations. You question which route is best to take. Further, you want to be sure if you will arrive on time and at which time you should leave. 
+Now you know how you can reach those destinations. You question which route is best to take. Further, you want to be sure if you will arrive on time and at which time you should leave. 
 
-For this last problem, there is a high chance that you will use a route planner. Many route planners exist, like \url{nmbs.be}, \url{delijn.be} or \url{maps.google.com}. Even open-source solutions exist like Open Trip Planner\cite{noauthor_otp_2023}.
+For this last problem, there is a high chance that you will use a route planner. Many route planners exist, like \url{nmbs.be}, \url{delijn.be} or \url{maps.google.com}. Even open-source solutions exist, like Open Trip Planner\cite{noauthor_otp_2023}.
 
-Underlying these route planners, an algorithm calculates the "best" route serving your search criteria. They produce Pareto-optimal journeys. A journey is defined as a sequence of trips between two points. A trip can be made using a variety of vehicles (train, bus,...) or even by foot. One thing to remark is that if a journey contains $K$ trips, then they are $K-1$ transfers. % TODO FINSIH THIS EXPLANATION + TO MUCH DETAIL IN INTRODUCTION ???j
+Underlying these route planners, an algorithm calculates the "best" route serving your search criteria. They produce Pareto-optimal journeys. A journey is defined as a sequence of trips between two points. A trip can be made using a variety of vehicles (train, bus, etc.) or even on foot. One thing to remark is that if a journey contains $K$ trips, they are $K-1$ transfers. % TODO FINISH THIS EXPLANATION + TOO MUCH DETAIL IN INTRODUCTION ???
 
-Commonly, these algorithms are graph-based. Although known speedup techniques can achieve speedups of up to several million on route planners, these speedups are generally more focused on road networks \cite{delling_round-based_2015}. When looking at a more specific domain, like \glsxtrshort{pt}. A few difficulties arise.
+Commonly, these algorithms are graph-based. Although known speedup techniques can achieve up to several million on route planners, these speedups are generally more focused on road networks \cite{delling_round-based_2015}. When looking at a more specific domain, like \glsxtrshort{pt}. A few difficulties arise.
 
 % difficulties road planners and PT
 To start, \glsxtrshort{pt} has a different structure than for road networks. For example, the travel times are enough as criteria to compute a road journey, but for \glsxtrshort{pt}, additional criteria could be the number of transfers or the cost of the different transportation modes (train, bus, metro,...). These extra criteria add more complexity to the calculations.
@@ -21,7 +21,7 @@ Footpaths are a significant influence on the resulting Pareto journeys. It could
 
 Another problem is the centralized data strategy used by most route planners \cite{rojas_melendez_julian_andres_decentralized_2020}:
 \begin{enumerate}
-    \item For each transit mode collect a dataset. A widely used format for exchanging a PT dataset is GTFS \cite{noauthor_gtfs_2022}.
+    \item For each transit mode, collect a dataset. A widely used format for exchanging a PT dataset is GTFS \cite{noauthor_gtfs_2022}.
     \item Integrate the collected datasets using a predefined data model in a centralized data store.
     \item Calculates available routes using a route planning algorithm tailored to run over the predefined data model.
 \end{enumerate}
@@ -30,7 +30,7 @@ Another problem is the centralized data strategy used by most route planners \ci
 The centralized strategy causes applications to be unscalable and results in high costs of computational infrastructure (total cost of ownership). 
 
 % work in progress
-Another problem is that if a third-party dataset is not supported by the central system, the user can not use the dataset in his queries. The data needs to be homogenous to be able to integrate it into the route planner. If the dataset is heterogeneous, then integration is done manually and the route planner algorithm has to be adapted.
+Another problem is that the user cannot use the dataset in his queries if the central system does not support a third-party dataset. The data needs to be homogenous to integrate it into the route planner. If the dataset is heterogeneous, integration is done manually, and the route planner algorithm must be adapted.
 
 %DUMP
 
