@@ -1,7 +1,7 @@
 \chapter{Related work}
 \label{chap:rel_work}
 %TODO When done, fix this
-In this chapter we discuss the relevant literature and state of the art for this thesis, the literature is grouped in x groups. In \autoref{section:routing_rel_work}, the routing algorithms for transport are discussed. Next, we discuss the data models used in public transport, either by law or popularity (\autoref{section:data_model_rel_work}). Further, we look at developed ontologies for transportation in \autoref{section:ontologies_rel_work}.
+This chapter discusses the relevant literature and state of the art for this thesis; the literature is grouped into x groups. In \autoref{section:routing_rel_work}, the routing algorithms for transport are discussed. Next, we examine the data models used in public transport (\autoref{section:data_model_rel_work}). Further, we look at existing ontologies for transportation in \autoref{section:ontologies_rel_work}.
 
 \section{Transport Routing Algorithms }\label{section:routing_rel_work}
 % include timeline image
@@ -17,35 +17,40 @@ The milestones between 1956 and 2008 did not apply to PT routing but focused on 
 No significant improvements for route planners were made until 2005. The road network of the US was published as part of the 9th Dimacs challenge \cite{noauthor_9th_2017}. A big deal for researchers, now they had an extensive dataset to test on. Many speedup techniques, mainly pruning techniques, were devised for the Dijkstra algorithms. But this was still inapplicable to \glsxtrshort{pt}.
 
 \subsection{Car or Public Transport: Two Worlds}
-In 2009 a paper, Car or Public Transport: Two Worlds \cite{bast_car_2009}, stated "There are two kinds of people: those who travel by car, and those who use public transport.". They argued that the worlds were different, although both problems could be represented as a directed graph. For PT, we are required to deal with timetable schedules besides this spatial information.
+In 2009 a paper, Car or Public Transport: Two Worlds \cite{bast_car_2009}, stated "There are two kinds of people: those who travel by car, and those who use public transport.". They argued that the worlds differed, although both problems could be represented as a directed graph. For PT, we must deal with timetable schedules besides this spatial information.
 
 The article covers five big "tricks of the trade" for fast routing on transportation: Bidirectional search, exploiting hierarchy, graph contraction, goal direction and distance tables. It explains why the trick works on road networks but falls short on \glsxtrshort{pt}.
 
 \subsubsection{Bidirectional search}
-A simple approach to improve Dijkstra is to search from the source node but simultaneously do a backward search from the target node. This reduces the search space by half and can be quickly done for road networks since both nodes associated with the station are known. The idea is not very effective but is critical to implementing other speedup techniques.
+A simple approach to improve Dijkstra is to search from the source node but simultaneously do a backward search from the target node. This reduces the search space by half and can be quickly done for road networks since both nodes associated with the station are known. The idea is not very practical but is critical to implementing other speedup techniques.
 
-For \glsxtrshort{pt} this idea adds a lot of complexity since in a time-expanded graph we know the target station but not the target node. A solution is to do a backward set of all nodes associated with the end station.
+For \glsxtrshort{pt}, this idea adds a lot of complexity since, in a time-expanded graph, we know the target station but not the target node. A solution is to do a backward set of all nodes associated with the end station.
 \subsubsection{Exploiting hierarchy}
-Roads have different levels of importance, think of motorways, national highways and minor roads. The simple routing heuristic exploits this hierarchy. When we are within a certain distance of the target and source node, we take all streets into account. In the other case, we use only high-level roads, reducing the total explored nodes. This comes with some loss of exactness.
+Roads have different levels of importance; think of motorways, national highways and minor roads. The simple routing heuristic exploits this hierarchy. When we are within a certain distance of the target and source node, we take all streets into account. In the other case, we use only high-level roads, reducing the total explored nodes. This comes with some loss of exactness.
 
 However, this technique can be even slower in large municipal areas because the hierarchy is absent. The tram, metro and bus are equally important. A hierarchy begins to appear only when travelling long distances between cities. 
 \subsubsection{Graph contraction}
+For aesthetics, curved reads were replaced by multiple straight lines. This resulted in more edges and nodes, so researchers quickly reverted this. This is a contraction, and the resulting edge is called a shortcut. This even works in hierarchies because higher levels have junctions that would lead to lower levels. So, these junctions could be neglected and replaced by a shortcut. 
+
+Similar to the previous problem, the hierarchy is absent. This technique does not work for \glsfmtshort{pt} in a large municipal area.
 \subsubsection{Goal direction}
+The Dijkstra algorithm is augmented with a heuristic, which leads to an algorithm like $ A*$. The performance is highly dependent on the heuristic chosen.
+
+The problem is the lack of algorithms for local searches on \glsfmtshort{pt} networks, and this causes quadratic precomputations.
 \subsubsection{Distance tables}
+As the name suggests, this table contains the recalculated distances between all pairs of nodes in the graph. 
 
-
-This overview article marked the beginning of new PT route planners in the same ballpark as road networks regarding query speed. 
 \subsection{Transfer patterns}
 Transfer patterns are considered the first algorithm for PT that solves queries in an order of a few milliseconds and on a transport network with a poor structure. 
 
 Transfer patterns describe a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph \cite{bast_fast_2010} %wrong explanation of transfer graphs TODO FIX
-. This means we can look up the schedule matching that journey when a real-time query comes in. In this case, the server can give fast query responses, but the pre-calculations can cause a computational burden. For example, the authors used a cluster of Opteron and Xeon-based 64-bit servers for their CPP implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. 
+. This means we can look up the schedule matching that journey when a real-time query comes in. In this case, the server can give fast query responses, but the pre-calculations can cause a computational burden. For example, the authors used a cluster of Opteron and Xeon-based 64-bit servers for their CPP implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. They do mention the needed core hours, arround 3000, so if run on a single-core this would take about 4 months to finish.  
 
 
 % TODO uitleggen transfer paterns
 A simple algorithm for transfer patterns illustrates the key ideas and consists of 3 parts but has quadratic precomputation complexity. A more optimized algorithm is described in the paper \cite{bast_fast_2010}.
 \subsubsection{Graph}
-The algorithm works on a time-expanded graph with three kinds of nodes: a departure node, an arrival node and a transfer node. Each node carries the time and the station it belongs to. Like in \autoref{fig:transferel}, an elementary connection can be formed.
+The algorithm works on a time-expanded graph with three kinds of nodes: a departure node, an arrival node and a transfer node. Each node carries the time and the station it belongs to. Like in \autoref{fig:transferel}.
 \input{tikz/tikz_pattern_el}
 \subsubsection{Fast direct-connections queries}
 This part is only for direct connections, meaning a maximal path in the graph without transfer nodes.
@@ -56,12 +61,13 @@ This part is only for direct connections, meaning a maximal path in the graph wi
     \item To answer a direct connection query, use the precomputed sorted list of the departure and arrival stations. See if they share a line with the departure station, which has a lower position than the arrival station. Using the timetables of the found lines, determine the earliest arrival time.
 \end{enumerate}
 \subsubsection{Transfer patterns precomputation}
+
 \subsubsection{Query graph construction and evaluation}
 \subsubsection{scalable transfer patterns}
-% IDEA, HYDRIDE? 
+The paper of Scalable transfer patterns \cite{bast_scalable_2015} identifies two criteria (the space consumption of the precomputed auxiliary data is large and the preprocessing time is huge) in which transfer patterns are lacking. Furthermore the scalabilty of transfer patterns are addressed by introducing a new scheme based on clustering the network for Transfer Patterns precomputation and query graph construction that allows interactive query times for huge transit networks with manageable preprocessing times and space consumption. 
 \subsection{\glsfmtfull{csa}}
 \subsection{\glsfmtfull{raptor}}
-RAPTOR is a graph-based algorithm which solves queries in rounds. Round K computes the fastest way of getting to every stop with at most k - 1 transfers or k trips.
+RAPTOR is a graph-based algorithm that solves queries in rounds. Round K computes the fastest way of getting to every stop with at most k - 1 transfers or k trips.
 
 \begin{enumerate}
     \item Each node gets a multilabel. $(\tau_0,...,\tau_k)$ with $\tau_i$ representing the earliest arrival time in $i$ trips. We init all arrival times in each label with $\infty$. Except for the departing node, where $\tau_0$ is set to the depart time of our search criteria.
@@ -75,20 +81,24 @@ RAPTOR is a graph-based algorithm which solves queries in rounds. Round K comput
 \subsubsection{Hyper partitioning}
 Hyper partitioning is a preprocessing-based acceleration technique for computing bi-criteria Pareto-optimal journeys in public transit networks, based on the well-known RAPTOR algorithm \cite{delling_round-based_2015}.
 \subsubsection{unrestricted footprints}
+\subsection{Trip-Based Public Transit Routing}
+% TODO WIP
+This work presents a new algorithm that uses trips (vehicles) and the transfers between them as its fundamental building blocks. Unlike existing algorithms, it does not assign labels to stops. Instead, trips are labelled with the stops at which they are boarded.
 \section{Data Models For public transport}\label{section:data_model_rel_work}
+
 \subsection{What is a data model }
 % TODO CHECK AND REWRITE 
 % FROM https://cedar.princeton.edu/understanding-data/what-data-model
-A data model organizes data elements and standardizes how the data elements relate to one another. Since data elements document real-life people, places and things and the events between them, the data model represents reality. For example, a house has many windows, or a cat has two eyes.
+A data model organizes data elements and standardizes how the data elements relate to one another. Since data elements document real-life people, places, and things and the events between them, the data model represents reality. For example, a house has many windows, or a cat has two eyes.
 
-Data models are often used as an aid to communication between the business people defining the requirements for a computer system and the technical people defining the design in response to those requirements. They are used to show the data needed and created by business processes.
+Data models are often used to communicate between the business people defining the requirements for a computer system and the technical people defining the design in response to those requirements. They are utilized to show the data needed and created by business processes.
  
 A data model explicitly determines the structure of data. Data models are specified in a data modelling notation, which is often graphical in form.]
-A data model can be sometimes referred to as a data structure, especially in the context of programming languages. Data models are often complemented by function models.
+A data model can sometimes be called a data structure, especially in programming languages. Function models often complement data models.
 \subsection{\glsfmtfull{gtfs}}
 \glsfmtfull{gtfs} defines a common format for public transportation schedules and associated geographic information. "feeds" let public transit agencies publish their transit data. The developer can then write applications.
 \subsubsection{\glsfmtshort{gtfs} feed}
-A feed is a zip file that contains CSV files but typically uses the .txt extension. Some essential files include stops.txt, routes.txt and trips.txt.
+A feed is a zip file containing CSV files but typically has the .txt extension. Some essential files include stops.txt, routes.txt, and trips.txt.
 
 
 \subsection{\glsfmtfull{netex}}
@@ -112,6 +122,30 @@ formats.
 \section{Semantic Web and the role of Ontologies}\label{section:ontologies_rel_work}
 \subsection{Semantic Web}
 The semantic web can be seen as an extension of the current web and is a vision of Tim Berners-Lee, where web documents not only describe how to render data visually. The data is also annotated with terms to express how it should be interpreted. So, web documents also capture the meaning of the information.
+
+Linked data- structured data that is interlinked with other data- is the basis of the Semantic Web. It builds upon existing protocols such as HTTP, RDF, and URIs.
+
+\begin{itemize}
+    \item Use URIs as names for things
+
+    \item Use HTTP URIs so that people can look up those names.
+
+    \item When someone looks up a URI, provide useful information using the standards (RDF*, SPARQL)
+
+    \item Include links to other URIs. so that they can discover more things.
+
+\end{itemize}
+
+Besides linked data, Sir Tim Berners-Lee also proposes a classification of data sources. It is a five-star deployment scheme for open data \cite{noauthor_5-star_nodate}.
+
+\begin{enumerate}
+    \item $\star$: Make your stuff available on the web (whatever format) under an open license
+    \item $\star\star$ make it available as structured data (e.g., Excel instead of image scan of a table)
+    \item $\star\star\star$ make it available in a non-proprietary open format (e.g., CSV instead of Excel)
+    \item $\star\star\star\star$: use URIs to denote things so that people can point at your stuff
+    \item $\star\star\star\star\star$:link your data to other data to provide context.
+\end{enumerate}
+
 \subsection{Resource Description Framework}
 \subsection{JSON-LD}
 %\subsection{RML}
@@ -125,7 +159,7 @@ A small study was conducted to find an ontology that best suited our needs. Many
 \subsection{x}
 A relatively old ontology designed to use with a user planning tool based on journey patterns \cite{5507372} was found and could support RAPTOR. Interestingly, they implemented a mobile application to plan tourist bus routes, but it relied on server-side queries. Other downsides are that there is no multi-modal support (only transport by bus) and no multi-operator support. The ontology was not directly available from the authors.
 
-Using the survey of transportation ontologies \cite{katsumi_ontologies_2018}, we only identify three ontologies that support journey patterns. Two are focused on city logistics and urban systems, which are different domains. The last ontology (Transportation ontology for content personalization) applies to PT, but the ontology is not directly available.
+Using the survey of transportation ontologies \cite{katsumi_ontologies_2018}, we only identify three ontologies that support journey patterns—two of which focus on city logistics and urban systems, which are different domains. The last ontology (Transportation ontology for content personalization) applies to PT, but the ontology is not directly available.
 
 \subsection{Transmodel ontology}
 European directives require every PT agent to be compatible with Transmodel, so an ontology aligned with Transmodel is interesting. Further, the Transmodel ontology supports journey patterns. However, the ontology could be too broad, which leads to several potential problems. For example, it can make it hard to find relevant information, as the ontology may contain too many concepts and relationships that are not relevant. Furthermore, as the ontology may not be compatible with other ontologies used in those sources, integration from different sources can also be challenging.
@@ -133,6 +167,23 @@ European directives require every PT agent to be compatible with Transmodel, so 
 \subsection{OSLO Mobiliteit: Dienstregeling en Planning}
 The last ontology we looked at is the "OSLO Mobiliteit - Dienstregeling en Planning" \cite{noauthor_oslo_2023} ontology. The ontology is developed by Open Standaarden voor Linkende Organisaties (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX. NETEX is based directly on  Transmodel, so the ontology has some similarities with the Transmodel ontology but is less broad than the Transmodel ontology.
 
+ Het applicatieprofiel OSLO Mobiliteit – Dienstregeling en Planning: Tijdstabellen beschrijft hoe de termen uit het overeenkomstig vocabularium moeten worden gebruikt om de netwerktopologie en dienstregeling van een openbaar vervoersnetwerk te beschrijven.
+
+De standaard is gebaseerd op het EPIP-profiel op NETEX.
+
+Use-cases voor deze standaard zijn: routeplanning, cartografie (netplannen), dienstregeling en het opzoeken van haltes/lijnen.
+
+Openbaar vervoer wordt typisch aangeboden onder de vorm van Lijnen, die bv op basis van de transportmodus (trein, tram, bus… ) gegroepeerd kunnen worden en deel uitmaken van een Netwerk. Deze Lijnen volgen bepaalde Routes op het terrein, het model laat toe de richting en de geometrie van deze Routes te beschrijven dmv Routepunten en verbindingen daartussen, de Routelinks.
+
+Een ander deel van het model beschrijft de dienstverlening die door de Lijnen wordt geboden: de plaatsen waar gestopt wordt en de tijdstippen waarop daar wordt gestopt.
+
+Een Lijn volgt een zgn Ritpatroon, ttz de opeenvolging van Punten die door de Lijn worden aangedaan. De specialisatie daarvan, een Dienstpatroon, beschrijft de opeenvolging van Punten waar werkelijk gestopt wordt. Dit zijn de zgn GeplandeStoppunten: plaatsen waar passagiers kunnen op- of afstappen. Deze logische haltes kunnen gelinkt worden met fysieke haltes (klasse Stopplaats) die apart beschreven worden in het applicatieprofiel OSLO Mobiliteit – Dienstregeling en Planning: Stopplaatsen.
+
+Voor elk punt dat wordt aangedaan door een Lijn of waar voor passagiers wordt gestopt kunnen Doorkomsttijden worden opgegeven. Deze kunnen gegroepeerd worden per halte en vormen dan de typische tijdstabellen die men daar aantreft. Ze kunnen ook geordend worden volgens het Ritpatroon van een Lijn en beschrijven dan een individuele Dienstrit met de Doorkomsttijden aan de haltes.
+
+Een specifieke Dienstrit wordt niet noodzakelijk dagelijks uitgevoerd, het kan zijn dat hij beperkt is tot bepaalde Dagtypes, bv enkel op weekdagen. Het model laat toe om deze Dagtypes te beschrijven en te koppelen aan werkelijke datums (OperationeleDagen) en periodes (OperationelePeriodes) om zo te komen tot een volledige Dienstkalender.
+
+Tot slot vermelden we nog ondersteunende klassen bv om de partijen die het vervoer aanbieden of uitvoeren (resp de Autoriteit en de Operator) aan te duiden of om Voertuigtypes en hun Passagierscapaciteit te beschrijven of een klasse die routeplanning ondersteunt (Dienstritverbinding). 
 \begin{landscape}
 \begin{table}[]
 \centering
@@ -192,3 +243,4 @@ OSLO Ontology &
 \label{tab:my-table}
 \end{table}
 \end{landscape}
+\cite{noauthor_otp_2023}.
