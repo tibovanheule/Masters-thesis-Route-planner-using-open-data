@@ -5,6 +5,7 @@
 \usepackage{tikz}
 \usetikzlibrary{external}
 \usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{shadows}
 
 \raggedbottom
 
@@ -101,7 +102,6 @@
 \makeglossaries                       % start internal list of acronyms
 
 \input{personal_data}
-
 \begin{document}
 \frontmatter
 \pagestyle{empty}
@@ -124,11 +124,12 @@
 \include{chapters/introduction}
 \include{chapters/related_work}
 \include{chapters/implementation}
-\include{chapters/8_conclusion}
+\include{chapters/evaluation}
+\include{chapters/conclusion}
 \include{chapters/9_bibliography}
 
 \pagestyle{numberless} 
 \pagestyle{empty}
-\include{chapters/10_appendices}
+\include{appendices/10_appendices}
 
 \end{document}

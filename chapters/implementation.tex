@@ -1,10 +1,67 @@
 \chapter{Implementation}
 \label{chap:implementation}
 
-Originally, the implementation task was divided into two parts. We discuss the implementation of \glsfmtshort{raptor} in the browser in \autoref{section:implementation_raptor}.
+Originally, the implementation was divided into two parts. We discuss the implementation of \glsfmtshort{raptor} for the browser in \autoref{section:implementation_raptor}. The conversion and download of GTFS data is discussed in \autoref{section:implementation_data_ontology}.
 
 
 \section{\glsfmtshort{raptor} implementation}\label{section:implementation_raptor}
-\section{Data ontology}
-Since most datasets, including the datasets of the NMBS we use. 
+
+Small analysis of data used in raptor implementation
+
+Small description of text files used and how they are transformed.
+$
+- link = ? (Think footwalks) => Object "transfers" with ke from_stop_id (=origin) -> list
+- calendar = calendar.txt => Object "calendars", uses service_id as key
+- calendar_date = calendar_dates.txt => Object "dates" with key service id -> object with key date -> row.exception_type === "1" (service exceptions)
+- trip = trips.txt => Array "trips"
+- stop_time = stop_times.txt => Object "StopTimes" with key_trip id -> list
+- transfer = transfers.txt => Object "Interchange" for transfer from and to the same stop. || Object "transfers" with key from_stop_id (=origin) -> list
+- stop = stops.txt => Object "stops" with key stop_id
+$
+ Not used by an implementation, but are in the feed
+$
+- feed_info (information of feed itself)
+- agency
+- areas
+- translations
+$
+
+
+ Not available in feed
+$
+- shapes (shape of a route, handy for visualizations)
+- fare_rules
+- fare_attributes
+- levels
+- attributions
+$
+\section{Data ontology}\label{section:implementation_data_ontology}
+Since most datasets, including the datasets of the NMBS we use, use the GTFS Data model 
+
+\subsection{GTFS downloader}
+Since a GTFS feed is a zip file valid for a certain period, we need a small program to manage all these versions. This led to a Node.js module gtfs-downloader\footnote{Available as gitlab project under the same name}. It provides the file path of the GTFS zip archive that either has been downloaded in the past or is freshly downloaded. So it also acts like a cache and is more important than it appears as only the most recent is available on the server. For debugging and experimenting while developing it is handier that we have some control over the version in use. 
+
+Two sets of functionality are represented in \autoref{fig:gtfsdownloader}. First is for when we already know the version we want to download. We search if it exists in our data folder, if not we check if it is this available on the server for download.
+
+In the other case we want to have the latest version, we send a head request to the server\footnote{Server url is specified in a dot env config}, since we are only interested in the LastModified header. We check if that version is available locally, if not we download the zip file.
+\input{tikz/tikz_gtfs_downloader}
+\subsection{Changing parser}
+The existing implementation of Raptor came
+\subsection{comformity of ontology}
+\cite{noauthor_conformiteit_nodate}
+Conformiteit Applicatieprofielen
+
+Een applicatieprofiel is een specificatie voor gegevensuitwisseling dat bijkomende beperkingen introduceert voor het toepassen van vocabularia. Dergelijke bijkomende beperkingen kunnen de volgende elementen bevatten:
+
+    verfijning van de terminologie (klassen en eigenschappen) consistent met de semantiek uit de betreffende specificaties met een welbepaald gebruik als doel;
+    externe terminologie (klassen en eigenschappen) gebruikt voor nieuwe/extra termen die niet in de bestaande vocabularia voorkomen.
+
+Om conform te zijn met dit applicatieprofiel, geldt voor een implementatie dat ze:
+
+    MOET Voor elke klasse steeds de eigenschappen bevatten die als minimum kardinaliteit 1 hebben.
+    MAG NIET meer dan 1 instantie bevatten van eigenschappen die 1 als maximum kardinaliteit hebben.
+    MAG yerminologie (klassen en eigenschappen) gebruiken op een manier die consistent is met haar semantiek (definitie, gebruik, domein en bereik).
+    MAG NIET terminologie van andere gecontroleerde vocabularia gebruiken dan diegene die gedefinieerd wordt in dit applicatieprofiel.
+    MAG uitgebreid worden met klassen en eigenschappen van andere datamodellen (vocabularia) die niet overlappen met terminologie uit dit applicatieprofiel.
+
 \section{Bringing two worlds together}

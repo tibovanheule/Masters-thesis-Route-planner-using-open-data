@@ -1,0 +1,60 @@
+\makeatletter
+\begin{figure}[H]
+\centering
+\resizebox{.8\textwidth}{!}{%
+    \begin{tikzpicture}[
+        database/.style={
+        path picture={
+            \draw (0, 1.5*\database@segmentheight) circle [x radius=\database@radius,y radius=\database@aspectratio*\database@radius];
+            \draw (-\database@radius, 0.5*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius];
+            \draw (-\database@radius,-0.5*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius];
+            \draw (-\database@radius,1.5*\database@segmentheight) -- ++(0,-3*\database@segmentheight) arc [start angle=180,end angle=360,x radius=\database@radius, y radius=\database@aspectratio*\database@radius] -- ++(0,3*\database@segmentheight);
+        },
+        minimum width=2*\database@radius + \pgflinewidth,
+        minimum height=3*\database@segmentheight + 2*\database@aspectratio*\database@radius + \pgflinewidth,
+    },
+    database segment height/.store in=\database@segmentheight,
+    database radius/.store in=\database@radius,
+    database aspect ratio/.store in=\database@aspectratio,
+    database segment height=0.1cm,
+    database radius=0.25cm,
+    database aspect ratio=0.35,
+    roundnode/.style={circle, thick, minimum size=3em,align = center},
+green/.style={draw=green!60, fill=green!5},
+orange/.style={draw=orange!60, fill=orange!5},
+white/.style={draw=black!60, fill=white},
+    files/.style={double copy shadow,
+        fill=white,
+        draw=black,
+        minimum width=5em,
+        minimum height=2em}
+    ]
+        
+    % draw nodes
+    \node[files] (local) at (0,0) {local data};
+    \node[roundnode,white] (program) at (8,0)  {GTFS downloader,\\ get specific version};
+    \node[database, label=below:server gtfs.be] (server) at (15,0) {};
+
+        % draw nodes
+    \node[files] (local2) at (0,-5) {local data};
+    \node[roundnode,white] (program2) at (8,-5)  {GTFS downloader,\\ get latest};
+    \node[database, label=below:server gtfs.be] (server2) at (15,-5) {};
+    % Draw edges
+    \draw (local) edge[<-, bend left=15] node[pos=0.5,above] {1) check if local version exist} (program);
+    \draw (local) edge[->,bend right=15] node[pos=0.5,below] {2) give filepath on existence} (program);
+    \draw (program) edge[->,bend left=15] node[pos=0.5,above] {3) else check the server version} (server);
+    \draw (program) edge[<-,bend right=15] node[pos=0.5,below] {4) Download file if  lastmodified and version match} (server);
+
+
+    \draw (program2) edge[->, bend left=15] node[pos=0.5,above] {1) Head request} (server2);
+    \draw (program2) edge[<-,bend right=15] node[pos=0.5,below] {2) headers of file: Lastmodified} (server2);
+    \draw (program2) edge[->,bend right=15] node[pos=0.5,above] {3) check if latest version already exists} (local2);
+    \draw (program2) edge[->,bend left=15] node[pos=0.5,below] {4) give filepath on existence} (local2);
+    \draw (program2) edge[->,bend left=50] node[pos=0.5,above] {5) Download if not local} (server2);
+
+    \end{tikzpicture}
+    }
+    \caption{Interaction model of the gtfs downloader.}
+    \label{fig:gtfsdownloader}
+\end{figure}
+\makeatother

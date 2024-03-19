@@ -66,6 +66,8 @@ This part is only for direct connections, meaning a maximal path in the graph wi
 \subsubsection{scalable transfer patterns}
 The paper of Scalable transfer patterns \cite{bast_scalable_2015} identifies two criteria (the space consumption of the precomputed auxiliary data is large and the preprocessing time is huge) in which transfer patterns are lacking. Furthermore the scalabilty of transfer patterns are addressed by introducing a new scheme based on clustering the network for Transfer Patterns precomputation and query graph construction that allows interactive query times for huge transit networks with manageable preprocessing times and space consumption. 
 \subsection{\glsfmtfull{csa}}
+\subsection{Trip-based public transit routing}
+
 \subsection{\glsfmtfull{raptor}}
 RAPTOR is a graph-based algorithm that solves queries in rounds. Round K computes the fastest way of getting to every stop with at most k - 1 transfers or k trips.
 
@@ -81,7 +83,6 @@ RAPTOR is a graph-based algorithm that solves queries in rounds. Round K compute
 \subsubsection{Hyper partitioning}
 Hyper partitioning is a preprocessing-based acceleration technique for computing bi-criteria Pareto-optimal journeys in public transit networks, based on the well-known RAPTOR algorithm \cite{delling_round-based_2015}.
 \subsubsection{unrestricted footprints}
-\subsection{Trip-Based Public Transit Routing}
 % TODO WIP
 This work presents a new algorithm that uses trips (vehicles) and the transfers between them as its fundamental building blocks. Unlike existing algorithms, it does not assign labels to stops. Instead, trips are labelled with the stops at which they are boarded.
 \section{Data Models For public transport}\label{section:data_model_rel_work}
@@ -97,6 +98,15 @@ A data model explicitly determines the structure of data. Data models are specif
 A data model can sometimes be called a data structure, especially in programming languages. Function models often complement data models.
 \subsection{\glsfmtfull{gtfs}}
 \glsfmtfull{gtfs} defines a common format for public transportation schedules and associated geographic information. "feeds" let public transit agencies publish their transit data. The developer can then write applications.
+
+GTFS
+"Downstream" 
++ widely used format for distributing timetables to third
+  parties
+- not all fare products and schemes are supported
+- custom software needed for interpretation 
++ dataset available of NMBS
+
 \subsubsection{\glsfmtshort{gtfs} feed}
 A feed is a zip file containing CSV files but typically has the .txt extension. Some essential files include stops.txt, routes.txt, and trips.txt.
 
@@ -117,6 +127,29 @@ be used by data processing software.
 Data in NeTEx format is encoded as XML documents that must conform exactly to the schema – standard XML validator tools can check conformance automatically. The schema can also be used to create bindings for different
 programming languages, automating part of the implementation process for creating software that supports NeTEx
 formats. 
+
+NeTEx (Network Timetable Exchange)
+"upstream"
+
+Based on the transmodel ontology, Identification of Fixed Objects in Public Transport or IFOPT (as of part 2) and SIRI.
+
+Part one describes the topology format or the fixed Network (stops, routes,lines...)
+
+Part two defines the scheduled timetables exchange format
+
+Part three defines fare exchange format
+
+NeTEx documents are in xml format and must cohere to shema's.
++ All mass public transport modes supported in part one
+- Content is directly derived from transmodel
+- only a subset of transmodel is covered
++ CEN Technical Specification
++ dataset available of NMBS
++ Entire data set can be one document
+- Extra functionalities can add unnecessary complexity
++ Can be checked using xml validator
+
+
 \subsubsection{NETEX profiles}
 \subsection{Transmodel}
 \section{Semantic Web and the role of Ontologies}\label{section:ontologies_rel_work}
@@ -156,6 +189,24 @@ The best definition of an ontology states: "An ontology is an explicit specifica
 These ontologies play an essential role in the semantic web. 
 
 A small study was conducted to find an ontology that best suited our needs. Many of the studied ontologies for transport are focused on specific use cases, for example, urban freight \cite{bouhana_ontology-based_2015}. They do not have a broad domain. 
+
+Ontologies of Wayfinding: a Traveler’s Perspectiv (https://doi.org/10.1023/A:1014563113112), 2002
+describes two ontologies of “wayfinding” with multiple transportation modes in an urban area based on two perspectives: the traveler and the public transportation system.
+- Properties, relations and axioms not defined. Focus on concepts only.
+- focussed on an urban area
+
+An Ontology-based Public Transport Query System (DOI: 10.1109/SKG.2005.41)
+- server side 
+
+ A public transportation ontology to support user travel planning (https://doi.org/10.1109/RCIS.2010.5507372), 2010
+Domain ontology with OWL 1.0. Validation done using 
++ Designed for use with a planning tool
++ Can be used country wide
++ journey patterns (similar to raptor)
++ Footpaths supported in form of infrastructure points
+- ontology not directly available, snippets in pdf
+- planning server side
+
 \subsection{x}
 A relatively old ontology designed to use with a user planning tool based on journey patterns \cite{5507372} was found and could support RAPTOR. Interestingly, they implemented a mobile application to plan tourist bus routes, but it relied on server-side queries. Other downsides are that there is no multi-modal support (only transport by bus) and no multi-operator support. The ontology was not directly available from the authors.
 
@@ -165,7 +216,7 @@ Using the survey of transportation ontologies \cite{katsumi_ontologies_2018}, we
 European directives require every PT agent to be compatible with Transmodel, so an ontology aligned with Transmodel is interesting. Further, the Transmodel ontology supports journey patterns. However, the ontology could be too broad, which leads to several potential problems. For example, it can make it hard to find relevant information, as the ontology may contain too many concepts and relationships that are not relevant. Furthermore, as the ontology may not be compatible with other ontologies used in those sources, integration from different sources can also be challenging.
 
 \subsection{OSLO Mobiliteit: Dienstregeling en Planning}
-The last ontology we looked at is the "OSLO Mobiliteit - Dienstregeling en Planning" \cite{noauthor_oslo_2023} ontology. The ontology is developed by Open Standaarden voor Linkende Organisaties (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX. NETEX is based directly on  Transmodel, so the ontology has some similarities with the Transmodel ontology but is less broad than the Transmodel ontology.
+The last ontology we looked at is the "OSLO Mobiliteit - Dienstregeling en Planning" \cite{noauthor_oslo_2023} ontology. The ontology is developed by Open Standaarden voor Linkende Organisaties (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX. NETEX is based directly on Transmodel, so the ontology has some similarities with the Transmodel ontology but is less broad than the Transmodel ontology.
 
  Het applicatieprofiel OSLO Mobiliteit – Dienstregeling en Planning: Tijdstabellen beschrijft hoe de termen uit het overeenkomstig vocabularium moeten worden gebruikt om de netwerktopologie en dienstregeling van een openbaar vervoersnetwerk te beschrijven.
 
