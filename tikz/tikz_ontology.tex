@@ -1,0 +1,29 @@
+\begin{figure}[H]
+\resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}
+
+\umlclass[x=0,y=0]{Line}{
+  name : string \\ short\_name : string
+}{}
+\umlclass[x=6,y=0]{Route}{
+  name : string
+}{}
+
+% connect line and route
+\umlassoc[geometry=-|-, arg1=Line, mult1=0..1, pos1=0.3,  arg2=ConsistsOf, mult2=0..*, pos2=2, align2=left]{Line}{Route}
+
+\umlclass[x=13,y=0]{Service Joruney pattern}{}{}
+\umlassoc[geometry=-|-, arg1=Route, mult1=0..1, pos1=0.3, arg2=CoveredBy, mult2=0..*, pos2=1, align2=left]{Route}{Service Joruney pattern}
+\umlclass[x=0,y=-6]{Planned Stop Point}{}{}
+\umlclass[x=8,y=-3]{Passing Time}{}{}
+
+
+
+
+%\umlnote[x=2.5,y=-6, width=3cm]{Route}{Je suis une note qui concerne la classe B}
+
+    \end{tikzpicture}
+    }
+    \caption{Timeline describing the developments in route planning. The crossed parts represent}
+    \label{fig:ontology}
+\end{figure}

@@ -1,11 +1,21 @@
 \chapter{Related work}
 \label{chap:rel_work}
 %TODO When done, fix this
-This chapter discusses the relevant literature and state of the art for this thesis; the literature is grouped into x groups. In \autoref{section:routing_rel_work}, the routing algorithms for transport are discussed. Next, we examine the data models used in public transport (\autoref{section:data_model_rel_work}). Further, we look at existing ontologies for transportation in \autoref{section:ontologies_rel_work}.
+This chapter discusses the relevant literature and state of the art for this thesis; the literature is grouped into \FetchStoredCounterValue{section} sections. In \autoref{section:routing_rel_work}, the routing algorithms for transport are discussed. Next, we examine the data models used in public transport (\autoref{section:data_model_rel_work}). Further, we look at existing ontologies for transportation in \autoref{section:ontologies_rel_work}.
 
 \section{Transport Routing Algorithms }\label{section:routing_rel_work}
-% include timeline image
 
+\subsection{Type of Queries}
+In \glsfmtshort{pt}, different sorts of Queries are possible. Whereas in road networks, we are only interested in the shortest path, we are generally more interested in supporting multiple criteria. 
+\begin{itemize}
+    \item Earliest arrival query is the simplest, which takes a departure time as an additional input and returns a journey that arrives as early as possible.
+    \item Multi-criteria is an extension. It takes the number of transfers into account. This query results in a set of journeys.
+    \item Profile query determines all optimal journeys departing during a given period of time.
+\end{itemize}
+
+We are most interested in Earliest arrival queries.
+% include timeline image
+\subsection{History of routing algoritms}
 \input{tikz/tikz_timeline}
 
 This section discusses the state of the art and history of public transport planning. Therefore, a tiny timeline (\autoref{fig:timeline}) was constructed to visualize some important milestones explained below. As seen in the timeline, most advances were made after 2009.
@@ -17,7 +27,7 @@ The milestones between 1956 and 2008 did not apply to PT routing but focused on 
 No significant improvements for route planners were made until 2005. The road network of the US was published as part of the 9th Dimacs challenge \cite{noauthor_9th_2017}. A big deal for researchers, now they had an extensive dataset to test on. Many speedup techniques, mainly pruning techniques, were devised for the Dijkstra algorithms. But this was still inapplicable to \glsxtrshort{pt}.
 
 \subsection{Car or Public Transport: Two Worlds}
-In 2009 a paper, Car or Public Transport: Two Worlds \cite{bast_car_2009}, stated "There are two kinds of people: those who travel by car, and those who use public transport.". They argued that the worlds differed, although both problems could be represented as a directed graph. For PT, we must deal with timetable schedules besides this spatial information.
+In 2009, a paper, Car or Public Transport: Two Worlds \cite{bast_car_2009}, stated, "There are two kinds of people: those who travel by car, and those who use public transport.". They argued that the worlds differed, although both problems could be represented as a directed graph. For PT, we must deal with timetable schedules in addition to this spatial information.
 
 The article covers five big "tricks of the trade" for fast routing on transportation: Bidirectional search, exploiting hierarchy, graph contraction, goal direction and distance tables. It explains why the trick works on road networks but falls short on \glsxtrshort{pt}.
 
@@ -44,13 +54,11 @@ As the name suggests, this table contains the recalculated distances between all
 Transfer patterns are considered the first algorithm for PT that solves queries in an order of a few milliseconds and on a transport network with a poor structure. 
 
 Transfer patterns describe a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph \cite{bast_fast_2010} %wrong explanation of transfer graphs TODO FIX
-. This means we can look up the schedule matching that journey when a real-time query comes in. In this case, the server can give fast query responses, but the pre-calculations can cause a computational burden. For example, the authors used a cluster of Opteron and Xeon-based 64-bit servers for their CPP implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. They do mention the needed core hours, arround 3000, so if run on a single-core this would take about 4 months to finish.  
+. This means we can look up the schedule matching that journey when a real-time query comes in. The server can give fast query responses in this case, but the pre-calculations can cause a computational burden. For example, the authors used a cluster of Opteron and Xeon-based 64-bit servers for their CPP implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. They do mention the needed core hours, around 3000, so if run on a single-core, this would take about 4 months to finish.  
 
-
-% TODO uitleggen transfer paterns
 A simple algorithm for transfer patterns illustrates the key ideas and consists of 3 parts but has quadratic precomputation complexity. A more optimized algorithm is described in the paper \cite{bast_fast_2010}.
 \subsubsection{Graph}
-The algorithm works on a time-expanded graph with three kinds of nodes: a departure node, an arrival node and a transfer node. Each node carries the time and the station it belongs to. Like in \autoref{fig:transferel}.
+The algorithm works on a time-expanded graph with three kinds of nodes: a departure node, an arrival node and a transfer node. Each node carries the time and the station to which it belongs. Like in \autoref{fig:transferel}.
 \input{tikz/tikz_pattern_el}
 \subsubsection{Fast direct-connections queries}
 This part is only for direct connections, meaning a maximal path in the graph without transfer nodes.
@@ -61,12 +69,49 @@ This part is only for direct connections, meaning a maximal path in the graph wi
     \item To answer a direct connection query, use the precomputed sorted list of the departure and arrival stations. See if they share a line with the departure station, which has a lower position than the arrival station. Using the timetables of the found lines, determine the earliest arrival time.
 \end{enumerate}
 \subsubsection{Transfer patterns precomputation}
-
+From the paper \cite{bast_fast_2010} we geet the following definition of a transfer pattern, which is also visualized by \autoref{fig:transferpatternexampletransferpattern}
+\begin{quote}
+    For any path, consider the subsequence of nodes formed by the first node, each arrival node whose successor is a transfer node, and the last node. The sequence of stations of these nodes is the transfer pattern of the path.
+\end{quote}
+\input{tikz/tikz_transferattern_example}
+Starting from a given source station A:
+\begin{enumerate}
+    \item We start labels with zero cost at all transfer nodes at source node/station A and run a multi-criteria variant of Dijkstra on them.
+    \item choose optimal connections with the arrival chain algorithm.
+    \begin{enumerate}
+        \item 
+    \end{enumerate}
+    \item Trace back the paths of all labels selected in Step 2. Create the DAG of transfer patterns of these paths by traversing them from the source A.
+\end{enumerate}
 \subsubsection{Query graph construction and evaluation}
+We start from the precomputed transfer pattern DAG generated in the previous step.  
 \subsubsection{scalable transfer patterns}
-The paper of Scalable transfer patterns \cite{bast_scalable_2015} identifies two criteria (the space consumption of the precomputed auxiliary data is large and the preprocessing time is huge) in which transfer patterns are lacking. Furthermore the scalabilty of transfer patterns are addressed by introducing a new scheme based on clustering the network for Transfer Patterns precomputation and query graph construction that allows interactive query times for huge transit networks with manageable preprocessing times and space consumption. 
+The paper on Scalable transfer patterns \cite{bast_scalable_2015} identifies two criteria (the space consumption of the precomputed auxiliary data is large, and the preprocessing time is huge) in which transfer patterns are lacking. Furthermore, the scalability of transfer patterns is addressed by introducing a new scheme based on clustering the network for Transfer Patterns precomputation and query graph construction that allows interactive query times for huge transit networks with manageable preprocessing times and space consumption. 
 \subsection{\glsfmtfull{csa}}
 \subsection{Trip-based public transit routing}
+Trip-based public transit routing uses trips and the transfers between them as its fundamental building blocks. 
+
+A basic overview of the algorithm is as follows:
+\begin{enumerate}
+    \item Label trips with the stops at which they are boarded.
+    \item Scan a pre-computed list of transfers; new trips that can be reached are again labelled with stops.
+    \item If a trip reaches the destination, we add the journey to the result set.
+    \item algorithm terminates when all optimal journeys are found.
+\end{enumerate}
+\subsubsection{Preprocessing}
+We pre-compute the possible transfers to speed up queries. It consists of two steps:
+\begin{enumerate}
+    \item initial computation: \begin{enumerate}
+        \item For each stop in all trips  find all lines passing through the stop and all stops reachable by a direct footpath.
+        \item Iterate over all lines and search the first trip such that arrival  time + time to footpath is smaller than the departure time.
+    \end{enumerate}
+    \item Reduction. We discard transfers that aren't usefull \begin{enumerate}
+        \item Remove U-turn transfers. These transfers to a trip X that in turn passed through a stop in the original trip.
+        \item 
+    \end{enumerate}
+    
+\end{enumerate}
+\subsubsection{Earliest arrival time query}
 
 \subsection{\glsfmtfull{raptor}}
 RAPTOR is a graph-based algorithm that solves queries in rounds. Round K computes the fastest way of getting to every stop with at most k - 1 transfers or k trips.
@@ -84,8 +129,14 @@ RAPTOR is a graph-based algorithm that solves queries in rounds. Round K compute
 Hyper partitioning is a preprocessing-based acceleration technique for computing bi-criteria Pareto-optimal journeys in public transit networks, based on the well-known RAPTOR algorithm \cite{delling_round-based_2015}.
 \subsubsection{unrestricted footprints}
 % TODO WIP
-This work presents a new algorithm that uses trips (vehicles) and the transfers between them as its fundamental building blocks. Unlike existing algorithms, it does not assign labels to stops. Instead, trips are labelled with the stops at which they are boarded.
+This work presents a new algorithm that uses trips (vehicles) and their transfers as its fundamental building blocks. Unlike existing algorithms, it does not assign labels to stops. Instead, trips are labelled with the stops at which they are boarded.
+\subsection{After 2015}
+The timeline in \autoref{fig:timeline} may you believe that no research was conducted on route planning algorithms. But this, of course, is not the case. Although most research focused on optimalistion.
+
+
+
 \section{Data Models For public transport}\label{section:data_model_rel_work}
+
 
 \subsection{What is a data model }
 % TODO CHECK AND REWRITE 
@@ -114,15 +165,14 @@ A feed is a zip file containing CSV files but typically has the .txt extension. 
 \subsection{\glsfmtfull{netex}}
 The NeTEx defines a standard for exchanging public transport passenger information data in XML format. The functional
 scope of NeTEx is divided into three parts, each covering a functional subset of the CEN Transmodel conceptual
-model for Public Transport Information, [T1], [T2], [T3].
-Part 1 [N1]] describes the fixed Network (stops, routes, lines, etc.); Part 2 [N2] is mainly focused on Timetables and
-Part 3 [N3] covers Fare data (and is the main subject of this paper). All three parts use the same framework of reusable
+model for Public Transport Information.
+Part 1  describes the fixed Network (stops, routes, lines, etc.); Part 2  is mainly focused on Timetables and
+Part 3  covers Fare data (and is the main subject of this paper). All three parts use the same framework of reusable
 components, versioning mechanism, validity conditions, and support to allow the unique identification of data elements
 in a global context, etc., defined in Part 1. NeTEx also includes container elements called "VERSION FRAMES"
 to group data into coherent sets for efficient exchange.
 NeTEx deliverables comprise (i) a CEN Specification document (in three parts), (ii) a data model in the standard UML
-modelling language [U1] and (iii) an accompanying XML schema providing a formal electronic description that can
-be used by data processing software.
+modelling language and (iii) an accompanying XML schema providing a formal electronic description that can be used by data processing software.
 
 Data in NeTEx format is encoded as XML documents that must conform exactly to the schema – standard XML validator tools can check conformance automatically. The schema can also be used to create bindings for different
 programming languages, automating part of the implementation process for creating software that supports NeTEx
@@ -156,9 +206,10 @@ NeTEx documents are in xml format and must cohere to shema's.
 \subsection{Semantic Web}
 The semantic web can be seen as an extension of the current web and is a vision of Tim Berners-Lee, where web documents not only describe how to render data visually. The data is also annotated with terms to express how it should be interpreted. So, web documents also capture the meaning of the information.
 
-Linked data- structured data that is interlinked with other data- is the basis of the Semantic Web. It builds upon existing protocols such as HTTP, RDF, and URIs.
+The basis of the Semantic Web is linked data—structured data that is interlinked with other data. It builds upon existing protocols such as HTTP, RDF, and URIs.
 
-\begin{itemize}
+There are four rules for linked data
+\begin{enumerate}
     \item Use URIs as names for things
 
     \item Use HTTP URIs so that people can look up those names.
@@ -167,8 +218,9 @@ Linked data- structured data that is interlinked with other data- is the basis o
 
     \item Include links to other URIs. so that they can discover more things.
 
-\end{itemize}
+\end{enumerate}
 
+\subsubsection{Five star data}
 Besides linked data, Sir Tim Berners-Lee also proposes a classification of data sources. It is a five-star deployment scheme for open data \cite{noauthor_5-star_nodate}.
 
 \begin{enumerate}
@@ -179,10 +231,6 @@ Besides linked data, Sir Tim Berners-Lee also proposes a classification of data 
     \item $\star\star\star\star\star$:link your data to other data to provide context.
 \end{enumerate}
 
-\subsection{Resource Description Framework}
-\subsection{JSON-LD}
-%\subsection{RML}
-
 \subsection{Ontologies}
 The best definition of an ontology states: "An ontology is an explicit specification of a conceptualization" \cite{gruber_translation_1993}. Many ontologies exist, from basic to formal ontologies specified in highly expressive logic. In this thesis, we mainly use formal ontologies.
 
@@ -190,13 +238,14 @@ These ontologies play an essential role in the semantic web.
 
 A small study was conducted to find an ontology that best suited our needs. Many of the studied ontologies for transport are focused on specific use cases, for example, urban freight \cite{bouhana_ontology-based_2015}. They do not have a broad domain. 
 
-Ontologies of Wayfinding: a Traveler’s Perspectiv (https://doi.org/10.1023/A:1014563113112), 2002
-describes two ontologies of “wayfinding” with multiple transportation modes in an urban area based on two perspectives: the traveler and the public transportation system.
+\subsubsection{Ontologies of Wayfinding}
+A Traveler’s Perspective (https://doi.org/10.1023/A:1014563113112), 2002
+describes two ontologies of “wayfinding” with multiple transportation modes in an urban area based on two perspectives: the traveller and the public transportation system.
 - Properties, relations and axioms not defined. Focus on concepts only.
 - focussed on an urban area
 
 An Ontology-based Public Transport Query System (DOI: 10.1109/SKG.2005.41)
-- server side 
+- server-side 
 
  A public transportation ontology to support user travel planning (https://doi.org/10.1109/RCIS.2010.5507372), 2010
 Domain ontology with OWL 1.0. Validation done using 
@@ -207,36 +256,29 @@ Domain ontology with OWL 1.0. Validation done using
 - ontology not directly available, snippets in pdf
 - planning server side
 
-\subsection{x}
+\subsubsection{x}
 A relatively old ontology designed to use with a user planning tool based on journey patterns \cite{5507372} was found and could support RAPTOR. Interestingly, they implemented a mobile application to plan tourist bus routes, but it relied on server-side queries. Other downsides are that there is no multi-modal support (only transport by bus) and no multi-operator support. The ontology was not directly available from the authors.
 
+\subsubsection{survey}
 Using the survey of transportation ontologies \cite{katsumi_ontologies_2018}, we only identify three ontologies that support journey patterns—two of which focus on city logistics and urban systems, which are different domains. The last ontology (Transportation ontology for content personalization) applies to PT, but the ontology is not directly available.
 
-\subsection{Transmodel ontology}
+\subsubsection{Transmodel ontology}
 European directives require every PT agent to be compatible with Transmodel, so an ontology aligned with Transmodel is interesting. Further, the Transmodel ontology supports journey patterns. However, the ontology could be too broad, which leads to several potential problems. For example, it can make it hard to find relevant information, as the ontology may contain too many concepts and relationships that are not relevant. Furthermore, as the ontology may not be compatible with other ontologies used in those sources, integration from different sources can also be challenging.
 
-\subsection{OSLO Mobiliteit: Dienstregeling en Planning}
-The last ontology we looked at is the "OSLO Mobiliteit - Dienstregeling en Planning" \cite{noauthor_oslo_2023} ontology. The ontology is developed by Open Standaarden voor Linkende Organisaties (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX. NETEX is based directly on Transmodel, so the ontology has some similarities with the Transmodel ontology but is less broad than the Transmodel ontology.
+\subsubsection{OSLO Mobility: Timetables and Planning}
+The last ontology we looked at is the "OSLO Mobility - timetables and planning" \cite{noauthor_oslo_2023} ontology. The ontology is developed by Open Standaards for Linking Organisations (OSLO), a department of Data Flanders. It has been based on the EPIP profile of NETEX for Belgium. Since NETEX is based directly on the Transmodel ontology, the ontology is similar to the Transmodel ontology but is less broad than the Transmodel ontology.
 
- Het applicatieprofiel OSLO Mobiliteit – Dienstregeling en Planning: Tijdstabellen beschrijft hoe de termen uit het overeenkomstig vocabularium moeten worden gebruikt om de netwerktopologie en dienstregeling van een openbaar vervoersnetwerk te beschrijven.
+The ontology describes the network topology and timetables of \glsfmtshort{pt} and is designed for Route planning, cartography, timetables and looking up lines/stops. This description is done in a form of lines. These lines can be grouped based on transport mode or be part of network. These lines model a given Route with a direction and geometry by using points on the route. Another part describes the service that is offered on these points. A line follows a journey pattern, it describes all the points where the vehicle passes by but don't nessercairly stops. An service journey pattern describes points that are serviced, meaning points where passenger can get off oronn the vehicle. These points recalled planned stop points ( or in dutch: GeplandeStoppunten). The description of a stop point pyhisical charistics are linked. 
 
-De standaard is gebaseerd op het EPIP-profiel op NETEX.
+For these planned stop points, timetables can be defined. But timetables can be also group by service journey.
 
-Use-cases voor deze standaard zijn: routeplanning, cartografie (netplannen), dienstregeling en het opzoeken van haltes/lijnen.
+For a servicejourney can daytype be defined, because service journeys do not drive on each day of the week. 
 
-Openbaar vervoer wordt typisch aangeboden onder de vorm van Lijnen, die bv op basis van de transportmodus (trein, tram, bus… ) gegroepeerd kunnen worden en deel uitmaken van een Netwerk. Deze Lijnen volgen bepaalde Routes op het terrein, het model laat toe de richting en de geometrie van deze Routes te beschrijven dmv Routepunten en verbindingen daartussen, de Routelinks.
 
-Een ander deel van het model beschrijft de dienstverlening die door de Lijnen wordt geboden: de plaatsen waar gestopt wordt en de tijdstippen waarop daar wordt gestopt.
 
-Een Lijn volgt een zgn Ritpatroon, ttz de opeenvolging van Punten die door de Lijn worden aangedaan. De specialisatie daarvan, een Dienstpatroon, beschrijft de opeenvolging van Punten waar werkelijk gestopt wordt. Dit zijn de zgn GeplandeStoppunten: plaatsen waar passagiers kunnen op- of afstappen. Deze logische haltes kunnen gelinkt worden met fysieke haltes (klasse Stopplaats) die apart beschreven worden in het applicatieprofiel OSLO Mobiliteit – Dienstregeling en Planning: Stopplaatsen.
-
-Voor elk punt dat wordt aangedaan door een Lijn of waar voor passagiers wordt gestopt kunnen Doorkomsttijden worden opgegeven. Deze kunnen gegroepeerd worden per halte en vormen dan de typische tijdstabellen die men daar aantreft. Ze kunnen ook geordend worden volgens het Ritpatroon van een Lijn en beschrijven dan een individuele Dienstrit met de Doorkomsttijden aan de haltes.
-
-Een specifieke Dienstrit wordt niet noodzakelijk dagelijks uitgevoerd, het kan zijn dat hij beperkt is tot bepaalde Dagtypes, bv enkel op weekdagen. Het model laat toe om deze Dagtypes te beschrijven en te koppelen aan werkelijke datums (OperationeleDagen) en periodes (OperationelePeriodes) om zo te komen tot een volledige Dienstkalender.
-
-Tot slot vermelden we nog ondersteunende klassen bv om de partijen die het vervoer aanbieden of uitvoeren (resp de Autoriteit en de Operator) aan te duiden of om Voertuigtypes en hun Passagierscapaciteit te beschrijven of een klasse die routeplanning ondersteunt (Dienstritverbinding). 
 \begin{landscape}
-\begin{table}[]
+\subsubsection{Overview}
+\begin{table}[H]
 \centering
 \begin{tabular}{|l|l|l|l|l|l|l|}
 \hline
@@ -295,3 +337,10 @@ OSLO Ontology &
 \end{table}
 \end{landscape}
 \cite{noauthor_otp_2023}.
+
+\subsection{\glsfmtfull{rdf}}
+\glsfmtfull{rdf} is an interchange data  model. 
+\subsection{\glsfmtfull{jsonld}}
+\subsection{\glsfmtfull{rml}}
+\subsection{\glsfmtfull{shacl}}
+\glsxtrfull{shacl} is a language for describing and validating RDF graphs. 

@@ -1,12 +1,12 @@
 \documentclass[12pt,a4paper,openany,english]{extbook}
 \usepackage[a4paper,includeheadfoot,margin=2.50cm]{geometry}
-\usepackage{lscape}
+\usepackage{pdflscape}
 
 \usepackage{tikz}
 \usetikzlibrary{external}
 \usetikzlibrary{decorations.pathmorphing}
 \usetikzlibrary{shadows}
-
+\usepackage{tikz-uml}
 \raggedbottom
 
 \renewcommand{\baselinestretch}{1.2}  % stretch horizontal space between everything by 20%
@@ -51,8 +51,8 @@
 \usepackage[explicit, pagestyles]{titlesec}
 \titleformat{\chapter}[display]{\bfseries}{\color{chaptergrey}\fontfamily{pbk}\fontsize{80pt}{100pt}\selectfont\thechapter}{0pt}{\Huge #1}
 \titlespacing*{\chapter}{0pt}{-80pt}{30pt}
-
-
+\usepackage{cntperchap}
+\RegisterCounters{section,subsection}
 % Header showing chapter number and title and footer showing page number
 \newpagestyle{fancy}{%
   \sethead{} % left
@@ -109,14 +109,14 @@
 %cover sheet
 \includepdf{titel-96657535.pdf}
 
-\include{chapters/1_acknowledgment}
-\include{chapters/2_disclaimer}
-\include{chapters/3_abstract}
-\include{chapters/4_extended_abstract}
+\include{chapters/acknowledgment}
+\include{chapters/disclaimer}
+\include{chapters/abstract}
+\include{chapters/extended_abstract}
 \tableofcontents\newpage
 \listoffigures\newpage
 \listoftables\newpage
-\include{chapters/5_list_of_acronyms}
+\include{chapters/list_of_acronyms}
 \listoflistings\newpage
 
 \mainmatter
@@ -126,10 +126,10 @@
 \include{chapters/implementation}
 \include{chapters/evaluation}
 \include{chapters/conclusion}
-\include{chapters/9_bibliography}
+\include{chapters/bibliography}
 
 \pagestyle{numberless} 
 \pagestyle{empty}
-\include{appendices/10_appendices}
+\include{appendices/appendices}
 
 \end{document}
