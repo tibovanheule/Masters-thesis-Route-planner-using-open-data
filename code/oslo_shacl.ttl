@@ -1,0 +1,1926 @@
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix org: <http://www.w3.org/ns/org#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix schema: <http://schema.org/> .
+@prefix schemas: <https://schema.org/> .
+@prefix shacl: <http://www.w3.org/ns/shacl#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix vcard: <http://www.w3.org/2006/vcard/ns#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap> <https://data.vlaanderen.be/shacl/tijdstabellen-apshapes> <https://data.vlaanderen.be/shacl/tijdstabellen-ap#AccessibilityAssessmentShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#AuthorityShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#AuthorityOrOperatorShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#BookingArrangementShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DayTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DayTypeAssignmentShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DestinationDisplayShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DestinationDisplayVariantShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DirectionShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#GroupOfLinesShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#HeadwayIntervalShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#JourneyFrequencyShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#JourneyPartShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#JourneyPatternShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#LineShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#NetworkShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#NoticeAssignmentShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#OperatingDayShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#OperatingPeriodShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#OperatorShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PassengerCapacityShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PassengerStopAssignmentShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PointShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PointInJourneyPatternShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PointOnRouteShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PresentationShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PropertyOfDayShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#RouteShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#RouteLinkShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#RoutePointShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ScheduledStopPointShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceCalendarShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceFacilitySetShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceJourneyShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceJourneyLinkShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceJourneyPatternShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceLinkShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopPlaceShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopPointInJourneyPatternShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TariffZoneShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TimeTabledPassingTimeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TimebandShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TrainNumberShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#UicOperatingPeriodShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#VehicleJourneyShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#VehicleTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ViaShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#ContactInfoShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#LijnStringShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#PuntShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TaalStringShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TransportmodeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TypeOfLineShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DirectionTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DestinationDisplayVariantTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#RequestMethodTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopUseShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopPlaceTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TimingpointStatusShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TrainSizetypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#TypeOfFuelShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#FareClassShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#DayOfWeekShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#WeekOfMonthShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#HolidayTypeShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#SeasonShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#CrowdingShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#HeadwayDisplayShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#IdentificatorShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#AdresvoorstellingShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#GeometrieShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#OrganisatieShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#GeregistreerdeOrganisatieShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#StandaardEenheidShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#GetalShape>,
+    <https://data.vlaanderen.be/shacl/tijdstabellen-ap#KwantitatieveWaardeShape> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#AccessibilityAssessmentShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#AccessibilityAssessment> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#AdresvoorstellingShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:description "Hoogste Administratieve eenheid vh adres, doorgaans een land.";
+    shacl:maxCount 1;
+    shacl:name "administratieveEenheidNiveau1";
+    shacl:path <http://www.w3.org/ns/locn#adminUnitL1>
+  ], [
+    shacl:description "De regio vh adres, doorgaans een provincie of deelstaat of gelijkaardig gebied dat typisch meerdere plaatsen omvat.";
+    shacl:maxCount 1;
+    shacl:name "administratieveEenheidNiveau2";
+    shacl:path <http://www.w3.org/ns/locn#adminUnitL2>
+  ], [
+    shacl:description "Naam ve geografisch gebied of plaats die een aantal adresseerbare objecten groepeert om deze te adresseren zonder dat het gebied of de plaats een administratieve eenheid is";
+    shacl:maxCount 1;
+    shacl:name "adresgebied";
+    shacl:path <http://www.w3.org/ns/locn#addressArea>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Officieel toegekende alfanumerieke code die wordt toegevoegd aan het huisnummer om meerdere gebouweenheden, standplaatsen, ligplaatsen of percelen te onderscheiden die eenzelfde huisnummer hebben.";
+    shacl:maxCount 1;
+    shacl:name "busnummer";
+    shacl:path <https://data.vlaanderen.be/ns/adres#Adresvoorstelling.busnummer>
+  ], [
+    shacl:description "Gemeentenaam vh adres.";
+    shacl:maxCount 1;
+    shacl:name "gemeentenaam";
+    shacl:path <https://data.vlaanderen.be/ns/adres#gemeentenaam>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Alfanumerieke code officieel toegekend aan gebouweenheden, ligplaatsen, standplaatsen of percelen.";
+    shacl:maxCount 1;
+    shacl:name "huisnummer";
+    shacl:path <https://data.vlaanderen.be/ns/adres#Adresvoorstelling.huisnummer>
+  ], [
+    shacl:description "Land waarin het adres gelegen is.";
+    shacl:maxCount 1;
+    shacl:name "land";
+    shacl:path <https://data.vlaanderen.be/ns/adres#land>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Alfanumerieke code die de adreslocator uniek identificeert binnen de straat, administratieve eenheid etc.";
+    shacl:name "locatieaanduiding";
+    shacl:path <http://www.w3.org/ns/locn#locatorDesignator>
+  ], [
+    shacl:description "Naam of omschrijving vh het geografisch object dat de adreslocator aanduidt.";
+    shacl:name "locatienaam";
+    shacl:path <http://www.w3.org/ns/locn#locatorName>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Postbusnummer in een postkantoor.";
+    shacl:maxCount 1;
+    shacl:name "postbus";
+    shacl:path <http://www.w3.org/ns/locn#poBox>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Code waarmee het geografisch gebied dat adressen voor postale doeleinden groepeert wordt aangeduid.";
+    shacl:maxCount 1;
+    shacl:name "postcode";
+    shacl:path <http://www.w3.org/ns/locn#postCode>
+  ], [
+    shacl:description "Naam waarmee het geografisch gebied dat adressen voor postale doeleinden groepeert wordt aangeduid.";
+    shacl:maxCount 1;
+    shacl:name "postnaam";
+    shacl:path <http://www.w3.org/ns/locn#postName>
+  ], [
+    shacl:description "Straatnaam vh adres.";
+    shacl:maxCount 1;
+    shacl:name "straatnaam";
+    shacl:path <http://www.w3.org/ns/locn#thoroughfare>
+  ], [
+    shacl:description "Het complete adres in één string, al dan niet geformatteerd.";
+    shacl:maxCount 1;
+    shacl:name "volledigAdres";
+    shacl:path <http://www.w3.org/ns/locn#fullAddress>
+  ];
+  shacl:targetClass <http://www.w3.org/ns/locn#Address> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#AuthorityOrOperatorShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#AuthorityOrOperator> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#AuthorityShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <http://www.w3.org/ns/locn#Address>;
+    shacl:description "Postadres van de autoriteit.";
+    shacl:maxCount 1;
+    shacl:name "address";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Authority.address>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Authority> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#BookingArrangementShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#BookingArrangement> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ContactInfoShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Titel waarmee iemand wordt aangeschreven of aangesproken of waarmee naar iemand wordt verwezen.";
+    shacl:maxCount 1;
+    shacl:name "aanschrijfvorm";
+    shacl:path vcard:honorific-prefix
+  ], [
+    shacl:class <http://www.w3.org/ns/locn#Address>;
+    shacl:description "Adres dat men kan aanschrijven of bezoeken.";
+    shacl:maxCount 1;
+    shacl:name "adres";
+    shacl:path <http://www.w3.org/ns/locn#address>
+  ], [
+    shacl:description "Periode waarin contact kan worden opgenomen.";
+    shacl:maxCount 1;
+    shacl:name "beschikbaarheid";
+    shacl:path schema:hoursAvailable
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Naam van bvb de persoon die men kan contacteren.";
+    shacl:maxCount 1;
+    shacl:name "contactnaam";
+    shacl:path foaf:name
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Email-adres waarnaar men kan mailen.";
+    shacl:maxCount 1;
+    shacl:name "email";
+    shacl:path schema:email
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Faxnummer waarnaar men kan faxen.";
+    shacl:maxCount 1;
+    shacl:name "fax";
+    shacl:path schema:faxNumber
+  ], [
+    shacl:datatype rdfs:Literal;
+    shacl:description "Uren waarbinnen contact kan worden opgenomen.";
+    shacl:maxCount 1;
+    shacl:name "openingsuren";
+    shacl:path schema:openingHours
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Telefoonnummer waarop men kan bellen.";
+    shacl:maxCount 1;
+    shacl:name "telefoon";
+    shacl:path schema:telephone
+  ], [
+    shacl:datatype xsd:anyURI;
+    shacl:description "Website waarnaar men kan surfen.";
+    shacl:maxCount 1;
+    shacl:name "website";
+    shacl:path foaf:page
+  ];
+  shacl:targetClass schema:ContactPoint .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#CrowdingShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DayOfWeekShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DayTypeAssignmentShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:boolean;
+    shacl:description "Beschikbaar op de toegewezen dag.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "available";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#available>
+  ], [
+    shacl:datatype xsd:date;
+    shacl:description "Datum van de dagtype-toewijzing.";
+    shacl:maxCount 1;
+    shacl:name "date";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#date>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de dagtype-toewijzing.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DayTypeAssignment.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#OperatingPeriod>;
+    shacl:description "Verwijzing naar de operationele periode die is toegewezen door de dagtype-toewijzing.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "operatingPeriod";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#operatingPeriod>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#DayTypeAssignment> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DayTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:duration;
+    shacl:description "Lengte van het dagtype.";
+    shacl:maxCount 1;
+    shacl:name "dayLength";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DayType.dayLength>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#PropertyOfDay>;
+    shacl:description "Eigenschap van de dag die wordt gebruikt om het dagtype te beschrijven.";
+    shacl:name "describedBy";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#describedBy>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van het dagtype.";
+    shacl:maxCount 1;
+    shacl:name "description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DayType.description>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Vroegste starttijd van het dagtype.";
+    shacl:maxCount 1;
+    shacl:name "earliestTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DayType.earliestTime>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van het dagtype.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DayType.name>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Korte naam van het dagtype.";
+    shacl:maxCount 1;
+    shacl:name "shortName";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DayType.shortName>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Timeband>;
+    shacl:description "Tijdband geassocieerd met het dagtype.";
+    shacl:name "timeband";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#timeband>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#DayType> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DestinationDisplayShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Voorkant van voertuigtekst gekoppeld aan het bestemmingsdisplay.";
+    shacl:maxCount 1;
+    shacl:name "frontText";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay.frontText>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Publieke code (die aan het publiek moeten worden gepresenteerd) geassocieerd met het bestemmingsdisplay.";
+    shacl:maxCount 1;
+    shacl:name "publicCode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay.publicCode>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Tekst die wordt weergegeven aan de zijkant van het voertuig dat is gekoppeld aan het bestemmingsdisplay.";
+    shacl:maxCount 1;
+    shacl:name "sideText";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay.sideText>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplayVariant>;
+    shacl:description "Variant van het bestemmingsdisplay.";
+    shacl:name "variant";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#variant>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Via>;
+    shacl:description "Tekst om weer te geven voor het Via display.";
+    shacl:name "via";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay.via>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DestinationDisplayVariantShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class skos:Concept;
+    shacl:description "Type van het bestemmingsdisplay variant.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "destinationVariantDisplayType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#destinationVariantDisplayType>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Voorkant van voertuigtekst geassocieerd met de variant van de bestemmingsdisplay.";
+    shacl:maxCount 1;
+    shacl:name "frontText";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplayVariant.frontText>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Tekst om weer te geven aan de zijkant van het voertuig dat is gekoppeld aan de variant Destination Display.";
+    shacl:maxCount 1;
+    shacl:name "sideText";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplayVariant.sideText>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Via>;
+    shacl:description "Tekst om te tonen voor de Via display.";
+    shacl:name "via";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplayVariant.via>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplayVariant> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DestinationDisplayVariantTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DirectionShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class skos:Concept;
+    shacl:description "Een vaste waarde b.v. \"uitgaand\", \"inkomend\", \"met de klok mee\", \"tegen de klok in\" geassocieerd met deze richting.";
+    shacl:maxCount 1;
+    shacl:name "directionType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Direction.directionType>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Direction>;
+    shacl:description "Verwijzing naar een richting die tegensteld aan deze richting loopt.";
+    shacl:maxCount 1;
+    shacl:name "oppositeDirection";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#oppositeDirection>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Direction> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#DirectionTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#FareClassShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#GeometrieShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdfs:Literal;
+    shacl:description "Geometrie uitgedrukt in gml-formaat.";
+    shacl:maxCount 1;
+    shacl:name "gml";
+    shacl:path <http://www.opengis.net/ont/geosparql#asGML>
+  ], [
+    shacl:datatype rdfs:Literal;
+    shacl:description "Geometrie uitgedrukt in wkt-formaat.";
+    shacl:maxCount 1;
+    shacl:name "wkt";
+    shacl:path <http://www.opengis.net/ont/geosparql#asWKT>
+  ];
+  shacl:targetClass <http://www.w3.org/ns/locn#Geometry> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#GeregistreerdeOrganisatieShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <http://www.w3.org/ns/adms#Identifier>;
+    shacl:description "Identificator dat de organisatie verkreeg bij registratie.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "registratie";
+    shacl:path <http://www.w3.org/ns/regorg#registration>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Wettelijk geregistreerde naam vd organisatie.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "wettelijkeNaam";
+    shacl:path <http://www.w3.org/ns/regorg#legalName>
+  ];
+  shacl:targetClass <http://www.w3.org/ns/regorg#RegisteredOrganization> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#GetalShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass schemas:Number .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#GroupOfLinesShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de groep van lijnen.";
+    shacl:maxCount 1;
+    shacl:name "^name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#GroupOfLines.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Line>;
+    shacl:description "De lijnen die samen de groep lijnen vormen.";
+    shacl:minCount 1;
+    shacl:name "composedOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#composedOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Line>;
+    shacl:description "De hoofdlijn van de groep lijnen.";
+    shacl:maxCount 1;
+    shacl:name "mainline";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#mainline>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Transportmode van de groep lijnen.";
+    shacl:maxCount 1;
+    shacl:name "transportmode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#GroupOfLines.transportmode>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#GroupOfLines> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#HeadwayDisplayShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#HeadwayIntervalShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:duration;
+    shacl:description "Maximaal volgtijdinterval.";
+    shacl:maxCount 1;
+    shacl:name "maximumHeadwayInterval";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#maximumHeadwayInterval>
+  ], [
+    shacl:datatype xsd:duration;
+    shacl:description "Minimaal volgtijdinterval.";
+    shacl:maxCount 1;
+    shacl:name "minimumHeadwayInterval";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#minimumHeadwayInterval>
+  ], [
+    shacl:datatype xsd:duration;
+    shacl:description "Geplande volgtijdinterval.";
+    shacl:maxCount 1;
+    shacl:name "scheduledHeadwayInterval";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#scheduledHeadwayInterval>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#HeadwayInterval> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#HolidayTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#IdentificatorShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdfs:Literal;
+    shacl:description "String gebruikt om het object uniek te identificeren.";
+    shacl:maxCount 1;
+    shacl:name "identificator";
+    shacl:path skos:notation
+  ], [
+    shacl:class dc:Agent;
+    shacl:description "Link naar de agent die de identificator heeft uitgegeven.";
+    shacl:maxCount 1;
+    shacl:name "toegekendDoor";
+    shacl:path dc:creator
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Naam vd agent die de identificator heeft toegekend.";
+    shacl:maxCount 1;
+    shacl:name "toegekendDoorString";
+    shacl:path <http://www.w3.org/ns/adms#schemaAgency>
+  ], [
+    shacl:datatype xsd:dateTime;
+    shacl:description "Tijdstip waarop de identificator werd uitgegeven.";
+    shacl:maxCount 1;
+    shacl:name "toegekendOp";
+    shacl:path dc:issued
+  ];
+  shacl:targetClass <http://www.w3.org/ns/adms#Identifier> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#JourneyFrequencyShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Tekstbeschrijving om te gebruiken voor de frequentie, b.v. \"elke vijf minuten\".";
+    shacl:maxCount 1;
+    shacl:name "description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#JourneyFrequency.description>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de frequentie valt onder de regelgevende overeenkomst of niet.";
+    shacl:maxCount 1;
+    shacl:name "fequencyRegulated";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#fequencyRegulated>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#HeadwayInterval>;
+    shacl:description "Frequentie van ritfrequentie.";
+    shacl:maxCount 1;
+    shacl:name "frequency";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#frequency>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Volgtijdinformatie voor het publiek.";
+    shacl:maxCount 1;
+    shacl:name "headwayDisplay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#headwayDisplay>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#JourneyFrequency> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#JourneyPartShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPart> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#JourneyPatternShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "Afstand van het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "^distance";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern.distance>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "^name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay>;
+    shacl:description "Bestemmingsdisplay in verband met het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "destinationDisplay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern.destinationDisplay>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Direction>;
+    shacl:description "Richting van het ritpatroon (vaak gebruikt om groepen reispatronen te onderscheiden met dezelfde takken (d.w.z. routes) van een regel).";
+    shacl:maxCount 1;
+    shacl:name "direction";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern.direction>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern>;
+    shacl:description "De geordende reeks punten die samen het ritpatroon vormen.";
+    shacl:minCount 1;
+    shacl:name "madeUpOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern.madeUpOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Route>;
+    shacl:description "Route geassocieerd met het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "route";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#route>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#KwantitatieveWaardeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:string;
+    shacl:description "De eenheid waarin de waarde is uitgedrukt.";
+    shacl:maxCount 1;
+    shacl:name "eenheid";
+    shacl:path schemas:unitText
+  ], [
+    shacl:class <https://data.vlaanderen.be/ns/generiek#StandaardEenheid>;
+    shacl:description "De gestandaardiseerde eenheid waarin de waarde is uitgedrukt.";
+    shacl:maxCount 1;
+    shacl:name "standaardEenheid";
+    shacl:path schemas:unitCode
+  ], [
+    shacl:class schemas:Number;
+    shacl:description "Getal waarmee de kwantiteit van het kenmerk kan worden uitgedrukt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "waarde";
+    shacl:path schemas:value
+  ];
+  shacl:targetClass schemas:QuantitativeValue .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#LijnStringShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <http://www.opengis.net/ont/sf#LineString> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#LineShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#AccessibilityAssessment>;
+    shacl:description "Toegankelijkheidsbeoordeling van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "accessibilityAssessment";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.accessibilityAssessment>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#AuthorityOrOperator>;
+    shacl:description "Verwijzingen naar extra autoriteiten of exploitanten voor de lijn.";
+    shacl:name "additionalOperators";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#additionalOperators>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Direction>;
+    shacl:description "Toegestane richtingen voor de lijn.";
+    shacl:name "allowedDirection";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#allowedDirection>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.description>
+  ], [
+    shacl:datatype xsd:anyURI;
+    shacl:description "Tijdschema documenten in verband met de lijn, b.v. PDF-bestanden.";
+    shacl:name "documentLink";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#documentLink>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Route>;
+    shacl:description "De routes die de lijn vormen.";
+    shacl:minCount 1;
+    shacl:name "madeUpOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.madeUpOf>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of real-time gegevens normaal beschikbaar zijn voor de lijn.";
+    shacl:maxCount 1;
+    shacl:name "monitored";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#monitored>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de lijn.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#NoticeAssignment>;
+    shacl:description "Kennisgevingen toegewezen aan de lijn.";
+    shacl:name "noticeAssignment";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.noticeAssignment>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Extra transportmodi voor de lijn.";
+    shacl:name "otherModes";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#otherModes>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Presentation>;
+    shacl:description "Geprefereerde presentatie-kenmerken om te gebruiken bij het weergeven van de lijn op kaarten, enz.";
+    shacl:maxCount 1;
+    shacl:name "presentation";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.presentation>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Alternatieve identificatie van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "privateCode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.privateCode>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Publieke identifier van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "publicCode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.publicCode>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Korte naam van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "shortName";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.shortName>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#AuthorityOrOperator>;
+    shacl:description "Autoriteit of operator geassocieerd met de lijn.";
+    shacl:maxCount 1;
+    shacl:name "transportOrganisation";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.transportOrganisation>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Subtransportmodus van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "transportSubmode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.transportSubmode>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Identifier van de primaire transportmodus van de lijn.";
+    shacl:maxCount 1;
+    shacl:name "transportmode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.transportmode>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Verwijzing naar een type lijn.";
+    shacl:maxCount 1;
+    shacl:name "typeOfLine";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#typeOfLine>
+  ], [
+    shacl:datatype xsd:anyURI;
+    shacl:description "Een URL geassocieerd met de lijn.";
+    shacl:maxCount 1;
+    shacl:name "url";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Line.url>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Line> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#NetworkShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#GroupOfLines>;
+    shacl:description "De groep van lijnen die samen het netwerk vormen.";
+    shacl:name "madeUpOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Network.madeUpOf>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "De naam van het netwerk.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Network.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#AuthorityOrOperator>;
+    shacl:description "Autoriteit of exploitant die verantwoordelijk is voor het netwerk.";
+    shacl:maxCount 1;
+    shacl:name "transportOrganisation";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Network.transportOrganisation>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Network> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#NoticeAssignmentShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#NoticeAssignment> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#OperatingDayShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:date;
+    shacl:description "Kalenderdatum van de operationele dag.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "calendarDate";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#calendarDate>
+  ], [
+    shacl:datatype xsd:duration;
+    shacl:description "Lengte van de operationele dag.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "dayLength";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#OperatingDay.dayLength>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Starttijd van de operationele dag.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "earliestTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#OperatingDay.earliestTime>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de operationele dag.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#OperatingDay.name>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#OperatingDay> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#OperatingPeriodShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:dateTime;
+    shacl:description "Start operationele dag (inclusief).";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "fromDate";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#OperatingPeriode.fromDate>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de operationele periode.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#OperatingPeriod.name>
+  ], [
+    shacl:datatype xsd:dateTime;
+    shacl:description "Einde operationele dag (inclusief).";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "toDate";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#OperatingPeriod.toDate>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#OperatingPeriod> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#OperatorShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <http://www.w3.org/ns/locn#Address>;
+    shacl:description "Postadres van de operator.";
+    shacl:maxCount 1;
+    shacl:name "address";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Operator.address>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Verwijzing naar het land.";
+    shacl:maxCount 1;
+    shacl:name "country";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Operator.country>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Primaire transportmodus van de operator.";
+    shacl:maxCount 1;
+    shacl:name "primaryMode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#primaryMode>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Operator> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#OrganisatieShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Andere naam waaronder de organisatie bekend is.";
+    shacl:name "alternatieveNaam";
+    shacl:path skos:altLabel
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van de organisatie.";
+    shacl:maxCount 1;
+    shacl:name "beschrijving";
+    shacl:path dc:description
+  ], [
+    shacl:class schema:ContactPoint;
+    shacl:description "Informatie zoals email, telefoon... die toelaat de Organisatie te contacteren.";
+    shacl:name "contactinfo";
+    shacl:path schema:contactPoint
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Soort organisatie.";
+    shacl:name "type";
+    shacl:path <http://www.w3.org/ns/regorg#orgType>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam waarmee de organisatie bij voorkeur wordt aangeduid.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "voorkeursnaam";
+    shacl:path skos:prefLabel
+  ];
+  shacl:targetClass org:Organization .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PassengerCapacityShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class skos:Concept;
+    shacl:description "Tariefklasse waarvoor de capaciteit wordt gegeven, b.v. zaken, economie, enz.";
+    shacl:maxCount 1;
+    shacl:name "fareClass";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#fareClass>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal duwstoel plaatsen.";
+    shacl:maxCount 1;
+    shacl:name "pushChairCapacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#pushChairCapacity>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal zitplaatsen.";
+    shacl:maxCount 1;
+    shacl:name "seatingcapacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#seatingcapacity>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal prioritaire stoelen.";
+    shacl:maxCount 1;
+    shacl:name "specialPlaceCapacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#specialPlaceCapacity>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal passagiers dat kan rechtstaan.";
+    shacl:maxCount 1;
+    shacl:name "standingcapacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#standingcapacity>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Totale capaciteit.";
+    shacl:maxCount 1;
+    shacl:name "totalcapacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#totalcapacity>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal aangewezen rolstoelgebieden.";
+    shacl:maxCount 1;
+    shacl:name "wheelchairPlaceCapacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#wheelchairPlaceCapacity>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PassengerCapacity> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PassengerStopAssignmentShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint>;
+    shacl:description "Referentie naar verbonden klasse.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "ScheduledStopPoint";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PassengerStopAssignment.scheduledStopPoint>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#StopPlace>;
+    shacl:description "Referentie naar verbonden klasse.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "StopPlace";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PassengerStopAssignment.stopPlace>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Quay>;
+    shacl:description "Verwijzing naar een perron binnen de stopplaats waaraan het geplande stoppunt is toegewezen.";
+    shacl:maxCount 1;
+    shacl:name "quay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#quay>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PassengerStopAssignment> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PointInJourneyPatternShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van het punt in het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "^description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern.description>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Volgorde van het punt in ritpatroon binnen het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "^order";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern.order>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Point>;
+    shacl:description "Verwijzing naar het abstracte punt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "aViewOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern.aViewOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#TimeTabledPassingTime>;
+    shacl:description "Doorkomsttijd op het punt in de ritpatroon.";
+    shacl:name "at";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#at>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de bestemmingsdisplay verandert op dit punt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "changeOfDestinationDisplay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern.changeOfDestinationDisplay>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay>;
+    shacl:description "Bestemmingsdisplay in verband met het punt in de ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "destinationDisplay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern.destinationDisplay>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PointOnRouteShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van het punt op de route.";
+    shacl:maxCount 1;
+    shacl:name "^description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointOnRoute.description>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Volgorde van punt op route binnen route.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "^order";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointOnRoute.order>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint>;
+    shacl:description "Verwijzing naar het routepunt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "aViewOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PointOnRoute.aViewOf>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PointOnRoute> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PointShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <http://www.opengis.net/ont/sf#Point>;
+    shacl:description "Locatie van het punt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "location";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#location>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van het punt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Point.name>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Arbitraire alternatieve identifier voor het punt.";
+    shacl:maxCount 1;
+    shacl:name "pointNumber";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Point.pointNumber>
+  ], [
+    shacl:description "Projectie voor het punt.";
+    shacl:name "projection";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Point.projection>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#PointInJourneyPattern>;
+    shacl:description "Zoals gebruikt als een punt in een ritpatroon.";
+    shacl:name "viewedAs";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Point.viewedAs>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Point> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PresentationShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Presentation> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PropertyOfDayShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:string;
+    shacl:description "Land van vakantietype.";
+    shacl:name "country";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PropertyOfDay.country>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Relatieve drukte van de dag, b.v. stil, normaal, druk, etc.";
+    shacl:maxCount 1;
+    shacl:name "crowding";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#crowding>
+  ], [
+    shacl:description "Voor die dagtypen die op dezelfde dag van de maand voorkomen; een maand als een nummer.";
+    shacl:maxCount 1;
+    shacl:name "dayOfMonth";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#dayOfMonth>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "De dag van de week, bv. zondag.";
+    shacl:maxCount 7;
+    shacl:name "dayOfWeek";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#dayOfWeek>
+  ], [
+    shacl:datatype xsd:gMonthDay;
+    shacl:description "Voor die dagtypes die elk jaar op dezelfde dag plaatsvinden, maand en dag.";
+    shacl:maxCount 1;
+    shacl:name "dayOfYear";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#dayOfYear>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van de eigenschap van de dag.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PropertyOfDay.description>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Het type vakantie, bv. Kerstmis.";
+    shacl:maxCount 5;
+    shacl:name "holidayType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#holidayType>
+  ], [
+    shacl:datatype xsd:gMonth;
+    shacl:description "Voor die dagsoorten die elk jaar op dezelfde maand voorkomen; een maand als een nummer.";
+    shacl:maxCount 1;
+    shacl:name "monthOfYear";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#monthOfYear>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "De naam van de eigenschap van de dag.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#PropertyOfDay.name>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Het seizoen, bv. winter.";
+    shacl:maxCount 4;
+    shacl:name "season";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#season>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DayType>;
+    shacl:description "Dagtype die de Eigenschap van de Dag beschrijft.";
+    shacl:name "usedToDescribe";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#usedToDescribe>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Weeknummer van de maand (1-5).";
+    shacl:maxCount 5;
+    shacl:name "weekOfMonth";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#weekOfMonth>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PropertyOfDay> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#PuntShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <http://www.opengis.net/ont/sf#Point> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#RequestMethodTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#RouteLinkShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <http://www.opengis.net/ont/sf#LineString>;
+    shacl:description "Lijnstring die de routelink specifeert.";
+    shacl:maxCount 1;
+    shacl:name "^linestring";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink.linestring>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de routelink.";
+    shacl:maxCount 1;
+    shacl:name "^name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink.name>
+  ], [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "Afstand van de routelink.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "distance";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink.distance>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint>;
+    shacl:description "Routepunt waarbij de routelink begint.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "from";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink.from>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint>;
+    shacl:description "Routepunt waarbij de routelink eindigt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "to";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink.to>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#RoutePointShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of het routepunt een grensovergang is (gedefinieerd voor landsgrenzen).";
+    shacl:maxCount 1;
+    shacl:name "borderCrossing";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#borderCrossing>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink>;
+    shacl:description "Routelink waarvan het routepunt het einde is.";
+    shacl:name "endOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint.endOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#RouteLink>;
+    shacl:description "Routelink waarvan het routepunt het begin is.";
+    shacl:name "startOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint.startOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#PointOnRoute>;
+    shacl:description "Zoals gebruikt als een punt op een route.";
+    shacl:name "viewedAs";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint.viewedAs>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#RoutePoint> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#RouteShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "Afstand van de route.";
+    shacl:maxCount 1;
+    shacl:name "^distance";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Route.distance>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de route.";
+    shacl:maxCount 1;
+    shacl:name "^name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Route.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern>;
+    shacl:description "Ritpatroon dat de route bedekt.";
+    shacl:name "coveredBy";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#coveredBy>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Direction>;
+    shacl:description "Richting van de route, b.v. inkomend, met de klok mee, enz.";
+    shacl:maxCount 1;
+    shacl:name "direction";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Route.direction>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Verwijzing naar het richtingtype van de route.";
+    shacl:maxCount 1;
+    shacl:name "directionType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Route.directionType>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Route>;
+    shacl:description "Omgekeerde route van de route.";
+    shacl:maxCount 1;
+    shacl:name "inverseRoute";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#inverseRoute>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Line>;
+    shacl:description "Lijn waarmee de route geassocieerd is.";
+    shacl:maxCount 1;
+    shacl:name "line";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#line>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#PointOnRoute>;
+    shacl:description "Punten waardoor de route gaat.";
+    shacl:minCount 0;
+    shacl:name "through";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#through>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Route> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ScheduledStopPointShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <http://www.opengis.net/ont/sf#Point>;
+    shacl:description "Locatie van het geplande stoppunt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "^location";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.location>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van het geplande stoppunt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "^name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.name>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Timing compliance-status van het punt.";
+    shacl:maxCount 1;
+    shacl:name "^timingpointStatus";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#timingpointStatus>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van het geplande stoppunt.";
+    shacl:maxCount 1;
+    shacl:name "description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.description>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink>;
+    shacl:description "Dienstverbinding waarvan het stoppunt van het schema het einde is.";
+    shacl:name "endOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.endOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Presentation>;
+    shacl:description "Presentatiewaarden om te gebruiken bij het weergeven van het stoppunt, zoals een kleur en lettertype.";
+    shacl:maxCount 1;
+    shacl:name "presentation";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.presentation>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Alternatieve identificatie van het geplande stoppunt.";
+    shacl:maxCount 1;
+    shacl:name "privateCode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.privateCode>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Publieke code van het geplande stoppunt.";
+    shacl:maxCount 1;
+    shacl:name "publicCode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.publicCode>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Korte naam van het geplande stoppunt.";
+    shacl:maxCount 1;
+    shacl:name "shortName";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.shortName>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink>;
+    shacl:description "Dienstverbinding waarvan het stoppunt van het schema het begin is.";
+    shacl:name "startOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.startOf>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Type stopplaats.";
+    shacl:maxCount 1;
+    shacl:name "stopType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#stopType>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#TariffZone>;
+    shacl:description "Tariefzones waartoe het geplande stoppunt behoort.";
+    shacl:name "tariffZones";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#tariffZones>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern>;
+    shacl:description "Zoals gebruikt als een stoppunt in een ritpatroon.";
+    shacl:name "viewedAs";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint.viewedAs>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PassengerStopAssignment.scheduledStopPoint> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#SeasonShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceCalendarShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:date;
+    shacl:description "Inclusieve startdatum voor geldigheid van de operationele kalender.";
+    shacl:maxCount 1;
+    shacl:name "fromDate";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceCalendar.fromDate>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de operationele kalender.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceCalendar.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#OperatingDay>;
+    shacl:description "Bedrijfsdag in de operationele kalender.";
+    shacl:name "operatingDay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#operatingDay>
+  ], [
+    shacl:datatype xsd:date;
+    shacl:description "Inclusieve einddatum voor geldigheid van de operationele kalender.";
+    shacl:maxCount 1;
+    shacl:name "toDate";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceCalendar.toDate>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#OperatingPeriod>;
+    shacl:description "Operationele periode waarbinnen de operationele kalender zich bevindt.";
+    shacl:name "within";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#within>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#ServiceCalendar> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceFacilitySetShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#ServiceFacilitySet> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceJourneyLinkShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint>;
+    shacl:description "Stopplaats waar de Link aankomt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "arrivalStop";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.arrivalStop>
+  ], [
+    shacl:datatype xsd:dateTime;
+    shacl:description "Aankomsttijd.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "arrivalTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.arrivalTime>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint>;
+    shacl:description "Stopplaats waar de Link vertrekt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "departureStop";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.departureStop>
+  ], [
+    shacl:datatype xsd:dateTime;
+    shacl:description "Tijd wanneer de Link vertrekt.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "departureTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.departureTime>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de Link is om af te stappen.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "forAlighting";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.forAlighting>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de Link is om op te stappen.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "forBoarding";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.forBoarding>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Line>;
+    shacl:description "De lijn.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "line";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink.line>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyLink> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceJourneyPatternShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern>;
+    shacl:description "De stoppunten in ritpatroon die samen het dienstpatroon vormen.";
+    shacl:name "madeUpOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyPattern.madeUpOf>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyPattern> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceJourneyShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DayType>;
+    shacl:description "Dagtype voor de Diensrit.";
+    shacl:name "^dayType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#dayType>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Dag offset als de dag van vertrektijd van de dienstrit verschilt van de huidige operationele dag.";
+    shacl:maxCount 1;
+    shacl:name "^departureDayOffset";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourney.departureDayOffset>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Vertrektijd.";
+    shacl:maxCount 1;
+    shacl:name "^departureTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourney.departureTime>
+  ], [
+    shacl:datatype xsd:duration;
+    shacl:description "Totale lengte van de dienstrit. Kan worden berekend uit individuele tijden.";
+    shacl:maxCount 1;
+    shacl:name "^journeyDuration";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourney.journeyDuration>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourneyPattern>;
+    shacl:description "Dienstritpatroon dat werd gevolgd om de Dienstrit te maken.";
+    shacl:name "^madeUsing";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourney.madeUsing>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#TrainNumber>;
+    shacl:description "Treinnummers - afgeleid door middel van ritdelen van een rit - alleen voor een multi-part-ritten.";
+    shacl:name "^trainNumber";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#trainNumber>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ServiceFacilitySet>;
+    shacl:description "Faciliteit op de dienstrit.";
+    shacl:name "facility";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#facility>
+  ], [
+    shacl:description "Een groep flexibele routes die algemeen bekend is bij het publiek door een vergelijkbare naam of nummer en die algemene boekingsregelingen hebben.";
+    shacl:maxCount 1;
+    shacl:name "flexibleLineView";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#flexibleLineView>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#Operator>;
+    shacl:description "Verwijzing naar een operator.";
+    shacl:maxCount 1;
+    shacl:name "operator";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#operator>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Vereisten voor treingrootte.";
+    shacl:maxCount 1;
+    shacl:name "trainSize";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#trainSize>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#VehicleType>;
+    shacl:description "Verwijzing naar het type voertuig te gebruiken op de Diensrit.";
+    shacl:maxCount 1;
+    shacl:name "vehicleType";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#vehicleType>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#ServiceJourney> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ServiceLinkShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "Afstand van de dienstverbinding.";
+    shacl:maxCount 1;
+    shacl:name "^distance";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink.distance>
+  ], [
+    shacl:class <http://www.opengis.net/ont/sf#LineString>;
+    shacl:description "Lijnstring die de dienstverbinding aangeeft.";
+    shacl:maxCount 1;
+    shacl:name "^linestring";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink.linestring>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de dienstverbinding.";
+    shacl:maxCount 1;
+    shacl:name "^name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink.name>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint>;
+    shacl:description "Start van de dienstverbinding.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "from";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink.from>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint>;
+    shacl:description "Einde van de dienstverbinding.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "to";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink.to>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#StandaardEenheidShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://data.vlaanderen.be/ns/generiek#StandaardEenheid> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopPlaceShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#PassengerStopAssignment.stopPlace> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopPlaceTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopPointInJourneyPatternShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:integer;
+    shacl:description "Volgorde van stopplaats in ritpatroon binnen ritpatroon.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "^order";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.order>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ScheduledStopPoint>;
+    shacl:description "Verwijzing naar de geplande stopplaats.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "aViewOf";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.aViewOf>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#BookingArrangement>;
+    shacl:description "Boekingssarrangementen voor de stopplaats indien verschillend van die voor de dienstenrit.";
+    shacl:maxCount 1;
+    shacl:name "bookingArrangements";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#bookingArrangements>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de bestemmingsdisplay op dit punt weergeeft.";
+    shacl:maxCount 1;
+    shacl:name "changeOfDestinationDisplay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.changeOfDestinationDisplay>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DestinationDisplay>;
+    shacl:description "Bestemmingsdisplay om op dit punt te tonen.";
+    shacl:maxCount 1;
+    shacl:name "destinationDisplay";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.destinationDisplay>
+  ], [
+    shacl:description "Flexibele eigenschappen van het punt.";
+    shacl:maxCount 1;
+    shacl:name "flexiblePointProperties";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#flexiblePointProperties>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de stopplaats kan worden gebruikt voor het afstappen.";
+    shacl:maxCount 1;
+    shacl:name "forAlighting";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.forAlighting>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de stopplaats kan worden gebruikt voor het instappen.";
+    shacl:maxCount 1;
+    shacl:name "forBoarding";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.forBoarding>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#NoticeAssignment>;
+    shacl:description "Kennisgeving voor de stopplaats in ritpatroon.";
+    shacl:name "noticeAssignment";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern.noticeAssignment>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#ServiceLink>;
+    shacl:description "Volgende dienstverbinding na bezoek aan de stopplaats in het ritpatroon.";
+    shacl:maxCount 1;
+    shacl:name "onwardServiceLink";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#onwardServiceLink>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Methode om een stop te vragen in dit specifieke dienstpatroon; als er geen is opgegeven, per halte.";
+    shacl:maxCount 1;
+    shacl:name "requestMethod";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#requestMethod>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of de stop een verzoek om te stoppen is in deze rit. Standaard false.";
+    shacl:maxCount 1;
+    shacl:name "requestStop";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#requestStop>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Aard van het gebruik van de stop. Standaard is \"access\".";
+    shacl:maxCount 1;
+    shacl:name "stopUse";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#stopUse>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#StopPointInJourneyPattern> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#StopUseShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TaalStringShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass rdf:langString .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TariffZoneShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#TariffZone> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TimeTabledPassingTimeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal dagen na de starttijd van de reis, indien niet dezelfde kalenderdag. Standaard is 0 voor dezelfde dag.";
+    shacl:maxCount 1;
+    shacl:name "arrivalDayOffset";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#arrivalDayOffset>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Aankomsttijd op punt in patroon.";
+    shacl:maxCount 1;
+    shacl:name "arrivalTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#arrivalTime>
+  ], [
+    shacl:datatype xsd:integer;
+    shacl:description "Aantal dagen na de starttijd van de reis, indien niet dezelfde kalenderdag. Standaard is 0 voor dezelfde dag.";
+    shacl:maxCount 1;
+    shacl:name "departureDayOffset";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#TimeTabledPassingTime.departureDayOffset>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Vertrektijd op punt in patroon.";
+    shacl:maxCount 1;
+    shacl:name "departureTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#TimeTabledPassingTime.departureTime>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#HeadwayInterval>;
+    shacl:description "Hoofdinterval op punt in patroon.";
+    shacl:maxCount 1;
+    shacl:name "headway";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#headway>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#TimeTabledPassingTime> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TimebandShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:integer;
+    shacl:description "Dagoffset van eindtijd vanaf de starttijd.";
+    shacl:maxCount 1;
+    shacl:name "dayOffset";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Timeband.dayOffset>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Inclusieve eindtijd van de tijdband.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "endTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Timeband.endTime>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Inclusieve eindtijd van de tijdband.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "startTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Timeband.startTime>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Timeband> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TimingpointStatusShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TrainNumberShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#TrainNumber> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TrainSizetypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TransportmodeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TypeOfFuelShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#TypeOfLineShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#UicOperatingPeriodShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype xsd:string;
+    shacl:description "Dagen van de week waaraan de (tot de eerste zeven) bits corresponderen.";
+    shacl:maxCount 1;
+    shacl:name "daysOfWeek";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#daysOfWeek>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "String of bits (gebouwd van \"0\" en \"1\"), één voor elke dag in de periode: al dan niet geldig of niet geldig op de dag.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "validDayBits";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#validDayBits>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#UicOperatingPeriod> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#VehicleJourneyShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#NoticeAssignment>;
+    shacl:description "Kennisgeving relevant voor de hele rit.";
+    shacl:name "^noticeAssignment";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney.noticeAssignment>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPart>;
+    shacl:description "Deel van de rit.";
+    shacl:name "^part";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney.part>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Transportmodus van de rit.";
+    shacl:maxCount 1;
+    shacl:name "^transportMode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#transportMode>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Transportsubmodus van de rit.";
+    shacl:maxCount 1;
+    shacl:name "^transportSubmode";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney.transportSubmode>
+  ], [
+    shacl:datatype xsd:time;
+    shacl:description "Vertrektijd.";
+    shacl:maxCount 1;
+    shacl:name "departureTime";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney.departureTime>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#JourneyPattern>;
+    shacl:description "Ritpatroon dat wordt gebruikt om de rit te maken.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "madeUsing";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney.madeUsing>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#TimeTabledPassingTime>;
+    shacl:description "Doorkomsstijd waarop de rit passeert.";
+    shacl:name "passedAt";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#passedAt>
+  ], [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#DayType>;
+    shacl:description "Dagtype waarop de rit wordt gewerkt.";
+    shacl:minCount 1;
+    shacl:name "workedOn";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney.workedOn>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#VehicleJourney> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#VehicleTypeShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:class <https://purl.eu/ns/mobility/timetables-and-planning#PassengerCapacity>;
+    shacl:description "Passagiers dragende capaciteit van het voertuigtype per tariefklasse.";
+    shacl:name "capacity";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#capacity>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Beschrijving van het type voertuig.";
+    shacl:maxCount 1;
+    shacl:name "description";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleType.description>
+  ], [
+    shacl:datatype xsd:string;
+    shacl:description "Euro-klasse van het voertuigtype.";
+    shacl:maxCount 1;
+    shacl:name "euroClass";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#euroClass>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of het type voertuig een lift of oprit heeft voor rolstoeltoegang.";
+    shacl:maxCount 1;
+    shacl:name "hasLiftOrRamp";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#hasLiftOrRamp>
+  ], [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "De hoogte van een voertuig van het type.";
+    shacl:maxCount 1;
+    shacl:name "height";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleType.height>
+  ], [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "De lengte van een voertuig van het type.";
+    shacl:maxCount 1;
+    shacl:name "length";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#length>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of het type voertuig een lage vloer is.";
+    shacl:maxCount 1;
+    shacl:name "lowFloor";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#lowFloor>
+  ], [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van het type voertuig.";
+    shacl:maxCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleType.name>
+  ], [
+    shacl:datatype xsd:boolean;
+    shacl:description "Geeft aan of het type voertuig zelf wordt voortgestuwd.";
+    shacl:maxCount 1;
+    shacl:name "selfPropelled";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#selfPropelled>
+  ], [
+    shacl:class skos:Concept;
+    shacl:description "Type brandstof van het type voertuig.";
+    shacl:maxCount 1;
+    shacl:name "typeOfFuel";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#typeOfFuel>
+  ], [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "Het gewicht van het type voertuig";
+    shacl:maxCount 1;
+    shacl:name "weight";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#weight>
+  ], [
+    shacl:class schemas:QuantitativeValue;
+    shacl:description "De breedte van het type voertuig";
+    shacl:maxCount 1;
+    shacl:name "width";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#VehicleType.width>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#VehicleType> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#ViaShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:property [
+    shacl:datatype rdf:langString;
+    shacl:description "Naam van de VIA.";
+    shacl:maxCount 1;
+    shacl:minCount 1;
+    shacl:name "name";
+    shacl:path <https://purl.eu/ns/mobility/timetables-and-planning#Via.name>
+  ];
+  shacl:targetClass <https://purl.eu/ns/mobility/timetables-and-planning#Via> .
+
+<https://data.vlaanderen.be/shacl/tijdstabellen-ap#WeekOfMonthShape> a shacl:NodeShape;
+  shacl:closed false;
+  shacl:targetClass skos:Concept .

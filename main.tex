@@ -8,8 +8,8 @@
 \usetikzlibrary{shadows}
 \usepackage{tikz-uml}
 \raggedbottom
-
 \renewcommand{\baselinestretch}{1.2}  % stretch horizontal space between everything by 20%
+\usepackage{listings}
 
 
 \usepackage[hyphens]{url} % Break line on hyphens in long urls
@@ -78,7 +78,7 @@
 
 % We use the package `minted` for modern code highlighting.
 \usepackage[newfloat,chapter]{minted}
-\SetupFloatingEnvironment{listing}{name=Code Fragment, listname=List of Code Fragments} 
+
 
 \PassOptionsToPackage{hyphens}{url}
 \usepackage{hyperref}
@@ -94,14 +94,17 @@
 \newcolumntype{L}[1]{>{\raggedright\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{C}[1]{>{\centering\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
 \newcolumntype{R}[1]{>{\raggedleft\let\newline\\\arraybackslash\hspace{0pt}}m{#1}}
-
+\usetikzlibrary{arrows.meta}
 \newcommand{\sectionbreak}{\phantomsection}
 
 \usepackage[toc,acronym]{glossaries}  % for list of acronyms
 \usepackage{glossaries-extra}
 \makeglossaries                       % start internal list of acronyms
-
+\SetupFloatingEnvironment{listing}{name=Code Fragment, listname=List of Code Fragments} 
 \input{personal_data}
+
+
+
 \begin{document}
 \frontmatter
 \pagestyle{empty}

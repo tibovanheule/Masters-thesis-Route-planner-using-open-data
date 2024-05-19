@@ -1,0 +1,9 @@
+@prefix schema: <http://schema.org/> .
+@prefix ex: <http://example.com/> .
+
+ex:SitaRaman a schema:Movie ;
+    schema:name "Sita Raman" ;
+
+[] a schema:Person ;
+    schema:name "Tibo" ;
+    schema:likes ex:SitaRaman .

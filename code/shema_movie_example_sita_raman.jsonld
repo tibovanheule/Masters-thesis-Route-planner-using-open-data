@@ -1,0 +1,15 @@
+{
+  "@context": {
+    "schema": "http://schema.org/",
+    "ex": "http://example.com/"
+  },
+  "@id": "ex:SitaRaman",
+  "@type": "schema:Movie",
+  "schema:name": "Sita Raman",
+  "schema:genre": ["Drama","Action","Mystery"],
+  "schema:contentRating": "PG-13",
+  "schema:datePublished": {
+    "@type": "schema:Date",
+    "@value": "2017"
+  }
+}

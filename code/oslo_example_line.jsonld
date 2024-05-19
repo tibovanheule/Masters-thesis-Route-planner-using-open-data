@@ -1,0 +1,33 @@
+{
+"@context":"https://tibovanheule.space/share/files/oslo.jsonld",
+"@graph": [{
+  "_id": "_:Lijn/1",
+  "@type": "Lijn",
+  "Lijn.naam": {
+    "@value": "Gand-Saint-Pierre -- Alost",
+    "@language": "fr"
+  },
+  "Lijn.korteNaam": {
+    "@value": "IC",
+    "@language": "en"
+  },
+  "Lijn.transportorganisatie": "_:AutoriteitOfOperator/NMBSSNCB",
+  "Lijn.bestaandeUit": [
+    "_:Route/1"
+    ]
+  },{
+  "_id": "_:Route/1",
+  "@type": "Route",
+  "Route.lijn": "_:Lijn/1",
+  "Route.gedektDoor": [],
+  "Route.naam": {
+    "@value": "Gand-Saint-Pierre -- Alost",
+    "@language": "fr"
+    }
+  },{
+  "_id": "_:AutoriteitOfOperator/NMBSSNCB",
+  "@type": "AutoriteitOfOperator",
+  "Operator.land": "BE"
+  }
+  ]
+}

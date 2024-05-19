@@ -1,0 +1,29 @@
+@prefix schema: <http://schema.org/> .
+@prefix ex: <http://example.com/> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix sh: <http://www.w3.org/ns/shacl#> .
+
+ex:MovieShape
+    a sh:NodeShape ;
+    sh:targetClass schema:Movie ;
+    sh:property [                 
+        sh:path schema:name ;       
+        sh:maxCount 1 ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [                 
+        sh:path schema:contentRating ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:property [                 
+        sh:path schema:datePublished ;
+        sh:datatype schema:Date ;
+    ] ;
+    sh:property [                 
+        sh:path schema:genre ;
+        sh:datatype xsd:string ;
+    ] ;
+    sh:closed true ;
+    sh:ignoredProperties ( rdf:type ) .

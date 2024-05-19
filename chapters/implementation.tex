@@ -1,12 +1,12 @@
 \chapter{Implementation}
 \label{chap:implementation}
 
-Originally, the implementation was divided into two parts. We discuss the implementation of \glsfmtshort{raptor} for the browser in \autoref{section:implementation_raptor}. The conversion and download of GTFS data is discussed in \autoref{section:implementation_data_ontology}.
+Initially, the implementation was divided into two parts. We discuss the implementation of \glsxtrshort{raptor} for the browser in \autoref{section:implementation_raptor}. The conversion and download of GTFS data is discussed in \autoref{section:implementation_data_ontology}.
 
 
-\section{\glsfmtshort{raptor} implementation}\label{section:implementation_raptor}
+\section{\glsfmtfull{raptor} implementation}\label{section:implementation_raptor}
 \subsection{Data usage ofexistingimplemtation}
-Sincewestarted from a existing implementation of raptor we did a small research which data was used by the parser/ implementation.
+Since we were inspired by an existing implementation of Raptor, we did some research on which data the parser/ implementation used.
 
 Small description of text files used and how they are transformed.
 $
@@ -18,7 +18,7 @@ $
 - transfer = transfers.txt => Object "Interchange" for transfer from and to the same stop. || Object "transfers" with key from_stop_id (=origin) -> list
 - stop = stops.txt => Object "stops" with key stop_id
 $
-\subsubsection{Notused but are in our \glsfmtshort{gtfs}-feed}
+\subsubsection{Not used but are in our \glsxtrshort{gtfs}-feed}
 \begin{itemize}
     \item feed\_info: information the feed itself.
     \item agency: information about the agency providing the services.
@@ -38,46 +38,104 @@ $
 \subsubsection{unused information from gtfsfeed}
 The algorithm did not use some information but was thereby inferred. For example:
 \begin{itemize}
-    \item Order of stop points. Each stop point in a sequence was based on its position in the array. Which is not a big problem if the array is correctly sorted. But a \glsfmtshort{gtfs} feed requires each stop point to carry information like their position in the sequence. This is more correct since it supports feeds with incorrectly sorted stop points.
-    \item Route id was not used but created from the tripid 
+    \item Order of stop points. Each stop point in a sequence was based on its position in the array. Which is not a big problem if the array is correctly sorted. But a \glsxtrshort{gtfs} feed requires each stop point to carry information like their position in the sequence. This is more correct since it supports feeds with incorrectly sorted stop points.
+    \item Route id was not used but created from the trip\_id 
 \end{itemize}
 \section{GTFS downloader}
 Since a GTFS feed is a zip file valid for a certain period, we need a small program to manage all these versions. This led to a Node.js module gtfs-downloader\footnote{Available as GitLab project under the same name}. It provides the file path of the GTFS zip archive that either has been downloaded in the past or is freshly downloaded. So, it also acts like a cache and is more important than it appears, as only the most recent is available on the server. For debugging and experimenting while developing, it is handy that we have some control over the version in use. 
 
 Two sets of functionality are represented in \autoref{fig:gtfsdownloader}. The first is when we already know the version we want to download. We search if it exists in our data folder; if not, we check if it is available on the server for download.
 
-In the other case we want to have the latest version, we send a head request to the server\footnote{Server url is specified in a dot env config}, since we are only interested in the LastModified header. We check if that version is available locally, if not we download the zip file.
+In the other case, we want to have the latest version, and we send a head request to the server\footnote{Server URL is specified in a dot env config} since we are only interested in the LastModified header. We check if that version is available locally; otherwise, we download the zip file.
 \input{tikz/tikz_gtfs_downloader}
 \section{Data parser/ontology}\label{section:implementation_data_ontology}
-Since most datasets, including the datasets of the NMBS we use, use the \glsfmtshort{gtfs} Data model we decided to write a program to convert \glsfmtshort{gtfs} to the OSLO ontology.
-
-\subsection{Parser}
-The initial plan was to reuse the parser, but it used a package called gtfs-stream \cite{noauthor_staecogtfs-stream_2024}. It uses an Readablestream object and creates a pipe stream. 
-
-This package is very good if you want to read a \glsfmtshort{gtfs}-feed, but for converting a feed to a different ontology, the package has one big short coming. Mainly it is not possible to define the order in which the module reads the files. For example if you want to read the trips before stoptimes, this is not possible.
-
-We chose to implement something similar but without the gtfs-stream module. Instead we use the standard csv parser. 
-\subsection{comformity of ontology}
-\cite{noauthor_conformiteit_nodate}
-Conformiteit Applicatieprofielen
-
-Een applicatieprofiel is een specificatie voor gegevensuitwisseling dat bijkomende beperkingen introduceert voor het toepassen van vocabularia. Dergelijke bijkomende beperkingen kunnen de volgende elementen bevatten:
-
-    verfijning van de terminologie (klassen en eigenschappen) consistent met de semantiek uit de betreffende specificaties met een welbepaald gebruik als doel;
-    externe terminologie (klassen en eigenschappen) gebruikt voor nieuwe/extra termen die niet in de bestaande vocabularia voorkomen.
-
-Om conform te zijn met dit applicatieprofiel, geldt voor een implementatie dat ze:
-
-    MOET Voor elke klasse steeds de eigenschappen bevatten die als minimum kardinaliteit 1 hebben.
-    MAG NIET meer dan 1 instantie bevatten van eigenschappen die 1 als maximum kardinaliteit hebben.
-    MAG yerminologie (klassen en eigenschappen) gebruiken op een manier die consistent is met haar semantiek (definitie, gebruik, domein en bereik).
-    MAG NIET terminologie van andere gecontroleerde vocabularia gebruiken dan diegene die gedefinieerd wordt in dit applicatieprofiel.
-    MAG uitgebreid worden met klassen en eigenschappen van andere datamodellen (vocabularia) die niet overlappen met terminologie uit dit applicatieprofiel.
+Since most datasets, including the datasets of the \glsxtrshort{nmbs} we use, use the \glsxtrshort{gtfs} Data model, we decided to write a program to convert \glsxtrshort{gtfs} to the \glsxtrshort{oslo} ontology.
+\subsection{Ontology}
 \input{tikz/tikz_ontology}
+\subsection{Parser}
+The initial plan was to reuse the parser, but it used a package called gtfs-stream \cite{noauthor_staecogtfs-stream_2024}. The module takes a Readable stream object of a \glsxtrshort{gtfs} zip file and creates a pipe stream. The stream provides you  with an object with one of the following types: String, feed\_info, agency, stop, route, trip, stop\_time, calendar, calendar\_date, fare\_attribute, fare\_rule, shape, frequency, transfer)
+
+This package is excellent if you want to read a \glsxtrshort{gtfs}-feed, but the package has one significant shortcoming for converting a feed to a different ontology. Defining the order in which the module reads the files is impossible. For example, this is not possible if you want to read about the trips before stop times.
+
+We chose to implement something similar but without the gtfs-stream module. 
+\subsubsection{Node streams}
+First, we explain NodeJS streams. A stream is an abstract interface for working with streaming data in Node.js. \cite{noauthor_stream_nodate} They are similar to arrays and other collections. But what makes them powerful is that not all data is available, so they do not have to fit in memory all at once. Especially when working with big data sets.
+
+They are either readable or writeable.
+
+\subsubsection{our \glsfmtshort{gtfs} streamer}
+To have more control over how to read files of a \glsxtrshort{gtfs} feed, we implemented our own \glsxtrshort{gtfs} streamer with two modules.
+
+
+
+The first module is a zip reader called node-stream-zip \cite{noauthor_node-stream-zip_2021}. Like the \glsxtrshort{gtfs}-stream package, it creates a readable stream object and gives back a stream. A real improvement is that we can provide a filename that we want to extract from the zip file. It is unnecessary to read the full \glsxtrshort{gtfs} file. This offers excellent flexibility, solves the problem of ordering and gives immediate support for new files (if added in the \glsxtrshort{gtfs} specification) or out-of-spec files.
+
+Now, we can read the files in the order we want and parse every line. Since \glsxtrshort{gtfs} is stored as \glsxtrshort{csv}, we can use any \glsxtrshort{csv} parser. We opted for csv-parse \cite{noauthor_csv-parse_2024}, a popular, well-known module. We give the parser the delimiter (",") and the columns option. The columns have the effect that the rows are returned as \glsxtrshort{json} objects instead of arrays.
+
+\begin{listing}[H]
+\inputminted[linenos,frame=single,breaklines]{TypeScript}{code/own_gtfs_streamer.js}
+    \caption{Our own version of \glsfmtshort{gtfs}-streamer}
+\label{listing:gtfs:streamer}
+\end{listing}
+
+
+\subsubsection{MongoDB}
+After reading the \glsxtrshort{csv} files correctly, we are left with converting the \glsxtrshort{json} object to the ontology and inserting them in MongoDB.
+
+Some difficulties directly arose. We want to have a merged view in MongoDB. We did not want all entities in different collections. So, we had to insert the planned stop points and then update them when extra information became available. At first, we used the updateOne API from Mongodb. 
+\begin{listing}[H]
+    \begin{minted}[linenos,frame=single]{TypeScript}
+let collection = connection.db(db_name).collection(collection_name);
+return collection.updateOne(id, update);
+    \end{minted}
+    \caption{Usage of updateOne in mongoDB}
+\label{listing:mongoDB:updateone}
+\end{listing}
+The problem with that is the combination of updateOne in a NodeJS stream. Quickly, the memory begins to rise, eventually crashing the program due to a lack of system resources.
+
+To avoid memory problems, we let each transformation function for a row of \glsxtrshort{csv} return a MongoDB write operation. These write operations can be given to bulkWrite of MongoDB. 
+
+There are six types Of write operations:
+\begin{enumerate}
+    \item UpdateOne
+    \item UpdateMany
+    \item InsertOne
+    \item DeleteOne
+    \item DeleteMany
+    \item ReplaceOne
+\end{enumerate}
+
+We further leverage Typescript to define a generic class to ease the programming burden. 
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/type_write_op.ts}
+    \caption{A generic class with a constructor can easily create write operations.}
+\end{listing}
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/type_write_op_instan.ts}
+    \caption{An example of a possible instantiation of a generic class.}
+\end{listing}
+
+\subsection{comformity of ontology}
+\subsubsection{comformity application profiles}
+\glsxtrshort{oslo} has also described when a \glsxtrshort{jsonld} document conforms to an application profile \cite{noauthor_conformiteit_nodate}.
+
+An application profile is a specification for data exchange that introduces additional constraints for applying vocabularia. These constraints could include refinement of terminology (classes and properties) consistent with the semantics from the relevant specifications with a well-defined usage as a goal;
+    External terminology (classes and properties) is used for new/extra terms not found in the existing vocabulary.
+
+To conform with the \glsxtrshort{oslo} application profile, the following constraints have to be met:
+\begin{itemize}
+    \item \textbf{Must} each class contains the attributes that have a cardinality of one/
+    \item \textbf{Forbidden} for a class attribute with a cardinality of maximum one to have more instantiations.
+    \item \textbf{Forbidden} to use terminology of vocabularia not defined in the application profile.
+    \item \textbf{Allowed} to use terminology in a way that is consistent with her semantics (definition, use, domain and range)
+    \item \textbf{Allowed} to extend with other vocabularies that do \textbf{do not overlap} with terminology from this vocabulary. 
+\end{itemize}
 \subsection{Nesting}
 \subsection{Result}
 \subsection{Mistakes in context}
-When we first donwloaded the ontology, we noticed it wouldn't work in the json-ld playground. Upon closer inspection we noticed 
+When we first downloaded the ontology, we noticed it wouldn't work in the \glsxtrshort{jsonld} playground. Upon closer inspection, we noticed 
 $$@type; ""$$
-\section{Bringing two worlds together: expirmentation of fragmenting}
+\section{Bringing two worlds together: experimentation of fragmenting}
 %\subsection{first naive idea}
