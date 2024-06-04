@@ -1,11 +1,11 @@
 \begin{figure}[H]
 \centering
-\resizebox{1.6\textwidth}{!}{%
+\resizebox{1.7\textwidth}{!}{%
     \begin{tikzpicture}
     % Draw a horizontal line
     \draw (0,0) -- (4,0);
     \draw (6,0) -- (11,0);
-    \draw (13,0) -- (23,0);
+    \draw (13,0) edge[->] (27,0);
     
     % draw vertical lines
     \foreach \x in {0,4,6,11,13,18,23,15,20}
@@ -27,6 +27,8 @@
     \draw (18,0) node[below=3pt] {2010};
     \draw (20,0) node[below=3pt] {2012};
     \draw (23,0) node[below=3pt] {2015};
+
+    \draw (25.5,0) node[above=10pt,align=center,text=red] {After 2015:\\ optimalisations};
     
     \draw (1,0) node[above=25pt] {1956: Bellman-Ford};
     

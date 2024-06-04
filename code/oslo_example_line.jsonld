@@ -1,5 +1,5 @@
 {
-"@context":"https://tibovanheule.space/share/files/oslo.jsonld",
+"@context":"https://mx2.tibovanheule.space/ontology/context",
 "@graph": [{
   "_id": "_:Lijn/1",
   "@type": "Lijn",

@@ -13,30 +13,30 @@ In \glsfmtshort{pt}, different sorts of Queries are possible. Whereas in road ne
     \item Profile query determines all optimal journeys departing during a given period.
 \end{itemize}
 
-We are most interested in Earliest arrival queries.
+We are most interested in \glsxtrshort{eat} queries.
 % include timeline image
 \subsection{History of routing algoritms}
 \input{tikz/tikz_timeline}
 
-This section discusses the state of the art and history of public transport planning. Therefore, a tiny timeline (\autoref{fig:timeline}) was constructed to visualize some important milestones explained below. As seen in the timeline, most advances were made after 2009.
+This section discusses the state of the art and history of public transport planning. Therefore, a tiny timeline (\autoref{fig:timeline}) was constructed to visualise some important milestones explained below. As seen in the timeline, most advances were made after 2009.
 
 \subsection{Dijkstra}
 % add some dijkstra algo workings, easy
 The milestones between 1956 and 2008 did not apply to PT routing but focused on normal road networks. Among these milestones was the Dijkstra algorithm, published in 1958. This was the first big improvement but had a time complexity of $O(n^2)$. An improved version was proposed almost 30 years later, in 1987. It has a complexity of $O(n*\log(n))$ and is the version of the Dijkstra algorithm learnt at schools.% It works by initializing every node to $\infty$ except the source node, which is initialized to $0$. Then, every edge of the source node is visited. 
 \subsection{Dimacs challenge}
-No significant improvements for route planners were made until 2005. The road network of the US was published as part of the 9th Dimacs challenge \cite{noauthor_9th_2017}. A big deal for researchers, now they had an extensive dataset to test on. Many speedup techniques, mainly pruning techniques, were devised for the Dijkstra algorithms. But this was still inapplicable to \glsxtrshort{pt}.
+No significant improvements to route planners were made until 2005. The road network of the US was published as part of the 9th Dimacs challenge \cite{noauthor_9th_2017}. It was a big deal for researchers; now they had an extensive dataset to test on. Many speedup techniques, mainly pruning techniques, were devised for the Dijkstra algorithms. But this was still inapplicable to \glsxtrshort{pt}.
 
 \subsection{Car or Public Transport: Two Worlds}
-In 2009, a paper, Car or Public Transport: Two Worlds \cite{bast_car_2009}, stated, “There are two kinds of people: those who travel by car, and those who use public transport.”. They argued that the worlds differed, although both problems could be represented as a directed graph. For PT, we must deal with timetable schedules in addition to this spatial information.
+In 2009, a paper named "Car or Public Transport: Two Worlds" \cite{bast_car_2009} stated, ""There are two kinds of people: those who travel by car, and those who use public transport."". They argued that the worlds differed, although both problems could be represented as a directed graph. For PT, we must deal with timetable schedules in addition to this spatial information.
 
-The article covers five big “tricks of the trade” for fast routing on transportation: Bidirectional search, exploiting hierarchy, graph contraction, goal direction and distance tables. It explains why the trick works on road networks but falls short on \glsxtrshort{pt}.
+The article covers five big ""tricks of the trade"" for fast routing on transportation: Bidirectional search, exploiting hierarchy, graph contraction, goal direction and distance tables. It explains why the trick works on road networks but falls short on \glsxtrshort{pt}.
 
 \subsubsection{Bidirectional search}
-A simple approach to improve Dijkstra is to search from the source node but simultaneously do a backward search from the target node. This reduces the search space by half and can be quickly done for road networks since both nodes associated with the station are known. The idea is not very practical but is critical to implementing other speedup techniques.
+A simple approach to improve Dijkstra is to search from the source node but simultaneously do a backward search from the target node. Since both nodes are known, this reduces the search space by half and can be quickly done for road networks. The idea is not very practical, but it is essential to implementing other speedup techniques.
 
 For \glsxtrshort{pt}, this idea adds a lot of complexity since, in a time-expanded graph, we know the target station but not the target node. A solution is to do a backward set of all nodes associated with the end station.
 \subsubsection{Exploiting hierarchy}
-Roads have different levels of importance: think of motorways, national highways, and minor roads. The simple routing heuristic exploits this hierarchy. When we are within a certain distance of the target and source node, we take all streets into account. In the other case, we use only high-level roads, reducing the total number of explored nodes. This comes with some loss of exactness.
+Roads have different levels of importance: think of motorways, national highways, and minor roads. The simple routing heuristic exploits this hierarchy. When we are within a certain distance of the target and source node, we take all streets into account. In the other case, we use only high-level roads, reducing the number of explored nodes. This comes with some loss of exactness.
 
 However, this technique can be even slower in large municipal areas because the hierarchy is absent. The tram, metro and bus are equally important. A hierarchy begins to appear only when travelling long distances between cities. 
 \subsubsection{Graph contraction}
@@ -48,21 +48,21 @@ The Dijkstra algorithm is augmented with a heuristic, which leads to an algorith
 
 The problem is the lack of algorithms for local searches on \glsfmtshort{pt} networks, and this causes quadratic precomputations.
 \subsubsection{Distance tables}
-As the name suggests, this table contains the calculated distances between all pairs of nodes in the graph. It’s an extreme precomputation, but query times will be nearly instantaneous. 
+As the name suggests, this table contains the calculated distances between all pairs of nodes in the graph. It's' an extreme precomputation, but query times will be nearly instantaneous. 
 
 In \glsxtrshort{pt}, we do not have efficient algorithms for local searches.
 \subsubsection{Conclusion}
-The paper identifies two big problems\footnote{These were problems at the time, and solutions have been proposed since then.}. 
+The paper identifies two big problems. 
 \begin{enumerate}
-    \item How to achieve speed-ups despite lack of hierarchy
+    \item How to achieve speedups despite lack of hierarchy
     \item How to compute shortest paths to all nodes in a local neighbourhood efficiently.
 \end{enumerate}
 \subsection{Transfer patterns}
 Transfer patterns are considered the first algorithm for PT that solves queries in an order of a few milliseconds and on a transport network with a poor structure. 
 
-Transfer patterns describe a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph \cite{bast_fast_2010}. This means we can look up the schedule matching that journey when a real-time query comes in. In this case, the server can give fast query responses, but the pre-calculations can cause a computational burden. For example, the authors used a cluster of Opteron and Xeon-based 64-bit servers for their CPP implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. They say the needed core hours are around 3000, so running on a single core would take about four months to finish.
+Transfer patterns describe a method using a journey planning algorithm to pre-calculate all the unique journeys for the entire graph \cite{bast_fast_2010}. This means we can look up the schedule matching that journey when a realtime query comes in. The server can give fast query responses, but the pre-calculations can cause a computational burden. For example, the authors used a cluster of Opteron and Xeon-based 64-bit servers for their CPP implementation. Although the exact number of compute nodes is not mentioned in the paper \cite{bast_fast_2010}. They say the needed core hours are around 3000, so running on a single core would take about four months to finish.
 
-For the most simplistic description, we need to return to the scenario described in the introduction: assume you’re in your first year and want to go to the city centre. You do not have a smartphone or internet, only a printed schedule book. A local points out that there are only two reasonable options \begin{enumerate}
+For the most simplistic description, we need to return to the scenario described in the introduction: assume you're' in your first year and want to go to the city centre. You do not have a smartphone or internet, only a printed schedule book. A local points out that there are only two reasonable options \begin{enumerate}
     \item Take a tram from A to C, then transfer at C to a bus to B.
     \item Take an infrequently run, direct bus from A to B.
 \end{enumerate} 
@@ -74,7 +74,7 @@ Key ideas:
     \item Of the shortest paths, many share the same transfer pattern.
     \item Direct connections that do not require a change of vehicle can be looked up rather quickly. 
 \end{itemize}
-A simple algorithm for transfer patterns illustrates the key ideas and consists of 3 parts but has quadratic precomputation complexity. A more optimized algorithm is described in the paper \cite{bast_fast_2010}.
+A simple algorithm for transfer patterns illustrates the key ideas and consists of 3 parts but has quadratic precomputation complexity. A more optimised algorithm is described in the paper \cite{bast_fast_2010}.
 \subsubsection{Graph}
 The algorithm works on a time-expanded graph with three kinds of nodes: a departure node, an arrival node and a transfer node. Each node carries the time and the station to which it belongs. Like in \autoref{fig:transferel}.
 \input{tikz/tikz_pattern_el}
@@ -100,11 +100,8 @@ Now that we know what a transfer pattern is, we can define an optimal set of tra
 
 From a given source station A, compute optimal sets of transfer patterns to all station B that are reachable. 
 \begin{enumerate}
-    \item We start labels with zero cost at all transfer nodes at source node/station A and run a multi-criteria variant of Dijkstra on them.
-    \item For every station B, choose optimal connections with the arrival chain algorithm.
-    \begin{enumerate}
-        \item Select a dominant subset in the set of labels
-    \end{enumerate}
+    \item Labels start with zero cost at all transfer nodes at source node/station A and run a multi-criteria variant of Dijkstra on them.
+    \item For every station B, choose optimal connections with the arrival chain algorithm: Select a dominant subset in the set of labels for all distinct arrival times at B. Each label in the subset should have settled at the arrival node(s) at time ti and those selected for time ti−1, with duration increased by ti − ti−1
     \item Trace back the paths of all labels selected in Step 2. Create the DAG of transfer patterns of these paths by traversing them from source A.r
 \end{enumerate}
 \subsubsection{Query graph construction and evaluation}
@@ -116,14 +113,14 @@ Assume we have a query from station A to station B.
     \item Search for the target station B. Add at each each successor node to the graph.
     \item Recursively repeat the previous step for each successor station that is not A.
 \end{enumerate}
-Then, run Dijkstra on search on the query graph.
+Then, run Dijkstra to search on the query graph.
 
 \subsubsection{Frequency-Based Search for Public Transit}
-An improvement in transfer patterns preprocessing by a factor of 60. This paper\cite{bast_frequency-based_2014} assumes that most connections in public transport networks are run periodically (e.g. a tram every 10 mins). So, it is more efficient to store the frequency and time range. They propose a compression scheme for timetable data of public transportation networks where synchronized departures are joined into single frequency-based labels.
+An improvement in transfer patterns preprocessing by a factor of 60. This paper\cite{bast_frequency-based_2014} assumes that most connections in public transport networks are run periodically (e.g. a tram every 10 mins). So, it is more efficient to store the frequency and time range. They propose a compression scheme for timetable data of public transportation networks where synchronised departures are joined into single frequency-based labels.
 \subsubsection{Scalable transfer patterns}
 The paper on Scalable transfer patterns \cite{bast_scalable_2015} identifies two criteria (the space consumption of the precomputed auxiliary data is large, and the preprocessing time is enormous) in which transfer patterns are lacking. Furthermore, the scalability of transfer patterns is addressed by introducing a new scheme based on clustering the network for Transfer Patterns precomputation and query graph construction that allows interactive query times for massive transit networks with manageable preprocessing times and space consumption. 
 \subsection{\glsfmtfull{csa}}
-\glsxtrfull{csa} \cite{dibbelt_intriguingly_2013} organizes its data as a single array of connections, scanned only once per query. It supports the earliest arrival and multiple criteria. Another characteristic is that it is not graph-based, like \glsxtrshort{raptor}. But unlike \glsfmtshort{raptor}, it is centred around elementary connections.
+\glsxtrfull{csa} \cite{dibbelt_intriguingly_2013} organises its data as a single array of connections, scanned only once per query. It supports the earliest arrival and multiple criteria. Another characteristic is that it is not graph-based, like \glsxtrshort{raptor}. But unlike \glsfmtshort{raptor}, it is centred around elementary connections.
 
 The algorithm builds on the following property that a connection is readable if \begin{enumerate}
     \item You are travelling on a preceding connection of the same trip. 
@@ -133,10 +130,10 @@ This property is also encoded into the time-dependent models\cite{pyrga_efficien
 \subsubsection{Algorithm}
 The \glsxtrshort{csa} algorithm is straightforward. 
 
-The timetable connections are assembled into an array and sorted by departure time. Each stop is given a label representing its earliest arrival time. Initially, they are set to infinity, except for the source stop, which is set to our desired departure time. Then, all connections in the array are scanned. If a connection can be reached and the arrival time (the connection’s label) can be improved, we relax the connection by updating its label. 
+The timetable connections are assembled into an array and sorted by departure time. Each stop is given a label representing its earliest arrival time. Initially, they are set to infinity, except for the source stop, which is set to our desired departure time. Then, all connections in the array are scanned. If a connection can be reached and the arrival time (the connection's' label) can be improved, we relax the connection by updating its label. 
 
 \subsubsection{Binary search}
-Scanning the entire array is wasteful. All connections departing before our departure time are unnecessary to scan since they can never be reached. To find the relevant connection, we perform a binary search. 
+Scanning the entire array is wasteful. All connections departing before our departure time are unnecessary to monitor since they can never be reached. To find the relevant connection, we perform a binary search. 
 \subsection{Trip-based public transit routing}
 Trip-based public transit routing uses trips and the transfers between them as its fundamental building blocks. 
 
@@ -151,12 +148,12 @@ A basic overview of the algorithm is as follows:
 We precompute the possible transfers to speed up queries. It consists of two steps:
 \begin{enumerate}
     \item initial computation: \begin{enumerate}
-        \item For each stop of all trips, find all lines passing through the stop, and all stops reachable by a direct footpath.
+        \item For each stop of all trips, find all lines passing through the stop and all stops reachable by a direct footpath.
         \item Iterate over all lines and search the first trip such that arrival time + time to footpath is smaller than the departure time.
     \end{enumerate}
-    \item Reduction. We discard transfers that aren’t useful \begin{enumerate}
+    \item Reduction. We discard transfers that aaren'ttuseful \begin{enumerate}
         \item Remove U-turn transfers. These transfers to a trip X that, in turn, passed through a stop in the original trip.
-        \item Reduce the number of transfers by analyzing which transfers lead to improved arrival times.
+        \item Reduce the number of transfers by analysing which transfers lead to improved arrival times.
     \end{enumerate}
     
 \end{enumerate}
@@ -168,21 +165,21 @@ We precompute the possible transfers to speed up queries. It consists of two ste
 \begin{enumerate}
     \item Each node gets a multilabel. $(\tau_0,...,\tau_k)$ with $\tau_i$ representing the earliest arrival time in $i$ trips. We init all arrival times in each label with $\infty$. Except for the departing node, where $\tau_0$ is set to the depart time of our search criteria.
     \item For each round $k$ our goal is to compute $\tau_k$. This happens in three stages:\begin{enumerate}
-        \item Set the earliest arrival time k ($\tau_k$) to that of iets predescor ($\tau_{k-1}$). This is an upper bound since we are not interested in slower stop times than the previous round.
+        \item Set the earliest arrival time k ($\tau_k$) to that of its predescor ($\tau_{k-1}$). This is an upper bound since we are not interested in slower stop times than the previous round.
         \item We iterate over the routes. We calculate the earliest trip we can take for each stop $p$ on the route $r$. This does not always exist. We search stops along the route $r$ with the earliest trip $t$. This means we can hop on the route $r'$ in $p$. For subsequent stops in $r'$, we can update $\tau_k$ according to the found trip $t$.
         \item Finally, footpaths are considered. We check if $\tau_k$ can be improved by using a footpath between two stops. 
     \end{enumerate}
 \end{enumerate}
 \input{tikz/tikz_raptor_algo}
 \subsubsection{Hyper partitioning}
-Hyper partitioning is a preprocessing-based acceleration technique for computing bi-criteria Pareto-optimal journeys in public transit networks, based on the well-known RAPTOR algorithm \cite{delling_round-based_2015}.
+Hyper partitioning is a preprocessing technique that accelerates computing bi-criteria Pareto-optimal journeys in public transit networks, based on the well-known RAPTOR algorithm \cite{delling_round-based_2015}.
 \subsubsection{Unrestricted footprints}
 % TODO WIP
 This work\cite{baum_ultra_2023} presents a new algorithm that uses trips (vehicles) and their transfers as its fundamental building blocks. Unlike existing algorithms, it does not assign labels to stops. Instead, trips are labelled with the stops at which they are boarded.
 \subsection{After 2015}
-The timeline in \autoref{fig:timeline} may you believe that no research was conducted on route planning algorithms. But this, of course, is not the case. However, most research focused on optimising existing algorithms like the scalable transfer patterns\cite{bast_scalable_2015} or ULTRA \cite{baum_ultra_2023}.
+The timeline in \autoref{fig:timeline} may lead you to believe no research was conducted on route planning algorithms after 2015. But this, of course, is not the case. However, most research focused on optimising existing algorithms like the scalable transfer patterns\cite{bast_scalable_2015} or ULTRA \cite{baum_ultra_2023}.
 
-Others try to harvest the power of the Multicore CPU or the GPU. For example, the Earliest Arrival Time problem calculates the earliest arrival time starting from a source vertex and a departure time to all other reachable vertices in a temporal graph G. There also exists algorithms that use the multicore processors to get a reported 9.5 speedup over serial \glsxtrshort{csa} \cite{ni_parallel_2017}. Another paper proposes an algorithm/data structure for the GPU and reports speedups ranging from 2,29 to 59,09 over serial \glsxtrshort{csa} \cite{haryan_gpu_2020}.
+Others try to harvest the power of the Multicore CPU or the GPU. For example, the \glsxtrshort{eat} problem calculates the earliest arrival time starting from a source vertex and a departure time to all other reachable vertices in a temporal graph G. There also exists algorithms that use the multicore processors to get a reported 9.5 speedup over serial \glsxtrshort{csa} \cite{ni_parallel_2017}. Another paper proposes an algorithm/data structure for the GPU and reports speedups ranging from 2,29 to 59,09 over serial \glsxtrshort{csa} \cite{haryan_gpu_2020}.
 
 
 \section{Data Models For public transport}\label{section:data_model_rel_work}
@@ -192,21 +189,21 @@ Since the ontologies for public transport are often based on existing data model
 A data model explicitly determines the structure of data. It is specified in a data modelling notation, which is often graphical.
 
 \subsection{\glsfmtfull{gtfs}}
-\glsxtrfull{gtfs} defines a common format for public transportation schedules and associated geographic information. “feeds” let public transit agencies publish their transit data. The developer can then write applications.
+\glsxtrfull{gtfs} defines a common open format for public transportation schedules and associated geographic information. It is a widely used format created in 2005 for distributing timetables to third parties. The full origin story can be read on Beyond Transparency \cite{noauthor_pioneering_nodate}.
 
-GTFS
-“Downstream” 
-+ widely used format for distributing timetables to third
-  parties
-- not all fare products and schemes are supported
-- custom software needed for interpretation 
-+ dataset available of NMBS
+The standard is also required by the Federal Transit Administration United States \cite{noauthor_national_2023}. 
+
+GTFS consists of two main parts \cite{noauthor_general_nodate}:
+\begin{itemize}
+    \item GTFS Schedule contains information about routes, schedules, fares, and geographic transit details, and it is presented in simple text files. This straightforward format allows for easy creation and maintenance without relying on complex or proprietary software.
+    \item GTFS Realtime contains trip updates, vehicle positions, and service alerts. It is based on Protocol Buffers, a language (and platform) neutral mechanism for serialising structured data.
+\end{itemize}
 
 \subsubsection{\glsfmtshort{gtfs} feed}
-A feed is a zip file containing CSV files but typically has the .txt extension. Some essential files include stops.txt, routes.txt, and trips.txt.
+Open standards lead to the creation of data that can be easily shared. A feed is a zip file containing CSV files but typically has the .txt extension. It is hosted at a permalink. Some essential files include stops.txt, routes.txt, and trips.txt.
 
 \subsection{Transmodel}
-Transmodel is the European Standard “Public Transport Reference Data Model” by directive EN 12896.
+Transmodel is the European Standard "P"ublic Transport Reference Data Model"." All public transport agencies must offer data in formats compatible with Transmodel by directive 2017/1926 \cite{noauthor_delegated_nodate}.
 
 Transmodel is the basis for defining exchange standards that enable the sharing and provision of accurate and interoperable public transport information across organisation- and system boundaries \cite{noauthor_transmodel_nodate}.
 
@@ -221,7 +218,7 @@ The standard also provides consistent terminology to avoid misunderstandings. So
     \item \textbf{Journey pattern}: It is a sequence of scheduled stop points as a pattern of working for a public transport vehicle. There is a separate journey pattern for each direction, but the same journey pattern may be used many times daily.
     \item \textbf{Vehicle journey or trip}: Unlike a journey pattern, a vehicle journey can only be used once a day since it is characterised by its departure time. It is the movement of a public transport vehicle from a start point to an endpoint of a journey pattern.
     \item \textbf{Service pattern}: A vehicle pattern that can carry passengers.
-    \item \textbf{Dead run}: Opposite of service journey. A vehicle journey where passengers aren’t allowed to board. 
+    \item \textbf{Dead run}: Opposite of service journey. A vehicle journey where passengers aren' allowed to board. 
     \item \textbf{Block}: Describes the work for a vehicle on a day or part of a day. It typically starts and ends with a dead run. \autoref{fig:blocktransmodel} presents this concept visually.
     \item \textbf{Duty}: describes the work for a driver on a day. 
     \item \textbf{Day type}: Describes a logical type of day independent of any specific calendar date. 
@@ -233,11 +230,11 @@ The above concept has been simplified, and the Transmodel specification provides
 \subsubsection{\glsfmtfull{ifopt}}
 \glsxtrfull{ifopt} is a logical data model for the fixed objects relevant to public transport, particularly for stops and points of interest \cite{noauthor_ifopt_nodate}. It was also developed as a \glsxtrshort{cen} standard.
 
-Transmodel v5.1 has been a fundamental input. IFOPT has been revised and incorporated into Transmodel v6 Part 2.
+Transmodel v5.1 has been a fundamental input. \glsxtrshort{ifopt} has been revised and incorporated into Transmodel v6 Part 2.
 \subsubsection{Transmodel use in Belgium}
-Transmodel is used by \glsxtrfull{stib} in the SPIDER STIB project. The new information system architecture is built upon the product MobilitX. MobilitX is a real-time, high-performance, reliable backbone dedicated to high-speed and massive transport information exchange \cite{noauthor_transmodel_nodate}.
+Transmodel is used by \glsxtrfull{stib} in the SPIDER STIB project. The new information system architecture is built upon the product MobilitX. MobilitX is a realtime, high-performance, reliable backbone dedicated to high-speed and massive transport information exchange \cite{noauthor_transmodel_nodate}.
 
-Functionalities SPIDER STIB system implements the following parts of Transmodel \& \glsxtrshort{ifopt}:
+Functionalities SPIDER \glsxtrshort{stib} system implements the following parts of Transmodel and \glsxtrshort{ifopt}:
 \begin{itemize}
     \item Network topology
     \item Timetables
@@ -251,22 +248,22 @@ Functionalities SPIDER STIB system implements the following parts of Transmodel 
 The NeTEx defines a standard for exchanging public transport passenger information data in XML format \cite{noauthor_downloads_nodate}.  
 
 The standard is a subset of the \glsxtrfull{cen} conceptual model Transmodel and is divided into three parts. \begin{enumerate}
-    \item Part one describes the fixed Network (stops, routes, lines, etc.).
+    \item Part one describes the fixed network (stops, routes, lines, etc.).
     \item Part two is mainly focused on Timetables.
     \item Part three covers the fare exchange format.
 \end{enumerate}
 
-NeTEx deliverables comprise: \begin{enumerate}
-    \item a CEN Specification document (in three parts)
-    \item a data model in the standard UML modelling language
-    \item an accompanying XML schema providing a formal electronic description that can be used by data processing software.
+\glsxtrshort{netex} deliverables comprise: \begin{enumerate}
+    \item a \glsxtrshort{cen} Specification document (in three parts)
+    \item a data model in the standard \glsxtrshort{uml} modelling language
+    \item an accompanying \glsxtrshort{xml} schema providing a formal electronic description that can be used by data processing software.
 \end{enumerate}
 
-Data in NeTEx format is encoded as XML documents that must conform precisely to the schema – standard XML validator tools can check conformance automatically. The schema can also be used to create bindings for different
+Data in \glsxtrshort{netex} format is encoded as \glsxtrshort{xml} documents that must conform precisely to the schema – standard \glsxtrshort{xml} validator tools can check conformance automatically. The schema can also be used to create bindings for different
 programming languages, automating part of the implementation process for creating software that supports NeTEx
 formats. 
 
-A dataset of netex is available from the \glsxtrshort{nmbs} \cite{noauthor_use_nodate}. 
+A dataset of \glsxtrshort{netex} is available from the \glsxtrshort{nmbs} \cite{noauthor_use_nodate}. 
 
 \subsubsection{Relation of \glsfmtshort{netex} with Transmodel}
 As mentioned, \glsxtrshort{netex} is a subset of Transmodel, so it also covers a subset of the Transmodel functional domain:
@@ -276,27 +273,29 @@ As mentioned, \glsxtrshort{netex} is a subset of Transmodel, so it also covers a
     \item Vehicle Scheduling
     \item Fare Information
 \end{itemize}
-Transmodel itself has a much broader functional scope. In addition to \glsfmtshort{netex} it has Operations Monitoring and Control, Fare Management (sales, validation, control), Management Information
+Transmodel itself has a much broader functional scope. In addition to \glsfmtshort{netex}, it has Operations Monitoring and Control, Fare Management (sales, validation, control), Management Information
 and Statistics, Driver Management, Driver Scheduling, Rostering, and Driving Personnel Disposition.
 \subsubsection{Relation of \glsfmtshort{netex} with \glsfmtshort{gtfs}}
 
-NeTEx is “upstream”, GTFS is “downstream”.
+NeTEx is sometimes called "upstream", whereas GTFS is "downstream".
 
-What is meant by downstream is that the primary focus \glsxtrshort{gtfs} was to exchange timetables to third parties. More specifically, it was developed to provide journey planning systems with data. 
+What is meant by downstream is that the primary focus \glsxtrshort{gtfs} was to exchange timetables to third parties. More specifically, it was developed to provide journey planning systems with data. \glsxtrshort{gtfs} does claim that it can do more \cite{noauthor_general_nodate}, it refers to its optional features that extend the basic specification.
 
 NeTEx has a much broader scope. It is more upstream and intended for multi-sourced back-office use cases where data is generated, refined, and integrated.
 \subsubsection{NETEX profiles}
-Although NeTEx is a large standard, a NeTEx service needs only to implement the specific elements relevant to its business objectives \cite{noauthor_what_nodate}. 
+Although NeTEx is a significant standard, a NeTEx service needs only to implement the specific elements relevant to its business objectives \cite{noauthor_what_nodate}. 
 
 Elements of the model that a service provider does not need can be ignored. If the service provider has a particular purpose, it will create a profile to identify the subset of elements that must be present. A machine-readable form of this profile may be made using the NeTEx TYPE OF FRAME element. This will still allow automatic validation.
 \subsubsection{\glsfmtshort{netex} Belgium}
-A \glsxtrshort{netex} profile for Belgium is called \glsxtrshort{netex}-Belgium. It describes how the terms should be used to describe the network topology and timetables of a public transport network. It is based on the \glsxtrfull{epip}. 
+A \glsxtrshort{netex} profile for Belgium is called \glsxtrshort{netex}-Belgium \cite{noauthor_oslo_2023} as developed by \glsxtrshort{oslo}. It describes how the terms should be used to describe the network topology and timetables of a public transport network. It is based on the \glsxtrfull{epip}.
+
+It consists of three parts: 'Time table', 'vehicle scheduling' and 'stop place'. It covers parts 1, 2 and 4 of the European NeTEx specification (but does not include part 3 (fares) nor parts 5 and 6) \cite{noauthor_transportdatabe_nodate}.
 
 \section{Semantic Web and the role of Ontologies}\label{section:ontologies_rel_work}
 \subsection{Semantic Web}
 The semantic web can be seen as an extension of the current web and is a vision of Tim Berners-Lee, where web documents not only describe how to render data visually. The data is also annotated with terms to express how it should be interpreted. So, web documents also capture the meaning of the information.
 
-The basis of the Semantic Web is linked data—structured data that is interlinked with other data. It builds upon existing protocols such as HTTP, RDF, and URIs.
+The basis of the Semantic Web is linked data—structured data that is interlinked with other data. It builds upon existing protocols such as \glsxtrshort{http}, \glsxtrshort{rdf}, and \glsxtrshort{iri}.
 
 There are four rules for linked data
 \begin{enumerate}
@@ -323,7 +322,7 @@ Besides linked data, Sir Tim Berners-Lee also proposes a classification of data 
 \subsection{\glsfmtfull{rdf}}
 \glsxtrfull{rdf} is an interchange data  model standardized by \glsfmtshort{w3c}. Originally meant for metadata, it has become a general method of exchanging graph data. An \glsfmtshort{rdf} dataset consists of default and named graphs. In turn, each graph consists of \glsfmtshort{rdf} triples. Each triple is made up of a subject, predicate and object. These are either a literal value, blank node or a named node represented by an \glsxtrfull{iri}.
 
-\glsfmtshort{rdf} has multiple data serializations.
+\glsfmtshort{rdf} has multiple data serialisations.
 \begin{itemize}
     \item \textbf{Triple-base}: N-Triples, Turtle; N-Quads
     \item \textbf{JSON-based}: JSON-Ld
@@ -348,10 +347,10 @@ This is a superset of N-Triples, which adds support for prefixes and contains a 
 \begin{listing}[H]
     \inputminted[linenos,frame=single]{Turtle}{code/example_turtle.ttl}
     \caption{example of a turtle snippet describing a movie and a blank node representing a person who likes the movie.}
-    \label{code: example:turtle}
+    \label{code:example:turtle}
 \end{listing}
 \subsubsection{\glsfmtfull{jsonld}}
-\glsxtrfull{jsonld} is easy for both machines as developers since it is an interpretation on top of the \glsfmtshort{json} specification. The developer is unaware that it represents an \glsfmtshort{rdf} graph but still has a well-defined semantics. This is achieved by mapping each term to an \glsfmtshort{iri}. This mapping is provided by the term “@context” in the document itself. This context can be \glsfmtshort{iri}. 
+\glsxtrfull{jsonld} is easy for both machines as developers since it is an interpretation on top of the \glsfmtshort{json} specification. The developer is unaware that it represents an \glsfmtshort{rdf} graph but still has a well-defined semantics. This is achieved by mapping each term to an \glsfmtshort{iri}. This mapping is provided by the term "@context" in the document itself. This context can be \glsfmtshort{iri}. 
 
 The result of this mapping can be seen in \autoref{code: example:jsonmovie:expanded}, which is an expanded view of \autoref{code: example:jsonmovie}. Expansion is taking a JSON-LD document and applying a @context to expand all IRIs, types, and values so that the @context is no longer necessary. 
 
@@ -365,7 +364,7 @@ The most important keywords of \glsxtrshort{jsonld} are:
     \item \textbf{@id}: Identifies resources with an \glsfmtshort{iri} or a blank node, a blank always starts with \textbf{\_:}.
     \item \textbf{@context}: To specify the context, 
     \item \textbf{@graph}: to express a named graph.
-    \item \textbf{@language} String internalization, to specify the language for a particular string value.
+    \item \textbf{@language} String internalisation, to specify the language for a particular string value.
 \end{itemize}
 The other keywords can be found at \url{https://www.w3.org/2018/jsonld-cg-reports/json-ld/#syntax-tokens-and-keywords}.
 
@@ -390,31 +389,60 @@ The other keywords can be found at \url{https://www.w3.org/2018/jsonld-cg-report
 
 
 \subsection{Ontologies}
-The best definition of an ontology states: “An ontology is an explicit specification of a conceptualization” \cite{gruber_translation_1993}. Many ontologies exist, from basic to formal ontologies specified in highly expressive logic. In this thesis, we mainly use formal ontologies.
+The best definition of an ontology states: ""An ontology is an explicit specification of a conceptualisation"" \cite{gruber_translation_1993}. Many ontologies exist, from basic to formal ontologies specified in highly expressive logic. In this thesis, we mainly use formal ontologies.
 
 These ontologies play an essential role in the semantic web. 
 
 A small study was conducted to find an ontology that best suited our needs. Many of the studied ontologies for transport are focused on specific use cases, for example, urban freight \cite{bouhana_ontology-based_2015}. They do not have a broad domain. 
 
 \subsubsection{Ontologies of Wayfinding}
-A Traveler’s Perspective \cite{timpf_ontologies_2002}, 2002
-describes two ontologies of “wayfinding” with multiple transportation modes in an urban area based on two perspectives: the traveller and the public transportation system. A problem with the paper is that it only focuses on concepts and does not define any properties, relations or axioms. Also, it does not take in any hierarchy, as it is meant for urban areas only.
+A Traveler’s Perspective \cite{timpf_ontologies_2002} describes two ontologies of "wayfinding" with multiple transportation modes in an urban area based on two perspectives: the traveller and the public transportation system. A problem with the paper is that it only focuses on concepts and does not define any properties, relations or axioms. Also, it does not take in any hierarchy, as it is meant for urban areas only.
 
 \subsubsection{An Ontology-based Public Transport Query System}
+The purpose of the \glsxtrfull{ptqs} is to provide timely information
+service for travellers \cite{wang_ontology-based_2005}. And designed an ontology and an algorithm for a server-side \glsxtrshort{ptqs}.
 
-- server-side 
+It tries to solve some problems encountered in \glsxtrshort{pt}:\begin{itemize}
+    \item Number of bus lines is large
+    \item Up and down routes can have variations. Think of one-way streets.
+    \item Large distances between stations of up and down routes. For example, in a train station, there are two different platforms.
+    \item Stations sometimes have the same name but are in different places.
+\end{itemize}
 
+The proposed ontology identifies four concepts: vehicle, route, station and organisation. 
+
+This ontology is rather old and does not capture the complete functional requirements to solve queries in an acceptable time. However, it was a good start in 2005.
 \subsubsection{A public transportation ontology to support user travel planning}
- A public transportation ontology to support user travel planning \cite{houda_public_2010} is a domain ontology with OWL 1.0 and was explicitly designed to support a planning tool on a country-wide scale. Validation was done by instantiating the ontology with actual instances examples of journeys. 
+ A public transportation ontology to support user travel planning \cite{houda_public_2010} is a domain ontology with OWL 1.0 and was explicitly designed to support a planning tool on a country-wide scale. Validation was done by instantiating the ontology with actual instances and examples of journeys. 
 
 
-This is a relatively old ontology designed to be used with a user planning tool based on journey patterns. The ontology could support RAPTOR because it uses Journey patterns. Footpaths are supported in the form of infrastructure points.
+This is a relatively old ontology designed to use a user planning tool based on journey patterns. The ontology could support RAPTOR because it uses Journey patterns, but it adds complexity by defining six different kinds of journey patterns (service journey patterns, interesting journey patterns, shopping journey patterns, leisure journey patterns, journey patterns with little walking, and protected journey patterns). Footpaths are supported in the form of infrastructure points.
 
-Interestingly, they implemented a mobile application to plan tourist bus routes, but it relied on server-side queries. Other downsides are that there is no multi-modal support (only transport by bus) and no multi-operator support.
+Other downsides are limited multi-modal support (only four modes) and no multi-operator support.
 
 However, the ontology is not directly available; it is only provided as snippets in the paper. 
-\subsubsection{Ontologies for transportation research: A survey  }
-Using the study of transportation ontologies \cite{katsumi_ontologies_2018}, we only identify three ontologies that support journey patterns—two of which focus on city logistics and urban systems, which are different domains. The last ontology (Transportation ontology for content personalization) applies to PT, but the ontology is not directly available.
+\subsubsection{Introducing the public transport to the Web of Data}
+Unlike the previous papers, this paper \cite{benatallah_introducing_2014} acknowledges the existence of Transmodel. Their ontology is based on analysing multiple data models: Transmodel, \glsxtrfull{tpeg}, \glsxtrfull{naptan}, VDV 452, \glsxtrshort{ifopt}, \glsxtrshort{siri} and \glsxtrshort{netex}. Since most concept are derived from transmodel, is the ontology useable for \glsxtrshort{raptor}. But the ontology is not directly available.
+
+Interestingly, they implemented a mobile application to plan tourist bus routes, but it relied on server-side queries.
+\subsubsection{TRANSIT: A vocabulary for describing transit systems and routes}
+This is an ontology \cite{noauthor_transit_nodate} based on \glsxtrshort{gtfs}, but is not been updated since its first issue in 2011. THe author also mentions that this has been superseded by linked-\glsxtrshort{gtfs}.
+\subsubsection{Linked General Transit Feed Specification (Linked GTFS)}
+The linked-\glsxtrshort{gtfs} ontology maps the GTFS in CSV reference towards RDF. \cite{noauthor_opentransportlinked-gtfs_2023}\cite{noauthor_linked-gtfsspecmd_nodate}. 
+
+The ontology has the following important classes:
+\begin{itemize}
+    \item \textbf{gtfs:Feed}: describes a \glsxtrshort{gtfs}-feed that complies with linked-\glsxtrshort{gtfs}
+    \item \textbf{gtfs:Agency} is the operator of the schedule
+    \item \textbf{gtfs:Stop} is a physical location where a vehicle stops or leaves.
+    \item \textbf{gtfs:Station}: collection of gtfs:Stop.
+    \item \textbf{gtfs:Route}: collection of trips.
+    \item \textbf{gtfs:Trip}: collection of stop times followed by transit vehicle
+    \item \textbf{gtfs:StopTime}: stop time of a vehicle in a trip
+    \item \textbf{gtfs:Service}: Identifies a set of dates on which services are available.
+\end{itemize}
+\subsubsection{Ontologies for transportation research: A survey}
+Using the study of transportation ontologies \cite{katsumi_ontologies_2018}, we only identify three ontologies that support journey patterns—two of which focus on city logistics and urban systems, which are different domains. The last ontology (Transportation ontology for content personalisation) applies to \glsxtrshort{pt}, but the ontology is not directly available.
 
 \subsubsection{Transmodel ontology}
 This ontology is directly based on the concept of the Transmodel data model. An \glsxtrshort{cen} standard and European directives require every PT agent to be compatible with Transmodel, so an ontology aligned with Transmodel is interesting.
@@ -422,19 +450,18 @@ This ontology is directly based on the concept of the Transmodel data model. An 
 Further, the Transmodel ontology supports journey patterns. However, the ontology could be too broad, which leads to several potential problems. For example, it can make it hard to find relevant information, as the ontology may contain too many concepts and relationships that are not relevant. Furthermore, as the ontology may not be compatible with other ontologies used in those sources, integration from different sources can also be challenging.
 
 \subsubsection{OSLO Mobility: Timetables and Planning}
-The last ontology we looked at is the “OSLO Mobility - timetables and planning” \cite{noauthor_oslo_2023} ontology. The ontology is developed by \glsxtrfull{oslo}, a department of Data Flanders. It has been based on the EPIP profile. Since NETEX is based directly on the Transmodel ontology, the \glsxtrshort{oslo} mobility ontology is similar to the Transmodel ontology but is less broad than the Transmodel ontology.
+The last ontology we looked at is the ""OSLO Mobility - timetables and planning"" \cite{noauthor_oslo_2023} ontology. The ontology is developed by \glsxtrfull{oslo}, a department of Data Flanders. It has been based on the EPIP profile. Since NETEX is based directly on the Transmodel ontology, the \glsxtrshort{oslo} mobility ontology is similar to the Transmodel ontology but is less broad than the Transmodel ontology.
 
-The ontology describes the network topology and timetables of \glsfmtshort{pt} and is designed for Route planning, cartography, timetables and looking up lines/stops. This description is done in the form of lines. These lines can be grouped based on transport mode or be part of the network. These lines model a given Route with a direction and geometry by using points on the route. Another part describes the service that is offered on these points. A line follows a journey pattern; it explains all the points where the vehicle passes by but doesn’t necessarily stop. A service journey pattern describes service points where passengers can get off or on the vehicle. These points recalled planned stop points ( or in Dutch: GeplandeStoppunten). The description of a stopping point’s physical characteristics is linked. 
+The ontology describes the network topology and timetables of \glsfmtshort{pt} and is designed for Route planning, cartography, timetables and looking up lines/stops. This description is done in the form of lines. These lines can be grouped based on transport mode or be part of the network. These lines model a given Route with a direction and geometry by using points on the route. Another part describes the service that is offered on these points. A line follows a journey pattern; it explains all the points where the vehicle passes by but doesn't' necessarily stop. A service journey pattern describes service points where passengers can get off or on the vehicle. These points recalled planned stop points ( or in Dutch: GeplandeStoppunten). The description of a stopping point's physical characteristics is linked. 
 
 Timetables can be defined for these planned stop points. However, timetables can also be grouped by service journey.
 
-A service journey’s day type can be defined because service journeys do not drive on each day of the week. 
+A service journey day type can be defined because service journeys do not drive on each day of the week. 
 
 \begin{listing}[H]
 \inputminted[linenos,frame=single,breaklines]{jsonld}{code/oslo_example_line.jsonld}
-\caption{A small example of \glsxtrshort{jsonld} snippet, a line is described which exists out of a route and is operated by an Operator. This is the actual correct snippet of our implementation and conforms to the \glsfmtshort{shacl}-file of \glsfmtshort{oslo}}
-\label{code:
-example:line}
+\caption{A small example of \glsxtrshort{jsonld} snippet, a line is described which exists out of a route and is operated by an Operator. This is the actual correct snippet of our implementation and conforms to the \glsfmtshort{shacl}-file of \glsfmtshort{oslo}. But to keep the example small, the service pattern is removed ("Route.gedektDoor")}
+\label{code:example:line}
 \end{listing}
 
 
@@ -454,13 +481,13 @@ The constraints described in the \glsxtrshort{shacl} example (\autoref{code:exam
     \item ContentRating and genre has to be of type xsd:string
     \item datePublished has to be of type schema:date
     \item No other properties can be defined, closed
+    \end{enumerate}
 \begin{listing}[H]
    \inputminted[linenos,frame=single]{turtle}{code/shacl_example.ttl}
     \caption{The \glsxtrshort{shacl} code can validate the \glsxtrshort{turtle} example given in \autoref{code:example:turtle}. An online tool to do this can be found at \url{https://shacl-playground.zazuko.com/}.}
-    \label{code: example:shacl}
+    \label{code:example:shacl}
 \end{listing}
+\section{Linked Connections}
+Linked Connection\cite{noauthor_linked_nodate} is a framework
 
-
-    
-\end{enumerate}
 

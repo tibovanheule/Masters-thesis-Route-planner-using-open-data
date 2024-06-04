@@ -5,44 +5,122 @@ Initially, the implementation was divided into two parts. We discuss the impleme
 
 
 \section{\glsfmtfull{raptor} implementation}\label{section:implementation_raptor}
-\subsection{Data usage ofexistingimplemtation}
-Since we were inspired by an existing implementation of Raptor, we did some research on which data the parser/ implementation used.
+\subsection{Data usage of existing implementation}
+Since an existing implementation of Raptor inspired us, we researched which data the implementation used.
 
-Small description of text files used and how they are transformed.
-$
-- link = ? (Think footwalks) => Object "transfers" with ke from_stop_id (=origin) -> list
-- calendar = calendar.txt => Object "calendars", uses service_id as key
-- calendar_date = calendar_dates.txt => Object "dates" with key service id -> object with key date -> row.exception_type === "1" (service exceptions)
-- trip = trips.txt => Array "trips"
-- stop_time = stop_times.txt => Object "StopTimes" with key_trip id -> list
-- transfer = transfers.txt => Object "Interchange" for transfer from and to the same stop. || Object "transfers" with key from_stop_id (=origin) -> list
-- stop = stops.txt => Object "stops" with key stop_id
-$
+Small description of the used text files in the \glsxtrshort{gtfs}-feed and how they are transformed.
+\begin{itemize}
+    \item \textbf{calendar.txt}: Used to create an Calendar Object with a "service\_id" as key
+    \item \textbf{stops.txt}: to create a Stop object with key stop\_id
+    \item \textbf{calendar\_dates.txt}: Creates a Dates object with key service id. Holds all key dates on which a service is active. Using exception\_type === "1" (service exceptions)
+   \item \textbf{trips.txt}: Creates a huge array of trips.
+   \item  \textbf{stop\_times.txt}: Used to create a list of Stoptimes with key trip\_id.
+   
+   \item \textbf{transfers.txt}: This creates two objects. If the transfer is from and to the same stop, we create an "interchange" object. But else we create a "transfers" object with a key "from\_stop\_id".
+\end{itemize}
+
 \subsubsection{Not used but are in our \glsxtrshort{gtfs}-feed}
 \begin{itemize}
-    \item feed\_info: information the feed itself.
-    \item agency: information about the agency providing the services.
-    \item areas: 
-    \item translations:
+    \item feed\_info: Information of the feed itself. The publisher is not necessarily the agency itself.
+    \item agency: Information about the agency providing the services.
+    \item areas: Optional file, Defines area identifiers.
+    \item translations: Optional file, useful for a country with multiple languages.
 \end{itemize}
-\subsection{Unavailable in feed}
-\begin{itemize}
-    \item shapes (shape of a route, handy for visualizations)
-    \item fare\_rules
-    \item fare\_attributes
-    \item levels
-    \item attributions
-\end{itemize}
+\subsubsection{Unavailable in feed}
+There are a lot of files that are marked as optional in the reference \cite{noauthor_gtfs_2022} that are not present in our file:
+fare\_attributes.txt,
+    fare\_rules.txt,
+    timeframes.txt,
+    fare\_media.txt,
+    fare\_products.txt,
+    fare\_leg\_rules.txt,
+    fare\_transfer\_rules.txt,
+    stop\_areas.txt,
+    networks.txt,
+    route\_networks.txt,
+    shapes.txt,
+    frequencies.txt,
+    pathways.txt,
+    levels.txt,
+    location\_groups.txt,
+    location\_group\_stops.txt,
+    locations.geojson,
+    booking\_rules.txt and
+    attributions.txt
 
-\subsection{small mistakes of the implementation}
+\subsection{Small mistakes of the implementation}
 \subsubsection{unused information from gtfsfeed}
 The algorithm did not use some information but was thereby inferred. For example:
 \begin{itemize}
-    \item Order of stop points. Each stop point in a sequence was based on its position in the array. Which is not a big problem if the array is correctly sorted. But a \glsxtrshort{gtfs} feed requires each stop point to carry information like their position in the sequence. This is more correct since it supports feeds with incorrectly sorted stop points.
-    \item Route id was not used but created from the trip\_id 
+    \item Order of stop points. Each stop point in a sequence was based on its position in the array, which is not a big problem if the array is correctly sorted. But a \glsxtrshort{gtfs} feed requires each stop point to carry information like their position in the sequence. This is more correct since it supports feeds with incorrectly sorted stop points.
+    \item Route id was not used but created from the trip\_id and all the stop times in that trip. Since our solution will be more dynamic and not include all stop times simultaneously, we will not follow the same structure.
 \end{itemize}
+\subsection{Important classes}
+The \glsxtrshort{raptor} implementation is modular and contains a few classes:
+\begin{itemize}
+    \item \textbf{RaptorAlgortihmFactory}: This is a factory to create a RaptorAlgorithm instance. Before creating such an instance, it indexes the data it gets from the \glsxtrshort{gtfs}-parser.
+    \item \textbf{QueueFactory}: This creates a queue on each iteration of the \glsxtrshort{raptor} algorithm.
+    \item \textbf{RouteScanner}: This returns the earliest trip of a route, remembers the last trip in reference, and will not return the trip twice. This is essentially an iterator over trips in a route.
+    \item \textbf{raptorAlgorithm}:Implementation of the \glsxtrshort{raptor} algorithm
+\end{itemize}
+\subsection{DataLoader: a new class}
+The old implementation used a data flow that was unhandy for our goal. First, the RaptorAlgorithmFactory received the data that was parsed by the old parser. It then proceeded to create indexes and data structures. Then, it spreads that data to the relevant classes to create a RaptorAlgorithm.
+
+\input{tikz/tikz_old_dataflow}
+
+A new class, Dataloader, was created to hold all data in one class. Additionally, the class will also handle all requests for new fragments and process these new fragments to populate the needed data structures.
+
+We did this by moving the following data holders to the DataLoader class and making them a private field. For each private field, a getter/setter is generated.
+\begin{itemize}
+    \item \textbf{tripsByRoute}: This holds all the trips corresponding to a route. Primarily used by RouteScanner, which uses this to give back an interesting trip for the \glsxtrshort{raptor} algorithm.
+    \item \textbf{routeStopIndex}: Contains all the corresponding stops of a route; for each stop, it stores the index in the route.\\ For example $\{route\_id\_1:\{stop\_id\_1:1,stop\_id\_2:2\}\}$.
+    \item \textbf{routePath}: Contains a list of stop IDs for each route.\\ For example: $\{route\_id\_1:[stop\_id\_1,stop\_id\_2]\}$
+    \item \textbf{routesAtStop}: This contains a list of all possible routes (regardless of whether a trip is running or not) possible at a given stop.
+    \item \textbf{interchange}: This list defines how long a transfer in the same station takes.
+    \item \textbf{usefulTransfers}: A list of transfers between nearby stations. For example, stations 100 meters away can be done by foot.
+\end{itemize}
+
+We then changed RouteScanner, RouteScannerFactory, ScanResults, ScanResultsFactory and QueueFactory to use our new class.
+
+To the constructor of the Dataloader, we also pass the origin and destination. Then, after creation, we call the function "first". This function gets the first fragment starting from the origin. Since we had to await the request for the fragment, we could not place this in the constructor since in \glsxtrshort{js}, constructors can not be made async.
+
+\input{tikz/tikz_new_dataflow}
+
+\subsection{Adapt for the browser}
+The browser can run compiled Typescript or JavaScript natively. Initially, these \glsxtrshort{js} applications were pretty small, but over recent years, they got bigger. This has been sped up by the introduction of Node.js, where \glsxtrshort{js} is used in a different context. 
+
+This created a need for a way to split up \glsxtrshort{js}-applications into modules. Node.js already supports modules, but the good thing is that recently, the browser has also started to support modules. \cite{noauthor_javascript_2024}
+
+This means we can easily import our \glsxtrshort{js} code after compiling the Typescript and then execute it in the browser.
+
+To simplify the import, we bundle all our script files into one file using Esbuild \cite{noauthor_esbuild_nodate}. It is an extremely fast bundler that takes only 50 ms to bundle and transform our code. This is mainly because it is written in Go and compiles to native code. Further, it uses parallelisation and efficient use of memory.
+
+Note this is even faster than the usual Typescript compile command $npm\ run\ tsc$!
+
+Other handy options of the bundler are:
+\begin{enumerate}
+    \item \textbf{minify}: minify the code like whitespace. Reduces our code with 10 Kilobytes.
+    \item \textbf{target}: Further optimisations can be unlocked with the option target. An example is \\$a === undefined || a == null? 1 : a$ could be minified to $a ?? 1$. Or, in reverse, transform \glsxtrshort{js} syntax that is too new for these environments into older JavaScript syntax that will work in these environments.
+    \item \textbf{drop:console}: automatically remove all console statements.
+    \item \textbf{sourcemaps}: This is essential for debugging. These maps encode the information necessary to translate from a line/column offset in a generated output file back to a line/column offset in the corresponding original input file. This is very handy if TypeScript or minification is used.
+\end{enumerate}
+
+The target option is essential because it ensures that all the node-specific APIs get converted to code supported by the browser.
+
+\begin{listing}[H]
+    \begin{minted}[frame=single,linenos, breaklines]{bash}
+esbuild ./queries.js --bundle --sourcemap --target='chrome124,firefox124' --format=esm --outfile=browser.js
+    \end{minted}
+    \caption{Command to bundle our \glsxtrshort{js} code for debugging}
+\end{listing}
+\begin{listing}[H]
+    \begin{minted}[frame=single,linenos, breaklines]{bash}
+esbuild ./queries.js --bundle --target='chrome124,firefox124' --format=esm --outfile=browser.js --minify
+    \end{minted}
+    \caption{Command to bundle our \glsxtrshort{js} code for production}
+\end{listing}
 \section{GTFS downloader}
-Since a GTFS feed is a zip file valid for a certain period, we need a small program to manage all these versions. This led to a Node.js module gtfs-downloader\footnote{Available as GitLab project under the same name}. It provides the file path of the GTFS zip archive that either has been downloaded in the past or is freshly downloaded. So, it also acts like a cache and is more important than it appears, as only the most recent is available on the server. For debugging and experimenting while developing, it is handy that we have some control over the version in use. 
+Since a GTFS feed is a zip file valid for a certain period, we need a small program to manage all these versions. This led to a Node.js module gtfs-downloader\footnote{Available as GitLab project under the same name. \\\url{https://gitlab.ilabt.imec.be/KNoWS/master-thesis/tibou-vanheule/gtfs-downloader}}. It provides the file path of the GTFS zip archive that either has been downloaded in the past or is freshly downloaded. So, it also acts like a cache and is more important than it appears, as only the most recent is available on the server. For debugging and experimenting while developing, it is handy that we have some control over the version in use. 
 
 Two sets of functionality are represented in \autoref{fig:gtfsdownloader}. The first is when we already know the version we want to download. We search if it exists in our data folder; if not, we check if it is available on the server for download.
 
@@ -51,7 +129,48 @@ In the other case, we want to have the latest version, and we send a head reques
 \section{Data parser/ontology}\label{section:implementation_data_ontology}
 Since most datasets, including the datasets of the \glsxtrshort{nmbs} we use, use the \glsxtrshort{gtfs} Data model, we decided to write a program to convert \glsxtrshort{gtfs} to the \glsxtrshort{oslo} ontology.
 \subsection{Ontology}
+We decided to work with the \glsxtrshort{oslo} ontology. This is because they are based on a \glsxtrshort{epip} profile, which results in a less broad domain. Furthermore, since every European operator has to be compatible with Transmodel, this increases the usability of our research.
+
+The ontology documentation includes data examples for "De Lijn", a Belgian bus operator. 
+
+\subsubsection{Simplyfications}
+The ontology is quite extensive and still has a large overview. The section of the overview we focus on has been included in the appendix \ref{appendix:oslo:ontology}. 
+
+The ontology has some entities we do not need. For starters, we only have information about service journeys. Dead runs aren't included in our feed. Although \glsxtrshort{gtfs} can contain those trips, this is not the goal of \glsxtrshort{gtfs}. A specific field indicating whether a trip is a dead run is not in the reference \cite{noauthor_gtfs_2022}.
+
+Entities representing dead runs are removed from our simplified overview. However, most service entities are specialisations, so we inherit the fields.
+
+Additionally, we have no information about the shape of the routes. These shapes are used to view the route graphically in a routing app or on a map. The entities to define the order points in a route and the form of routes are neglected. We also edit the \glsxtrshort{shacl} file to change one cardinality constraint. 
+
+
+We land on the following simplified overview:
 \input{tikz/tikz_ontology}
+
+The classes have conceptually a lot in common with \glsxtrshort{netex} and Trnsmodel. 
+\begin{itemize}
+    \item \textbf{Line and route}: A representation of a line or route used to conceptualise a path in a network.
+    \item \textbf{Service journey pattern}: Describes the order of points in a route. For each point in this class, a passenger can get off or on.
+    \item \textbf{Stoppoint in service journey pattern}: Describes a visit of a service to a scheduled stop point. Give more information about if passengers can be dropped off or picked up.
+    \item \textbf{Schedueled Stop Point}: Conceptualizes a point where passengers visit. It also links with a physical stop point, defined in another vocabulary.
+    \item \textbf{Service journey}: is a vehicle journey allowing passengers to get on or off.
+    \item \textbf{Passing time}: Describes the visit in time of the vehicle to a stopping point.
+    \item \textbf{Service Calendar}: Describes on which days a trip is 
+\end{itemize}
+
+We will not include all the information in our fragment for the client because not everything is needed. We first fixate to supply the necessary data for route calculation. As a starting point, we take the scheduled Stop point entity. This provides all the passing times in a specific station and contains all service links. A service link is a service connection between two scheduled stop points. When such a connection exists, it means at least one trip exists, which a passenger can take to travel to a different station.
+
+\input{tikz/gepland stoppunt}
+
+\subsubsection{Problems with the \glsfmtshort{oslo} \glsfmtshort{jsonld} context}
+When we first downloaded the ontology, we noticed it wouldn't work in the \glsxtrshort{jsonld} playground. Upon closer inspection, we noticed that the context contained empty types. We filled them in the blank and stored a corrected version in MongoDB. This is why, in all examples, the context points to \url{https://mx2.tibovanheule.space/ontology/context} instead of the context of \glsxtrshort{oslo}.
+\begin{listing}[H]
+    \begin{minted}[frame=single]{jsonld}
+        @type: "";
+    \end{minted}
+    \caption{Problem with \glsxtrshort{oslo} context}
+    \label{code:context:problem}
+\end{listing}
+
 \subsection{Parser}
 The initial plan was to reuse the parser, but it used a package called gtfs-stream \cite{noauthor_staecogtfs-stream_2024}. The module takes a Readable stream object of a \glsxtrshort{gtfs} zip file and creates a pipe stream. The stream provides you  with an object with one of the following types: String, feed\_info, agency, stop, route, trip, stop\_time, calendar, calendar\_date, fare\_attribute, fare\_rule, shape, frequency, transfer)
 
@@ -78,8 +197,9 @@ Now, we can read the files in the order we want and parse every line. Since \gls
 \label{listing:gtfs:streamer}
 \end{listing}
 
-
 \subsubsection{MongoDB}
+
+\subsubsection{MongoDB: Bulk Write}
 After reading the \glsxtrshort{csv} files correctly, we are left with converting the \glsxtrshort{json} object to the ontology and inserting them in MongoDB.
 
 Some difficulties directly arose. We want to have a merged view in MongoDB. We did not want all entities in different collections. So, we had to insert the planned stop points and then update them when extra information became available. At first, we used the updateOne API from Mongodb. 
@@ -91,7 +211,7 @@ return collection.updateOne(id, update);
     \caption{Usage of updateOne in mongoDB}
 \label{listing:mongoDB:updateone}
 \end{listing}
-The problem with that is the combination of updateOne in a NodeJS stream. Quickly, the memory begins to rise, eventually crashing the program due to a lack of system resources.
+The problem with that is the combination of updateOne in a NodeJS stream. Quickly, the memory begins to rise, eventually crashing the program due to a lack of system resources. A recommended npm module to monitor RAM is Express-status-monitor \cite{noauthor_express-status-monitor_2022}.
 
 To avoid memory problems, we let each transformation function for a row of \glsxtrshort{csv} return a MongoDB write operation. These write operations can be given to bulkWrite of MongoDB. 
 
@@ -116,26 +236,193 @@ We further leverage Typescript to define a generic class to ease the programming
     \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/type_write_op_instan.ts}
     \caption{An example of a possible instantiation of a generic class.}
 \end{listing}
+\subsubsection{MongoDB: Unordered execution}
+Another important side note is that bulkWrite inserts are ordered. This means that bulkWrite executes the write operations in the same order as the array's order. This is not a huge problem, but some optimisation can be unlocked if we tell bulkWrite that the write operations may be executed unordered. This is primarily because the command can make better batch sizes. 
 
-\subsection{comformity of ontology}
-\subsubsection{comformity application profiles}
-\glsxtrshort{oslo} has also described when a \glsxtrshort{jsonld} document conforms to an application profile \cite{noauthor_conformiteit_nodate}.
+Another side effect of unordered execution is that if a duplicate key occurs or there are write operation errors, the other write operations are still executed. 
 
-An application profile is a specification for data exchange that introduces additional constraints for applying vocabularia. These constraints could include refinement of terminology (classes and properties) consistent with the semantics from the relevant specifications with a well-defined usage as a goal;
-    External terminology (classes and properties) is used for new/extra terms not found in the existing vocabulary.
+This difference in execution is because if we insert ordered, MongoDB assumes there is a dependence and the order of the operations matters. Hence, it won't continue if it encounters an error.
 
-To conform with the \glsxtrshort{oslo} application profile, the following constraints have to be met:
+We execute Mongodb queries unordered since the order does not matter.
+
+\section{Bringing two worlds together: Fragmenting}
+\subsection{MongoDB: geospatial}
+One way to start fragmenting is by leveraging the MongoDB spatial capabilities \cite{noauthor_geospatial_nodate}. MongoDB supports a few geospatial operations, such as near and within. For each of these operations, we also have the variant for the sphere. So, in general, it's not as powerful as Geopandas or PCraster. 
+
+There are other downsides as well. MongoDB requires you to work with \glsxtrshort{geojson}, a format we do not use in our ontology. Our coordinates are saved as WKT literals. We must store the coordinates as \glsxtrshort{geojson} and WKT. WKT since we still conform to the application profile and \glsxtrshort{geojson} to enable the geospatial querying. Using projection in the queries, the server never returns the \glsxtrshort{geojson} data. 
+
+Another downside is that Mongo requires creating a new index on the field containing the \glsxtrshort{geojson}. An index always comes with higher storage use and slows down inserts. Luckily, this is very manageable.
+
+\subsubsection{\glsfmtfull{geojson}}
+\glsxtrfull{geojson} \cite{butler_geojson_2016} is an open standard based on \glsxtrshort{json}. An Internet working group of \glsxtrshort{ietf} develops it. Which is uncommon compared to other GIS standards. 
+
+It is meant to represent simple geographical features and their non-spatial attributes. 
+
+\subsection{Near}
+The first strategy involves selecting all Scheduled stop points within a certain distance of the source point. This is accomplished using the $\$near$ operator\cite{noauthor_near_nodate} from MongoDB. Since we use \glsxtrshort{geojson} data, we have to use the 2dsphere index. 
+
+Further, we specify two options for the $\$near$ operator $\$maxDistance$ and $\$minDistance$.\\ $\$minDistance$ is of course set to zero and we let $\$maxDistance$ vary. 
+
+Lastly, to create \glsxtrshort{geojson} as input for our search query, we first retrieve the corresponding document to our station node, then pass his coordinates to the $\$geometry$ operator.
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/near.ts}
+    \caption{Implementation of the "near" fragment strategy using the $\$near$ operator.}
+\end{listing}
+
+An immediate drawback of this strategy is that we do not test the reachability of a scheduled stop point to the source node.
+
+Not to mention, once we request a point that is outside our fragment, we will again apply the near strategy. This new fragment will overlap with the previous fragment. This is far from ideal.
+
+
+
+However, the query returns quickly because we created a "2dsphere" index. We still notice that the response time is correlated to the distance we chose. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/near visualized.png}
+    \caption{Visualisation of the near fragment around Ostend with a radius of 50KM}
+    \label{fig:near-visualized}
+\end{figure}
+\subsection{Within}
+A second strategy is to work with both our source and target stations. Since we have both coordinates, we can easily create a Linestring. That is an \glsxtrshort{geojson} structure that represents a line on a map. We buffer that string to create a Polygon and select every scheduled stop point in this shape.
+
+We use the $\$within$ \cite{noauthor_geowithin_nodate} operator of MongoDB. Like the $\$near$, we must create a special geospatial index, which requires \glsxtrshort{geojson} data.
+
+This strategy suffers from drawbacks similar to those of near-strategy. It requires \glsxtrshort{geojson} data and a 2dsphere index. Of course, we still do not test if a scheduled stop point is reachable. So, the result could contain stop points that should not be sent to the client. 
+
+However, compared with the near strategy. It could be that all necessary scheduled stop points are in the Polygon/fragment. This will probably depend on the hierarchy. The fragment often has many or all needed stops for long-distance train travel in a more local, e.g. city, bus network. This could quickly fall short. An example is when a bus drives in a loop, and the source and target station are far apart. This can be mitigated by choosing an appropriate buffer size or adapting one.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/within visualized.png}
+    \caption{Visualisation of the within fragment between Ostend and Ghent with a radius of 5KM}
+    \label{fig:within-visualized}
+\end{figure}
+
+\subsubsection{Implementation}
+We begin with retrieving the documents for both the source and target nodes. These coordinates in an array create a line string that we buffer. Since MongoDB does not support this kind of geo-operations, we use Turf\cite{noauthor_turfjs_nodate}.
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/turf.ts}
+    \caption{Implementation of buffer lineString using the Turf library.}
+\end{listing}
+
+This buffer provides new coordinates that form a new Polygon. We can now use that polygon to test if a scheduled stop point lies in an area that is between our source and the target node.
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/within.ts}
+    \caption{Implementation of the "within" fragment strategy using the $\$within$ operator.}
+\end{listing}
+
+\subsection{Reachable neighbours}
+This strategy does not use MongoDB geospatial queries, so no index or geodata are needed. \\We use the $\$graphLookup$ \cite{noauthor_graphlookup_nodate} operator of MongoDB. The operator performs a recursive search. The API also allows the depth to be restricted or a branch to be stopped early when a given condition is met. 
+
+It works by following these steps;
 \begin{itemize}
-    \item \textbf{Must} each class contains the attributes that have a cardinality of one/
-    \item \textbf{Forbidden} for a class attribute with a cardinality of maximum one to have more instantiations.
-    \item \textbf{Forbidden} to use terminology of vocabularia not defined in the application profile.
-    \item \textbf{Allowed} to use terminology in a way that is consistent with her semantics (definition, use, domain and range)
-    \item \textbf{Allowed} to extend with other vocabularies that do \textbf{do not overlap} with terminology from this vocabulary. 
+    \item Takes documents as input, the start of aggregation pipeline.
+    \item Targets the search to the collection designated by the from parameter.
+    \item The search begins for each input document. The value of the field defined by startWith is used for the search.
+    \item It matches the field value designated by connectToField in other documents in the "from" collection.
+    \item For each matched document, it adds it to an array in the original document. 
+    \item This recursively continues until no document is matched or the maximum depth is reached.
+    \item Return results
 \end{itemize}
-\subsection{Nesting}
-\subsection{Result}
-\subsection{Mistakes in context}
-When we first downloaded the ontology, we noticed it wouldn't work in the \glsxtrshort{jsonld} playground. Upon closer inspection, we noticed 
-$$@type; ""$$
-\section{Bringing two worlds together: experimentation of fragmenting}
-%\subsection{first naive idea}
+
+In this approach, it is clear we immediately test whether another scheduled stop point is reachable. We consider only trips that leave a given station and arrive at another station.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/reacable visualized.png}
+    \caption{Visualisation of the reachable fragment from Ostend with a depth of two}
+    \label{fig:reachable-visualized}
+\end{figure}
+
+\subsubsection{Implementation}
+Implementation is done in an aggregation pipeline, which results in a slightly more complicated pipeline. But we do not need to retrieve any document in a separate query. 
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/reachable.ts}
+    \caption{Implementation of the "reachable neighbours" fragment strategy using the \\$\$graphLookup$ operator.}
+\end{listing}
+
+After that, we get one document with a field "neighbours." This array holds every connected scheduled stop point until depth k is reached. 
+
+To convert this to one array, we run the following small code. 
+\begin{listing}[H]
+    \begin{minted}[linenos,frame=single,breaklines]{TypeScript}
+        let list: any[] = [...t.neighbours]
+        delete t["neighbours"]
+        list.push(t)
+    \end{minted}
+    \caption{Post-processing of the $\$graphLookup$}
+\end{listing}
+
+This post-processing comes with a minor latency penalty.
+
+\subsubsection{Implementation 2}
+The first implementation has one big drawback. Mainly, MongoDB has a \glsxtrfull{BSON} limit of 16 megabytes for each document. Since graph lookup puts each neighbour in an array, this creates enormous problems. The Brussels station has many connections, so Graphlookup tries to place each document into the array. But on average, a Scheduled stop point with his passing times is around 300Kb in our dataset (\autoref{tab:mongodbstatres}). This means it quickly reaches the 16 MegaByte limit. 
+
+We can implement the "graphlookup" pipeline using TypeScript and a for loop to avoid that. 
+
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/one_lookup_pipeline.ts}
+    \caption{The output of this function is equal to graph lookup with depth = 0}
+    \label{code:reachablejsimplementation}
+\end{listing}
+
+
+\subsection{Precomputed reachable neighbours}
+Using the second implementation, we could precompute the reachable fragmentation strategy to speed up response times. To accomplish this, we changed \autoref{code:reachablejsimplementation}. After each loop iteration, we have a list of reachable neighbours with a k depth. We insert that list into a document. 
+
+\begin{listing}[H]
+    \begin{minted}[frame=single,linenos,breaklines]{JSON}
+{
+  "_id": "http://localhost:4600/1710486358000/GeplandStopPunt/8400530/k0",
+  "neighbours": [
+    "http://localhost:4600/1710486358000/GeplandStopPunt/8400530",
+    "http://localhost:4600/1710486358000/GeplandStopPunt/8821105",
+    "http://localhost:4600/1710486358000/GeplandStopPunt/8400131",
+    "http://localhost:4600/1710486358000/GeplandStopPunt/8400526",
+    "http://localhost:4600/1710486358000/GeplandStopPunt/8400561",
+    "http://localhost:4600/1710486358000/GeplandStopPunt/8400058"
+  ]
+}
+    \end{minted}
+\end{listing}
+
+When we want to retrieve all neighbours of a Stop point, we append the desired k-depth to the ID. We then retrieve the list and return all neighbours using find.
+
+This last step comes with a little more complexity. We can use the $\$in$- operator of MongoDB to check if the $\_id$ is in a given array of values and, if so, return the found document. But this operator comes with a downside: it can not use indexes. A workaround combines the $\$or$ and $\$eq$ operators.
+\begin{listing}[H]
+\begin{minted}[linenos,breaklines,frame=single]{TypeScript}
+return collection.find({
+        $or: neighbours.map((el) => {
+            return {_id: {$eq: el}}
+        })
+    }, {projection: {gepjson: 0}}).toArray();
+\end{minted}
+\caption{Retrieval of the precomputed neighbours.}
+\end{listing}
+\subsection{Overview}
+\input{table/fragment}
+To sum up our fragmentation story, we see that no real low-latency solution allows runtime computation. 
+\subsubsection{Compression}
+It immediately became clear that there are many Scheduled Stop Points because stations have multiple platforms. This quickly adds to many bytes, as seen in \autoref{fig:fragsize}. Even if we chose a low depth for the reachable neighbours strategy.
+
+One way to mitigate this is to enable compression express middleware\cite{noauthor_compression_2019}. Using the default options, it will compress the response before sending if the threshold of 1Kb has been reached. When the client receives the data, it will uncompressed. 
+
+Compression and decompressing have negative effects on response time. But for large transfers, it will greatly reduce the transfer size and time. 
+
+\section{Demo}
+Since the \glsxtrshort{raptor} has been browserified to run in the browser, it is pretty quick to develop a demo web app.
+
+For this, we use some libraries and services:
+\begin{itemize}
+    \item \textbf{Leaflet} \cite{noauthor_leaflet_nodate}: It is an open-source library to create mobile-friendly interactive maps. It is used to overlay our results onto an OpenStreetMap map. 
+    \item \textbf{GeoJSON-vt} \cite{noauthor_mapboxgeojson-vt_2024}: 
+    \item \textbf{Leaflet-Geojson-vt} \cite{kshetri_iamteksonleaflet-geojson-vt_2024}: a plugin for Leaflet to use GeoJSON-vt.
+    \item \textbf{Turf.js} \cite{noauthor_turfjs_nodate}: to add visualisations for the fragments strategies.
+\end{itemize}
+
+An online demo has been placed on \url{https://mx2.tibovanheule.space/raptor/}\footnote{This is not my fastest server}.

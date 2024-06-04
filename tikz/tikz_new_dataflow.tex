@@ -1,0 +1,35 @@
+\makeatletter
+\begin{figure}[H]
+\centering
+\resizebox{.8\textwidth}{!}{%
+    \begin{tikzpicture}[rect/.style={shape=rectangle,draw=black,semithick,align=center},
+    ]
+
+    % draw nodes
+    \node[rect] (RaptorAlgorithmFactory) at (2,0) {RaptorAlgorithmFactory};
+    \node[rect] (ScanResultsFactory) at (10,0) {ScanResultsFactory};
+    \node[rect] (QueueFactory) at (7,-2) {QueueFactory};
+    \node[rect] (RouteScannerFactory) at (2,-2) {RouteScannerFactory};
+
+    \node[rect] (RaptorAlgorithm) at (2,-5) {RaptorAlgorithm};
+    
+    \draw (RaptorAlgorithmFactory) edge[->] node[above,pos=0.5,font=\footnotesize] {Dataloader instance} (ScanResultsFactory);
+
+    \draw (RaptorAlgorithmFactory) edge[->] node[right,pos=0.5,font=\footnotesize] {Dataloader instance} (QueueFactory);
+
+    \draw (RaptorAlgorithmFactory) edge[->] node[left,pos=0.5,font=\footnotesize] {Dataloader instance} (RouteScannerFactory);
+
+    \draw (RaptorAlgorithmFactory) edge[->, bend right=80] node[left,pos=0.5,font=\footnotesize] {Dataloader instance} (RaptorAlgorithm);
+    
+    \draw (RouteScannerFactory) edge[->,bend right=30] node[right,pos=0.5,font=\footnotesize] {RouteScannerFactory} (RaptorAlgorithm);
+
+    \draw (QueueFactory) edge[->, bend left=15] node[right,pos=0.5,font=\footnotesize] {QueueFactory} (RaptorAlgorithm);
+
+    \draw (ScanResultsFactory) edge[->,bend left=35] node[right,pos=0.5,font=\footnotesize] {ScanResultsFactory} (RaptorAlgorithm);
+    
+    \end{tikzpicture}
+    }
+    \caption{This represents the new dataflow of the \glsxtrshort{raptor} to create a RaptorAlgorithm. Note that RaptorAlgorithmFactory first creates an instance of Dataloader and shares that instance.}
+    \label{fig:dataflownew}
+\end{figure}
+\makeatother

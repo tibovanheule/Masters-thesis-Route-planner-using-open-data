@@ -1,0 +1,42 @@
+\begin{figure}[H]
+\resizebox{\textwidth}{!}{%
+    \begin{tikzpicture}[
+rect/.style={shape=rectangle,draw=black,semithick,align=center},
+green/.style={draw=green!60, fill=green!5},
+orange/.style={draw=orange!60, fill=orange!5},
+white/.style={draw=black!60, fill=white}    ]
+        
+    % draw nodes
+
+    \node[rect] (passtime) at (5,-2)  {Passing Time};
+
+    \node[rect] (servicelink) at (16,-4)  {Service Link};
+    
+    \node[rect] (stoppointinshedueled) at (10,-2)  {Stop point in Service pattern};
+
+    \node[rect,draw=red] (schechedueledstoppoint) at (10,-4)  {scheduled Stop Point};
+
+    \node[thick,text=red] (extra_info) at (10,-5)  {main entry};
+
+
+    \draw (extra_info) edge[->,thick,color=red] (schechedueledstoppoint);
+
+
+    % EDGE stoppoint in pattern and scheduled stop point
+    \draw (stoppointinshedueled) -- node[pos=0.2,left, font=\footnotesize] {seen as} node[pos=0.2,right, font=\footnotesize] {0..*}  node[pos=0.8,left, font=\footnotesize] {View of} node[pos=0.8,right, font=\footnotesize] {1}
+    (schechedueledstoppoint);
+
+    % Passing time and stop point in rit pattern
+    \draw (passtime) edge[-{diamond[]}] node[pos=0.7,above, font=\footnotesize] {At}
+    node[pos=0.7,below, font=\footnotesize] {0..*} (stoppointinshedueled);
+
+    % service link edges
+    \draw (servicelink) -- node[pos=0.8,above, font=\footnotesize] {From, 1 } node[pos=0.3,above, font=\footnotesize] {Start Of, 0..* }
+    node[pos=0.3,below, font=\footnotesize] {End Of, 0..* }
+    node[pos=0.8,below, font=\footnotesize] {To, 1 } (schechedueledstoppoint);
+
+    \end{tikzpicture}
+    }
+    \caption{Simplified overview of the \glsxtrshort{oslo} ontologycentered around a shedueled stop point.} 
+    \label{fig:ontology:entry}
+\end{figure}

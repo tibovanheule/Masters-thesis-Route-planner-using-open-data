@@ -1,29 +1,63 @@
 \begin{figure}[H]
 \resizebox{\textwidth}{!}{%
-    \begin{tikzpicture}
+    \begin{tikzpicture}[
+rect/.style={shape=rectangle,draw=black,semithick,align=center},
+green/.style={draw=green!60, fill=green!5},
+orange/.style={draw=orange!60, fill=orange!5},
+white/.style={draw=black!60, fill=white}    ]
+        
+    % draw nodes
+    \node[rect] (network) at (0,-2) {Network};
+    \node[rect] (servicekal) at (1,-5) {Service Calendar};
+    \node[rect] (local) at (0,0) {Line};
+    \node[rect] (route) at (5,0)  {Route};
+    \node[rect] (passtime) at (5,-2)  {Passing Time};
 
-\umlclass[x=0,y=0]{Line}{
-  name : string \\ short\_name : string
-}{}
-\umlclass[x=6,y=0]{Route}{
-  name : string
-}{}
+    \node[rect] (servicerit) at (10,-6)  {Service Journey};
+    \node[rect] (servicelink) at (16,-4)  {Service Link};
+    \node[rect] (servicejourney) at (10,0)  {Service Journey Pattern};
+    \node[rect] (stoppointinshedueled) at (10,-2)  {Stop point in Service Pattern};
 
-% connect line and route
-\umlassoc[geometry=-|-, arg1=Line, mult1=0..1, pos1=0.3,  arg2=ConsistsOf, mult2=0..*, pos2=2, align2=left]{Line}{Route}
-
-\umlclass[x=13,y=0]{Service Joruney pattern}{}{}
-\umlassoc[geometry=-|-, arg1=Route, mult1=0..1, pos1=0.3, arg2=CoveredBy, mult2=0..*, pos2=1, align2=left]{Route}{Service Joruney pattern}
-\umlclass[x=0,y=-6]{Planned Stop Point}{}{}
-\umlclass[x=8,y=-3]{Passing Time}{}{}
+    \node[rect] (schechedueledstoppoint) at (10,-4)  {scheduled Stop Point};
 
 
+    % edge network
+    \draw (local) -- node[pos=0.2,left, font=\footnotesize] {Consists of} node[pos=0.2,right, font=\footnotesize] {1..*} (network);
+   
+    
+    % Edge LINE ROUTE
+    \draw (local) -- node[pos=0.2,above, font=\footnotesize] {Line} node[pos=0.2,below, font=\footnotesize] {0..*} node[pos=0.8,above, font=\footnotesize] {Consists of} node[pos=0.8,below, font=\footnotesize] {1..*}  (route);
 
+    % EDGE ROUTE - service pattern
+    \draw (route) -- node[pos=0.75,above, font=\footnotesize] {Covered by} node[pos=0.8,below, font=\footnotesize] {0..*}
+    node[pos=0.2,above, font=\footnotesize] {Route} node[pos=0.2, below, font=\footnotesize] {0..1} (servicejourney);
 
-%\umlnote[x=2.5,y=-6, width=3cm]{Route}{Je suis une note qui concerne la classe B}
+    % EDGE service journey - stoppoint in service pattern
+    \draw (servicejourney) edge[{diamond[]}-] node[pos=0.3,left, font=\footnotesize] {Consists of} node[pos=0.3,right, font=\footnotesize] {0..*}  (stoppointinshedueled);
 
+    % EDGE stoppoint in pattern and scheduled stop point
+    \draw (stoppointinshedueled) -- node[pos=0.2,left, font=\footnotesize] {seen as} node[pos=0.2,right, font=\footnotesize] {0..*}  node[pos=0.8,left, font=\footnotesize] {View of} node[pos=0.8,right, font=\footnotesize] {1}
+    (schechedueledstoppoint);
+
+    % Passing time and stop point in rit pattern
+    \draw (passtime) edge[-{diamond[]}] node[pos=0.7,above, font=\footnotesize] {At}
+    node[pos=0.7,below, font=\footnotesize] {0..*} (stoppointinshedueled);
+
+    % passing time andservice journey
+    \draw (passtime) edge[{diamond[]}-] node[pos=0.2,left, font=\footnotesize] {Passing by}
+    node[pos=0.2,right, font=\footnotesize] {0..*} (5,-6);
+    \draw (5,-6) -- (servicerit);
+
+    % service link edges
+    \draw (servicelink) -- node[pos=0.8,above, font=\footnotesize] {From, 1 } node[pos=0.3,above, font=\footnotesize] {Start Of, 0..* }
+    node[pos=0.3,below, font=\footnotesize] {End Of, 0..* }
+    node[pos=0.8,below, font=\footnotesize] {To, 1 } (schechedueledstoppoint);
+
+    % edge service journey
+    \draw (servicejourney) -- node[pos=0.2,above, font=\footnotesize] {Made with } node[pos=0.2,below, font=\footnotesize] {0..*} (17.5,0);
+    \draw (17.5,0) -- (17.5,-6) -- (servicerit);
     \end{tikzpicture}
     }
-    \caption{Timeline describing the developments in route planning. The crossed parts represent}
+    \caption{Simplified overview of the \glsxtrshort{oslo} ontology} 
     \label{fig:ontology}
 \end{figure}

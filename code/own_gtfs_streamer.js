@@ -1,5 +1,5 @@
 
-async function load_file_from_zip(zip_loc: string, file: string, func: RecordHandler, db_name: string, collection: string) {
+async function load_file_from_zip(zip_loc: string, file: string, func: RecordHandler) {
     return new Promise<void>(async (resolve, reject) => {
         const result: any[] = [];
         const zip: StreamZip.StreamZipAsync = new StreamZip.async({file: zip_loc});
