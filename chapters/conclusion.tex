@@ -1,7 +1,23 @@
 \chapter*{Conclusion}
 \chaptermark{Conclusion}
-\addcontentsline{toc}{chapter}{Conclusion}  
+\addcontentsline{toc}{chapter}{Conclusion}
 
 
+We see that the execution time of a query is related to the number of fragments that need to be requested and the size of those fragments.
 
+If we compare the fragmentation evaluation \autoref{fig:fragduration}, we see correlations with the results in \autoref{fig:timestackedcuratedpersonal}, \autoref{fig:curatednmbs} and \autoref{fig:random:timstacked}. For example, let's compare the worst performer in our raptor evaluation "within". We see that this is also the worst performer in our fragmentation evaluation\footnote{Reachable\_js was not tested in our raptor evaluation}.
+
+But as we observe \autoref{fig:timestackedcuratedpersonal}, \autoref{fig:curatednmbs} and \autoref{fig:random:timstacked} with higher $K$, strategies with too small fragments like Near with 5 km, quickly perform worse. This is due to the smaller size, which causes the Raptor algorithm to request more fragments. The overhead of more requests causes worsened performance. We can see the steep incline of requests and overlap in \autoref{fig:spentfetching}, \autoref{fig:personalrequests} and \autoref{fig:nmbsrequests}.
+
+Choosing a perfect fragmentation strategy is complex, depending on response time, size, and overlap. For $k=1$, you should choose something small, like a buffer of 5 km or a depth of one for reachable neighbours. For higher $K$ values, the precomputed reachable combined with within is a good choice as it enables more extensive fragments than the 5 km buffer. Still, thanks to the Within, the final output size is also limited. This leaves a more in-between solution. 
+
+Finally, we would like to mention that different strategies could be interesting with a different transportation network, such as an urban bus network. Here, we deal with a density different from that of long-distance travel. So, even though we accomplished our goals from the introduction, some experimentation and future work are still left.
+
+\subsection*{Future work}
+
+To further improve the response size, let the client store a list of IDs that have been seen. Using such a list for each fragmentation request could be interesting so the server can filter out stations. This would essentially remove all overlap in each fragment and further decrease the size. 
+
+Further combinations of fragmentation could be analysed—for example, use Within only for the initial request. When a trip leads to a fragment outside the fragment, we could use one of the reachable strategies. This would also decrease a lot of overlap.
+
+The server load, especially memory, is relatively high; a suspicion is the MongoDB driver of Node.js. Although it makes sense to write the client in \glsxtrshort{js}, it makes less sense for the server. We could, for example, rewrite it into cpp using a framework like CrowCPP \cite{noauthor_crowcpp_nodate} or at least the fragmentation handlers.
 

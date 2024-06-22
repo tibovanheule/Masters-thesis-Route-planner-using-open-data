@@ -1,0 +1,19 @@
+{
+    "_id":"http://localhost:4600/17…/GeplandStopPunt/8400530",
+    "GeplandStoppunt-gezienAls":[…],
+    "@type":"GeplandStoppunt",
+    "GeplandStoppunt.locatie":{…},
+    "GeplandStoppunt.naam":"Rotterdam CS (NL)",
+    "GeplandStoppunt.privécode":"8400530",
+    "GeplandStoppunt-startVan":[…],
+    "GeplandStoppunt-eindeVan":[],
+    "geojson":{…},
+    "conforms": false,
+    "report" : [{
+        "message":"Less than 1 values",
+        "path":"https://purl.eu/ns/mobil…lanning#ServiceLink.from",
+        "focusnode":"http://localhost:4600/17…14001:21:1038:20241111/3",
+        "severity":{…},
+        "sourceConstraintComponent":{…},
+        "sourceShape":{…},
+},...]}

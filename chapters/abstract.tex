@@ -1,24 +1,24 @@
 \chapter*{Samenvatting}
 \chaptermark{Samenvatting}
 \addcontentsline{toc}{chapter}{Samenvatting}  
-In deze dissertatie onderzoeken we alternatieven voor gelinkte verbindingen, die afhankelijk zijn van het \glsxtrshort{csa}. We hebben ervoor gekozen om de \glsxtrshort{raptor} te gebruiken. Ons doel is om een centrale verantwoordelijkheid te vermijden en een gedeelde verantwoordelijkheid tussen client en server te implementeren. De client moet de gegevens niet gegevens niet opslaan omdat deze snel verouderd kunnen zijn, maar de server moet het resultaat niet berekenen. Dit zou de ingebedde uitstoot en de totale eigendomskosten verlagen.
+In deze dissertatie onderzoeken we alternatieven voor een routeplanner gebasseerd op Linked Connections\cite{noauthor_linked_nodate} en \glsxtrfull{csa}. We hebben ervoor gekozen om de \glsxtrfull{raptor} te gebruiken. Ons doel is om een centrale verantwoordelijkheid\cite{rojas_melendez_julian_andres_decentralized_2020} te vermijden en een gedeelde verantwoordelijkheid tussen client en server te implementeren. De client moet de gegevens niet opslaan omdat deze snel verouderd kunnen zijn, maar de server moet het resultaat niet berekenen. Dit zou de ingebedde uitstoot en de totale eigendomskosten verlagen.
 
-We beginnen met het onderzoeken van bestaande ontologieën voor transport; de meest noemenswaardige zijn linked-GTFS, Transmodel en OSLO: Mobiliteit en dienstregelingen. Vervolgens implementeren we een van de ontologieën door een GTFS-feed te converteren en het resultaat in MongoDB te plaatsen.
+We beginnen met het onderzoeken van bestaande ontologieën voor transport; de meest noemenswaardige zijn linked-GTFS\cite{noauthor_opentransportlinked-gtfs_2023}, Transmodel\cite{noauthor_transmodel_nodate-1} en OSLO: Mobiliteit en dienstregelingen\cite{noauthor_oslo_nodate}. Vervolgens implementeren we een van de ontologieën door een GTFS-feed te converteren en het resultaat in MongoDB\cite{noauthor_mongodb_nodate} te plaatsen.
 
-Vervolgens verkennen we enkele fragmentatie-ideeën, waarvan de eerste twee gebaseerd zijn op geospatiale gegevens. De eerste is de near-strategie, waarbij we elk station in een bepaalde straal rond de oorsprong nemen. De tweede strategie selecteert elk station tussen de oorsprong en de bestemming. De volgende strategie is om fragmenten te maken op basis van bereikbaarheid. We
-selecteren stations op basis van het feit dat er een aansluitende dienstreis tussen hen is. We evalueren op deze fragmentatiestrategieën gebaseerd op grootte en duur.
+Vervolgens verkennen we enkele fragmentatie-ideeën, waarvan de eerste twee gebaseerd zijn op geospatiale gegevens. De eerste is de near-strategie, waarbij we elk station in een bepaalde straal rond de oorsprong nemen. De tweede strategie selecteert elk station tussen de oorsprong en de bestemming. De volgende strategie is om fragmenten te maken op basis van bereikbaarheid. 
+We selecteren stations op basis van het feit dat er een aansluitende dienstreis tussen hen is. We evalueren op deze fragmentatiestrategieën gebaseerd op grootte en duur.
 
-Tot slot hebben we RAPTOR geïmplementeerd in javascript, zodat het in de browser kan worden uitgevoerd. Vervolgens evalueerden we onze fragmentatiestrategieën met behulp van deze implementatie.
+Tot slot hebben we \glsxtrshort{raptor} geïmplementeerd in \glsxtrshort{js}, zodat het in de browser kan worden uitgevoerd. Vervolgens evalueerden we onze fragmentatiestrategieën met behulp van deze implementatie.
 
 \newpage
 \chapter*{Summary}
 \chaptermark{Summary}
 \addcontentsline{toc}{chapter}{Summary} 
-In this thesis, we explore alternatives to linked connections, which depend on the \glsxtrfull{csa}. We chose to use the \glsxtrfull{raptor}. Our goal is to avoid central data responsibility and to implement a shared responsibility between client and server. The client should not store the data as it can be quickly outdated, but the server should not calculate the result. This should lower the embodied emission and total cost of ownership. 
+In this thesis, we explore alternatives to a route planner based on linked connections\cite{noauthor_linked_nodate-1} and \glsxtrfull{csa}. We used the \glsxtrfull{raptor}\cite{delling_round-based_2015}. We aim to avoid central data responsibility\cite{rojas_melendez_julian_andres_decentralized_2020} and implement a shared responsibility between client and server. The client should not store the data as it can be quickly outdated, but the server should not calculate the result. This should lower the embodied emission and total cost of ownership. 
 
-We start by researching existing ontologies for transportation; most noteworthy are linked-\glsxtrshort{gtfs}, Transmodel and \glsxtrshort{oslo}: Mobility and timetables. Then, we implement one of the ontologies by converting a \glsxtrshort{gtfs}-feed and placing the result into MongoDB. 
+We start by researching existing ontologies for transportation; most noteworthy are linked-\glsxtrshort{gtfs}\cite{noauthor_opentransportlinked-gtfs_2023}, Transmodel \cite{noauthor_transmodel_nodate-1} and \glsxtrshort{oslo}: Mobility and timetables\cite{noauthor_oslo_2023}. Then, we implement one of the ontologies by converting a \glsxtrshort{gtfs}-feed and placing the result into MongoDB\cite{noauthor_mongodb_nodate}. 
 
-We then proceed to explore some fragmentation ideas, first two are geospatial based. The first is the near strategy, where we take every station in a specific radius around the origin. The second strategy selects every station between the origin and destination. The following strategy is to create fragments based on reachability. We select stations based on the fact that there is a connecting service journey between them. We do some evaluation on these fragmentation strategies based on size and duration.
+We then explore some fragmentation ideas; the first two are geospatial-based. The first is the near strategy, where we take every station in a specific radius around the origin. The second strategy is to select every station between the origin and destination. The following strategy is to create fragments based on reachability. We choose stations based on the fact that there is a connecting service journey between them. We evaluate these fragmentation strategies based on size and duration.
 
-Lastly, we implemented \glsxtrshort{raptor} in javascript, so it could be run in the browser. Then, we proceeded to evaluate our fragmentation strategies using this implementation.
+Lastly, we implemented \glsxtrshort{raptor} in JavaScript so that it could be run in the browser. Then, we proceeded to evaluate our fragmentation strategies using this implementation.
 

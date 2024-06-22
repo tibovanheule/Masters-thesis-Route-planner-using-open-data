@@ -29,9 +29,8 @@ Another difficulty is the centralized data strategy used by most route planners 
 The centralized strategy causes applications to be unscalable and results in high computational infrastructure costs (total cost of ownership). 
 
 % work in progress
-Another problem is that users cannot use the dataset in their queries if the central system does not support a third-party dataset. The data needs to be homogenous to integrate it into the route planner. If the dataset is heterogeneous, integration is done manually, and the route planner algorithm must be adapted.
+Another problem is that users cannot use the dataset in their queries if the central system does not support a third-party dataset. The data needs to be homogenous to integrate it into the route planner. If the dataset is heterogeneous, integration is done manually, and the route planner algorithm must be adapted]
 
-\section{Goal}
 \input{tikz/tikz_shared}
 We want to avoid the central data strategy and let the client calculate the ideal route. However, we do not want to create a fully offline device since data will quickly become outdated and unusable. Data must be sent to the client from the server, ideally with little or no processing. 
 

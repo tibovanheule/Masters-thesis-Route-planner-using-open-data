@@ -1,21 +1,14 @@
 {
     "@id": "http://example.com/SitaRaman",
-    "@type": [      "http://schema.org/Movie"    ],
-    "http://schema.org/contentRating": [
-        {        "@value": "PG-13"      }
-    ],
-    "http://schema.org/datePublished": [
-        {
+    "@type": [ "http://schema.org/Movie" ],
+    "http://schema.org/contentRating": [{ "@value": "PG-13" }],
+    "http://schema.org/datePublished": [{
         "@type": "http://schema.org/Date",
         "@value": "2017"
-        }
-    ],
-    "http://schema.org/genre": [
-        {        "@value": "Drama"      },
+    }],
+    "http://schema.org/genre": [{        "@value": "Drama"      },
         {        "@value": "Action"      },
         {        "@value": "Mystery"      }
     ],
-    "http://schema.org/name": [
-        {        "@value": "Sita Raman"      }
-    ]
+    "http://schema.org/name": [{"@value": "Sita Raman"}]
 }

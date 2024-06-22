@@ -1,7 +1,7 @@
 \chapter{Implementation}
 \label{chap:implementation}
 
-Initially, the implementation was divided into two parts. We discuss the implementation of \glsxtrshort{raptor} for the browser in \autoref{section:implementation_raptor}. The conversion and download of GTFS data is discussed in \autoref{section:implementation_data_ontology}.
+The implementation was divided into \FetchStoredCounterValue{section} parts. We discuss the implementation of \glsxtrshort{raptor} for the browser in \autoref{section:implementation_raptor}. The download of GTFS data is discussed in \autoref{section:gtfsdownloader}. The conversion of the \glsxtrshort{gtfs} data is explained in \autoref{section:implementation_data_ontology} and fragmentation in \autoref{sec:fragimpl}. Lasty, we discus what we have used for the demo in \autoref{sec:demo}
 
 
 \section{\glsfmtfull{raptor} implementation}\label{section:implementation_raptor}
@@ -16,7 +16,7 @@ Small description of the used text files in the \glsxtrshort{gtfs}-feed and how 
    \item \textbf{trips.txt}: Creates a huge array of trips.
    \item  \textbf{stop\_times.txt}: Used to create a list of Stoptimes with key trip\_id.
    
-   \item \textbf{transfers.txt}: This creates two objects. If the transfer is from and to the same stop, we create an "interchange" object. But else we create a "transfers" object with a key "from\_stop\_id".
+   \item \textbf{transfers.txt}: This creates two objects. If the transfer is from and to the same stop, we create an "interchange" object. But else we create a "transfers" object with a key "from\_stop\_id". In our feed from \glsxtrshort{nmbs}, we only got interchanges and no transfers.
 \end{itemize}
 
 \subsubsection{Not used but are in our \glsxtrshort{gtfs}-feed}
@@ -48,7 +48,7 @@ fare\_attributes.txt,
     booking\_rules.txt and
     attributions.txt
 
-\subsection{Small mistakes of the implementation}
+\subsection{Little mistakes of the implementation}
 \subsubsection{unused information from gtfsfeed}
 The algorithm did not use some information but was thereby inferred. For example:
 \begin{itemize}
@@ -56,21 +56,22 @@ The algorithm did not use some information but was thereby inferred. For example
     \item Route id was not used but created from the trip\_id and all the stop times in that trip. Since our solution will be more dynamic and not include all stop times simultaneously, we will not follow the same structure.
 \end{itemize}
 \subsection{Important classes}
-The \glsxtrshort{raptor} implementation is modular and contains a few classes:
+The \glsxtrshort{raptor} implementation is modular. These are the most important classes we will refactor in later steps:
 \begin{itemize}
-    \item \textbf{RaptorAlgortihmFactory}: This is a factory to create a RaptorAlgorithm instance. Before creating such an instance, it indexes the data it gets from the \glsxtrshort{gtfs}-parser.
+    \item \textbf{RaptorAlgortihmFactory}: This is a factory to create a RaptorAlgorithm instance. Before making such an instance, it indexes the data from the \glsxtrshort{gtfs}-parser.
     \item \textbf{QueueFactory}: This creates a queue on each iteration of the \glsxtrshort{raptor} algorithm.
     \item \textbf{RouteScanner}: This returns the earliest trip of a route, remembers the last trip in reference, and will not return the trip twice. This is essentially an iterator over trips in a route.
-    \item \textbf{raptorAlgorithm}:Implementation of the \glsxtrshort{raptor} algorithm
+    \item \textbf{RaptorAlgorithm}: Implementation of the \glsxtrshort{raptor} algorithm, but heavily depends on de ScanResults class.
+    \item \textbf{ScanResults}: Defines helper methods for the Raptor Algorithm.
 \end{itemize}
 \subsection{DataLoader: a new class}
 The old implementation used a data flow that was unhandy for our goal. First, the RaptorAlgorithmFactory received the data that was parsed by the old parser. It then proceeded to create indexes and data structures. Then, it spreads that data to the relevant classes to create a RaptorAlgorithm.
 
 \input{tikz/tikz_old_dataflow}
 
-A new class, Dataloader, was created to hold all data in one class. Additionally, the class will also handle all requests for new fragments and process these new fragments to populate the needed data structures.
+A new class, Dataloader, was created to hold all data in one class. The class will also handle all requests for new fragments and process these new fragments to populate the needed data structures.
 
-We did this by moving the following data holders to the DataLoader class and making them a private field. For each private field, a getter/setter is generated.
+We moved the following data holders to the DataLoader class and made them a private field. For each private field, a getter/setter is generated. This allows us to control access to these private fields.
 \begin{itemize}
     \item \textbf{tripsByRoute}: This holds all the trips corresponding to a route. Primarily used by RouteScanner, which uses this to give back an interesting trip for the \glsxtrshort{raptor} algorithm.
     \item \textbf{routeStopIndex}: Contains all the corresponding stops of a route; for each stop, it stores the index in the route.\\ For example $\{route\_id\_1:\{stop\_id\_1:1,stop\_id\_2:2\}\}$.
@@ -85,24 +86,26 @@ We then changed RouteScanner, RouteScannerFactory, ScanResults, ScanResultsFacto
 To the constructor of the Dataloader, we also pass the origin and destination. Then, after creation, we call the function "first". This function gets the first fragment starting from the origin. Since we had to await the request for the fragment, we could not place this in the constructor since in \glsxtrshort{js}, constructors can not be made async.
 
 \input{tikz/tikz_new_dataflow}
+\subsubsection{}
+
 
 \subsection{Adapt for the browser}
-The browser can run compiled Typescript or JavaScript natively. Initially, these \glsxtrshort{js} applications were pretty small, but over recent years, they got bigger. This has been sped up by the introduction of Node.js, where \glsxtrshort{js} is used in a different context. 
+The browser can run compiled Typescript or JavaScript natively. Initially, t \glsxtrshort{js} applications were pretty small, but over recent years, they got bigger. This has been sped up by the introduction of Node.js, where \glsxtrshort{js} is used in a different context. 
 
 This created a need for a way to split up \glsxtrshort{js}-applications into modules. Node.js already supports modules, but the good thing is that recently, the browser has also started to support modules. \cite{noauthor_javascript_2024}
 
 This means we can easily import our \glsxtrshort{js} code after compiling the Typescript and then execute it in the browser.
 
-To simplify the import, we bundle all our script files into one file using Esbuild \cite{noauthor_esbuild_nodate}. It is an extremely fast bundler that takes only 50 ms to bundle and transform our code. This is mainly because it is written in Go and compiles to native code. Further, it uses parallelisation and efficient use of memory.
+To simplify the import, we bundle all our script files into one file using Esbuild \cite{noauthor_esbuild_nodate}. It is an extremely fast bundler that takes only 20 ms to bundle and transform our code. This is mainly because it is written in Go and compiles to native code. Further, it uses parallelisation and efficient use of memory.
 
-Note this is even faster than the usual Typescript compile command $npm\ run\ tsc$!
+This is even faster than the typical Typescript compile command $npm\ run\ tsc$!
 
 Other handy options of the bundler are:
 \begin{enumerate}
     \item \textbf{minify}: minify the code like whitespace. Reduces our code with 10 Kilobytes.
     \item \textbf{target}: Further optimisations can be unlocked with the option target. An example is \\$a === undefined || a == null? 1 : a$ could be minified to $a ?? 1$. Or, in reverse, transform \glsxtrshort{js} syntax that is too new for these environments into older JavaScript syntax that will work in these environments.
     \item \textbf{drop:console}: automatically remove all console statements.
-    \item \textbf{sourcemaps}: This is essential for debugging. These maps encode the information necessary to translate from a line/column offset in a generated output file back to a line/column offset in the corresponding original input file. This is very handy if TypeScript or minification is used.
+    \item \textbf{sourcemaps}: This is essential for debugging. These maps encode the information necessary to translate from a line/column offset in a generated output file to a line/column offset in the original input file. This is very handy if TypeScript or minification is used.
 \end{enumerate}
 
 The target option is essential because it ensures that all the node-specific APIs get converted to code supported by the browser.
@@ -120,6 +123,7 @@ esbuild ./queries.js --bundle --target='chrome124,firefox124' --format=esm --out
     \caption{Command to bundle our \glsxtrshort{js} code for production}
 \end{listing}
 \section{GTFS downloader}
+\label{section:gtfsdownloader}
 Since a GTFS feed is a zip file valid for a certain period, we need a small program to manage all these versions. This led to a Node.js module gtfs-downloader\footnote{Available as GitLab project under the same name. \\\url{https://gitlab.ilabt.imec.be/KNoWS/master-thesis/tibou-vanheule/gtfs-downloader}}. It provides the file path of the GTFS zip archive that either has been downloaded in the past or is freshly downloaded. So, it also acts like a cache and is more important than it appears, as only the most recent is available on the server. For debugging and experimenting while developing, it is handy that we have some control over the version in use. 
 
 Two sets of functionality are represented in \autoref{fig:gtfsdownloader}. The first is when we already know the version we want to download. We search if it exists in our data folder; if not, we check if it is available on the server for download.
@@ -140,7 +144,7 @@ The ontology has some entities we do not need. For starters, we only have inform
 
 Entities representing dead runs are removed from our simplified overview. However, most service entities are specialisations, so we inherit the fields.
 
-Additionally, we have no information about the shape of the routes. These shapes are used to view the route graphically in a routing app or on a map. The entities to define the order points in a route and the form of routes are neglected. We also edit the \glsxtrshort{shacl} file to change one cardinality constraint. 
+Additionally, we have no information about the shape of the routes. These shapes are used to view the route graphically in a routing app or on a map. The entities that define the order points in a route and the form of routes are neglected. We also edit the \glsxtrshort{shacl} file to change one cardinality constraint. 
 
 
 We land on the following simplified overview:
@@ -198,7 +202,17 @@ Now, we can read the files in the order we want and parse every line. Since \gls
 \end{listing}
 
 \subsubsection{MongoDB}
+MongoDB\cite{noauthor_mongodb_nodate} is a No-SQL document store. It is designed for high availability and scalability. MongoDB is commonly used for big data because of its flexibility and ability to handle large volumes of data. Documents are stored as schema-less \glsxtrfull{BSON}, which makes it easy for us to store our \glsxtrshort{jsonld} fragments. 
+\subsubsection{Minor incompatibility: MongoDB and JSONLD-context}
+The use of MongoDB and the \glsxtrshort{oslo}-ontology caused some minor problems. The problem is that the fields of the \glsxtrshort{jsonld}-context contained a dot. In MongoDB, the dot is parsed as an operator and is used for the dot notation. It allows access to embedded documents. During Insertion of documents in MongoDB the dot does not oppose a problem, it is merely during updating problems occur. There are operators like $\$getField$ to ignore the dot notation, but it adds complexity. Instead, we chose to replace the dot with a "-" and update the context.
 
+\begin{listing}[H]
+    \begin{minted}[linenos,frame=single]{JSON}
+"GeplandStopPunt-gezienAls":"GeplandStopPunt.gezienAls"
+    \end{minted}
+    \caption{Udate of context to avoid dot notation problems}
+\label{listing:context:dotnotation}
+\end{listing}
 \subsubsection{MongoDB: Bulk Write}
 After reading the \glsxtrshort{csv} files correctly, we are left with converting the \glsxtrshort{json} object to the ontology and inserting them in MongoDB.
 
@@ -236,6 +250,12 @@ We further leverage Typescript to define a generic class to ease the programming
     \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/type_write_op_instan.ts}
     \caption{An example of a possible instantiation of a generic class.}
 \end{listing}
+\subsubsection{TypeScript}
+We also used TypeScript to enforce the correct instantiation of our classes. Using TypeScript, it is impossible to correctly set the cardinality of all fields. We can mark fields only as optional or required. But we can also reuse types or do some type checking and provide enums and hard-coded values like type. 
+\begin{listing}[H]
+    \inputminted[linenos,frame=single,breaklines]{TypeScript}{code/typescript.ts}
+    \caption{An example of a TypeScript Class}
+\end{listing}
 \subsubsection{MongoDB: Unordered execution}
 Another important side note is that bulkWrite inserts are ordered. This means that bulkWrite executes the write operations in the same order as the array's order. This is not a huge problem, but some optimisation can be unlocked if we tell bulkWrite that the write operations may be executed unordered. This is primarily because the command can make better batch sizes. 
 
@@ -245,7 +265,7 @@ This difference in execution is because if we insert ordered, MongoDB assumes th
 
 We execute Mongodb queries unordered since the order does not matter.
 
-\section{Bringing two worlds together: Fragmenting}
+\section{Bringing two worlds together: Fragmenting}\label{sec:fragimpl}
 \subsection{MongoDB: geospatial}
 One way to start fragmenting is by leveraging the MongoDB spatial capabilities \cite{noauthor_geospatial_nodate}. MongoDB supports a few geospatial operations, such as near and within. For each of these operations, we also have the variant for the sphere. So, in general, it's not as powerful as Geopandas or PCraster. 
 
@@ -322,7 +342,7 @@ It works by following these steps;
 \begin{itemize}
     \item Takes documents as input, the start of aggregation pipeline.
     \item Targets the search to the collection designated by the from parameter.
-    \item The search begins for each input document. The value of the field defined by startWith is used for the search.
+    \item The search begins for each input document. The field's value defined by "startWith" is used for the search.
     \item It matches the field value designated by connectToField in other documents in the "from" collection.
     \item For each matched document, it adds it to an array in the original document. 
     \item This recursively continues until no document is matched or the maximum depth is reached.
@@ -393,7 +413,7 @@ Using the second implementation, we could precompute the reachable fragmentation
 
 When we want to retrieve all neighbours of a Stop point, we append the desired k-depth to the ID. We then retrieve the list and return all neighbours using find.
 
-This last step comes with a little more complexity. We can use the $\$in$- operator of MongoDB to check if the $\_id$ is in a given array of values and, if so, return the found document. But this operator comes with a downside: it can not use indexes. A workaround combines the $\$or$ and $\$eq$ operators.
+This last step comes with a little more complexity. We can use MongoDB's $\$in$- operator to check if the $\_id$ is in a given array of values and, if so, return the found document. However, this operator has a downside: it can not use indexes. A workaround combines the $\$or$ and $\$eq$ operators.
 \begin{listing}[H]
 \begin{minted}[linenos,breaklines,frame=single]{TypeScript}
 return collection.find({
@@ -404,25 +424,36 @@ return collection.find({
 \end{minted}
 \caption{Retrieval of the precomputed neighbours.}
 \end{listing}
+\subsection{Combination of precomputed reachable neighbours and within.}
+Here, we combine two fragmentation strategies. Code-wise, this is not hugely different from the previous implementations. But should allow for within to operator be faster, since the operator now works on a limited set of stations. The goal is to have only reachable stations but also focus more on relevancy. 
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=\textwidth]{images/precomputed within.png}
+    \caption{At first sight, this is not so different from within, but fewer stations are included.}
+    \label{fig:precomputedwithin}
+\end{figure}
 \subsection{Overview}
 \input{table/fragment}
-To sum up our fragmentation story, we see that no real low-latency solution allows runtime computation. 
+To sum up our fragmentation story, we see that no real low-latency solution allows runtime computation. Furthermore, the first two strategies are largely dependent on MongoDB API. Although a similar functionality for other database systems exists \cite{noauthor_postgis_nodate}, it is more difficult to replicate. The reachable neighbours are implemented using \glsxtrshort{js} and basic MongoDB \glsxtrshort{api} (find). 
+
+The geospatial strategies do not account for reachability; hence, they can contain stations not reachable by our origin node or any node connected to our origin. This can waste network bandwidth. However, the reachable neighbour's strategy can contain irrelevant stations. For example, when connected stations are included, they are entirely in the wrong direction of our destination node. 
+
 \subsubsection{Compression}
-It immediately became clear that there are many Scheduled Stop Points because stations have multiple platforms. This quickly adds to many bytes, as seen in \autoref{fig:fragsize}. Even if we chose a low depth for the reachable neighbours strategy.
+It immediately became apparent that there are many Scheduled Stop Points caused by the fact that stations have multiple platforms. This quickly adds to many bytes, as seen in \autoref{fig:fragsize}, even if we chose a low depth for the reachable neighbour's strategy.
 
-One way to mitigate this is to enable compression express middleware\cite{noauthor_compression_2019}. Using the default options, it will compress the response before sending if the threshold of 1Kb has been reached. When the client receives the data, it will uncompressed. 
+One way to mitigate this is to enable compression express middleware\cite{noauthor_compression_2019}. Using the default options, the response will be compressed before sending if the threshold of 1Kb has been reached. When the client receives the data, it will uncompressed. 
 
-Compression and decompressing have negative effects on response time. But for large transfers, it will greatly reduce the transfer size and time. 
+Compression and decompression have adverse effects on response time. However, large transfers are significantly reduced in size and time. 
 
-\section{Demo}
+\section{Demo}\label{sec:demo}
 Since the \glsxtrshort{raptor} has been browserified to run in the browser, it is pretty quick to develop a demo web app.
 
 For this, we use some libraries and services:
 \begin{itemize}
-    \item \textbf{Leaflet} \cite{noauthor_leaflet_nodate}: It is an open-source library to create mobile-friendly interactive maps. It is used to overlay our results onto an OpenStreetMap map. 
-    \item \textbf{GeoJSON-vt} \cite{noauthor_mapboxgeojson-vt_2024}: 
-    \item \textbf{Leaflet-Geojson-vt} \cite{kshetri_iamteksonleaflet-geojson-vt_2024}: a plugin for Leaflet to use GeoJSON-vt.
-    \item \textbf{Turf.js} \cite{noauthor_turfjs_nodate}: to add visualisations for the fragments strategies.
+    \item \textbf{Leaflet} \cite{noauthor_leaflet_nodate}: It is an open-source library to create mobile-friendly interactive maps. It's lightweight, flexible, and easy to use. Leaflet supports a variety of mapping providers, including OpenStreetMap and Mapbox, and offers powerful features for adding markers, popups, and layers to your maps. It is used to overlay our results onto an OpenStreetMap map. 
+    \item \textbf{GeoJSON-vt} \cite{noauthor_mapboxgeojson-vt_2024}: This library specialises in creating vector tiles from GeoJSON data. It's designed to handle large geographic data sets efficiently and facilitate displaying detailed maps in web applications. 
+    \item \textbf{Leaflet-Geojson-vt} \cite{kshetri_iamteksonleaflet-geojson-vt_2024}: A plugin for Leaflet to use GeoJSON-vt.
+    \item \textbf{Turf.js} \cite{noauthor_turfjs_nodate}: Turf.js is a JavaScript library providing geospatial functions for geographic data. It includes features for performing various geospatial operations, such as calculating distances and manipulating GeoJSON objects. They are used to add visualisations for the fragments strategies.
 \end{itemize}
 
-An online demo has been placed on \url{https://mx2.tibovanheule.space/raptor/}\footnote{This is not my fastest server}.
+An online demo has been placed on \url{https://mx2.tibovanheule.space/raptor/}\footnote{This is not my fastest server, please be patient.}.

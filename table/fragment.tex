@@ -1,22 +1,24 @@
 \begin{table}[H]
 \centering
-\begin{tabular}{|l|l|l|l|l|}
+\begin{tabular}{|l|l|l|l|l|l|}
 \hline
 \textbf{} &
   \textbf{near} &
   \textbf{withIn} &
-  \textbf{reachable neighbours} &
-  \textbf{\begin{tabular}[c]{@{}l@{}}precomputed \\ reachable neighbours\end{tabular}} \\ \hline
-\textbf{GeoJSON required} & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{67FD9A}no  & \cellcolor[HTML]{67FD9A}no  \\ \hline
-\textbf{New index needed} & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{67FD9A}no  & \cellcolor[HTML]{67FD9A}no  \\ \hline
+  \textbf{\begin{tabular}[c]{@{}l@{}}reachable \\ neighbours\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}l@{}}precomputed \\ reachable neighbours\end{tabular}} &
+  \textbf{\begin{tabular}[c]{@{}l@{}}precomputed \\ reachable neighbours \\and whitin\end{tabular}} \\ \hline
+\textbf{GeoJSON required} & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{67FD9A}no  & \cellcolor[HTML]{67FD9A}no & \cellcolor[HTML]{67FD9A}no \\ \hline
+\textbf{New index needed} & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{FD6864}yes & \cellcolor[HTML]{67FD9A}no  & \cellcolor[HTML]{67FD9A}no & \cellcolor[HTML]{67FD9A}no  \\ \hline
 \textbf{\begin{tabular}[c]{@{}l@{}}Fragment can contain\\ unreachable stations\end{tabular}} &
   \cellcolor[HTML]{FD6864}yes &
   \cellcolor[HTML]{FD6864}yes &
   \cellcolor[HTML]{67FD9A}no &
+  \cellcolor[HTML]{67FD9A}no &
   \cellcolor[HTML]{67FD9A}no \\ \hline
-\textbf{independant of MongoDB api}      & \cellcolor[HTML]{FD6864}no & \cellcolor[HTML]{FD6864}no & \cellcolor[HTML]{FD6864}no  & \cellcolor[HTML]{67FD9A}yes \\ \hline
-\textbf{Can be calculated at runtime}          & \cellcolor[HTML]{67FD9A}yes & \cellcolor[HTML]{67FD9A}yes & \cellcolor[HTML]{67FD9A}yes & \cellcolor[HTML]{FD6864}no  \\ \hline
+\textbf{independant of MongoDB api}      & \cellcolor[HTML]{FD6864}no & \cellcolor[HTML]{FD6864}no & \cellcolor[HTML]{FD6864}no  & \cellcolor[HTML]{67FD9A}yes& \cellcolor[HTML]{FD6864}no \\ \hline
+\textbf{Can be calculated at runtime}          & \cellcolor[HTML]{67FD9A}yes & \cellcolor[HTML]{67FD9A}yes & \cellcolor[HTML]{67FD9A}yes & \cellcolor[HTML]{FD6864}no & \cellcolor[HTML]{FD6864}no  \\ \hline
 \end{tabular}
-\caption{Conclusion of fragment strategies.}
+\caption{Overview of fragment strategies.}
 \label{tab:strategies}
 \end{table}
